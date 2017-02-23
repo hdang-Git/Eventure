@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:orientation="horizontal">
+
+    <!-- left title side -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="155dp"
+        android:layout_weight="3"
+        android:background="@android:color/holo_purple"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="20dp">
+        <!--Price-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"
+            android:id="@+id/title_price" />
+        <!--Date-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title_price"
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:id="@+id/title_date" />
+        <!--Time-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/title_date"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:id="@+id/title_time" />
+    </RelativeLayout>
+
+    <!-- Right title side -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingBottom="20dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="15dp"
+        android:paddingTop="20dp">
+
+        <!--Title-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:layout_marginTop="-5dp"
+            android:requiresFadingEdge="horizontal"
+            android:ellipsize="marquee"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"
+            android:id="@+id/title_name" />
+        <!--Address-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/title_name"
+            android:gravity="center"
+            android:layout_marginTop="-5dp"
+            android:ellipsize="marquee"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:id="@+id/title_address" />
+
+        <!--Divider (might delete in future version)-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/title_address"
+            android:background="@android:color/darker_gray"
+            android:id="@+id/divider"/>
+
+        <!--RatingLabel-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rating"
+            android:layout_alignStart="@+id/ratingBar"
+            android:layout_above="@id/ratingBar"
+            android:textSize="14sp"
+            android:color="@color/ghost"
+            android:id="@+id/title_ratinglabel"/>
+        <!--Ratingbar-->
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            style="?android:ratingBarStyleSmall"
+            android:id="@+id/ratingBar" />
+
+        <!--Time Label-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time"
+            android:layout_alignStart="@+id/title_time2"
+            android:layout_above="@+id/title_time2"
+            android:textSize="14sp"
+            android:textColor="@color/ghost"
+            android:id="@+id/title_timeLabel2" />
+        <!-- Time -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/title_time2"/>
+
+        <!--Event label-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/eventtype"
+            android:layout_alignStart="@+id/eventType"
+            android:layout_above="@+id/eventType"
+            android:textSize="14sp"
+            android:textColor="@color/ghost"
+            android:id="@+id/eventTypeLabel"/>
+        <!--Event Type-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/eventType"/>
+    </RelativeLayout>
+
+</LinearLayout>
