@@ -11,7 +11,7 @@ public class EventItem {
     private String time;
     private String date;
     private String description;
-//Why wont this work 
+//Why wont this work
     public EventItem(double price, String time, String date, String description){
 
     }
