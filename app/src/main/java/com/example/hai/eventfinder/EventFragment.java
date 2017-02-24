@@ -21,6 +21,7 @@ import java.util.List;
 public class EventFragment extends Fragment {
     ListView listView;
 
+    //This is a test to see if my branch is working propoerly
 
     public EventFragment() {
         // Required empty public constructor
