@@ -25,4 +25,8 @@
     <string name="locationContent">Location</string>
     <string name="mapContent">Map</string>
     <string name="contactContent">Contact</string>
+
+    <!--This is for app bar-->
+    <string name="search_title">Search</string>
+
 </resources>
