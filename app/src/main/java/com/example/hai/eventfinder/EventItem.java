@@ -11,7 +11,7 @@ public class EventItem {
     private String time;
     private String date;
     private String description;
-//This is gay 
+//This is gay
     public EventItem(double price, String time, String date, String description){
 
     }
