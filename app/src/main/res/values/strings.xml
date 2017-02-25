@@ -28,5 +28,6 @@
 
     <!--This is for app bar-->
     <string name="search_title">Search</string>
+    <string name="hint">Seach for Event</string>
 
 </resources>
