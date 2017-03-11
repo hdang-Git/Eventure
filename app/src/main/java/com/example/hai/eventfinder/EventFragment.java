@@ -26,21 +26,17 @@ public class EventFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static EventFragment newInstance(){
+        return new EventFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_event, container, false);
         final ArrayList<EventItem> arrayList = EventItem.getTest();
-        /*
-        final FoldingCell fc = (FoldingCell) v.findViewById(R.id.folding_cell);
-        fc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fc.toggle(false);
-            }
-        });
-        */
+
 
         listView = (ListView) v.findViewById(R.id.listView);
         final myFoldingCellListAdapter adapter = new myFoldingCellListAdapter(v.getContext(), 0, arrayList);
