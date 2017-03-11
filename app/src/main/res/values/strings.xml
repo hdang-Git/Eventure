@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">EventFinder</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Cell Title -->
+    <string name="rating">Rating</string>
+    <string name="time">Time</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="eventtype">Type</string>
+
+    <!--Cell Content-->
+    <string name="titleContent">Title</string>
+    <string name="priceContent">Price</string>
+    <string name="dateContent">Date</string>
+    <string name="timeContent">7:00"-"8:00 PM</string>
+    <string name="descriptionContent">Description</string>
+    <string name="locationContent">Location</string>
+    <string name="mapContent">Map</string>
+    <string name="contactContent">Contact</string>
+</resources>
