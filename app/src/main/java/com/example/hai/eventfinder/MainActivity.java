@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    @Override
     public void passNumber(int num) {
         Tab2 fragment = (Tab2) adapter.getFragment(1);
         if (fragment != null) {
@@ -43,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         } else {
             Log.d("Not Initialized", "Fragment 2 isn't initialized");
         }
+    }
+
+
         @Override
         public boolean onCreateOptionsMenu (Menu menu){
             // Inflate the menu; this adds items to the action bar if it is present.
