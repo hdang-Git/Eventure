@@ -3,6 +3,7 @@ package com.example.hai.eventfinder;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Logger;
 
-/**
- * Created by Hai on 1/11/2017.
- */
 
 public class myFoldingCellListAdapter extends ArrayAdapter<EventItem> {
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
@@ -33,17 +31,31 @@ public class myFoldingCellListAdapter extends ArrayAdapter<EventItem> {
         super(context, resource, objects);
     }
 
+
+
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //View v =  super.getView(position, convertView, parent);
         FoldingCell v = (FoldingCell) convertView;
         ViewHolder viewHolder;
+
+        Event testEvent = new Event();
+
+        testEvent.requestEvent();
+
+
         if(v == null) {
             log.info("cell isn't null");
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             v = (FoldingCell) inflater.inflate(R.layout.cell, parent, false);
+
+            TextView blah = (TextView)  v.findViewById(R.id.content_title);
+            blah.setText(testEvent.eventName);
+
+
+
             viewHolder.price = (TextView) v.findViewById(R.id.title_price);
             viewHolder.date = (TextView) v.findViewById(R.id.title_date);
             viewHolder.time = (TextView) v.findViewById(R.id.title_time);
