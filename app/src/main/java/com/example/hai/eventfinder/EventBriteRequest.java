@@ -8,7 +8,7 @@ public interface EventBriteRequest {
 
 
 
-    public void requestEvent();
+    public void requestEvent(Event myEvent);
 
     /*
     public static void requestEvent(Event myEvent) {

@@ -33,6 +33,7 @@ public class CellFragment extends Fragment {
         Log.d("test1" , "we are here");
         View v = inflater.inflate(R.layout.cell , container , false);
 
+        /*
         Event testEvent = new Event();
 
         testEvent.requestEvent();
@@ -42,6 +43,7 @@ public class CellFragment extends Fragment {
         title.setText(testEvent.eventName);
 
         Log.d("test2" , testEvent.eventName);
+        */
 
         //Toast.makeText(getActivity().getApplicationContext() , testEvent.eventName , Toast.LENGTH_SHORT).show();
         Toast.makeText(getActivity().getApplicationContext() , "hai", Toast.LENGTH_SHORT).show();

@@ -23,33 +23,53 @@ import java.util.logging.Logger;
 
 public class Event implements EventBriteRequest{
 
+    /*
+    final public String eventName = "N/A";
+    final public String date= "N/A";
+    final public String time= "N/A";
+    final public String location= "N/A";
+    */
     public String eventName;
     public String date;
     public String time;
     public String location;
 
+
     final Logger log = Logger.getAnonymousLogger();
 
 
    public void Event(){
+       /*
        this.eventName = "N/A";
        this.date= "N/A";
        this.time= "N/A";
        this.location = "N/A";
+       */
+   }
+
+
+   public void setEventName(String myEventName) {
+
+       this.eventName = myEventName;
+
    }
 
 
     //Going to make the API call here
-    public void requestEvent() {
+    public void requestEvent(Event myEvent) {
         Log.d("hi" , "hi");
-        retrieveData();
+        Event tempEvent = retrieveData();
+        myEvent.eventName = tempEvent.eventName;
+        //this.eventName = "chicken nuggets";
+        //Log.d("json test3" , "hi");
     }
 
 
-    public void retrieveData() {
+    public Event retrieveData() {
 
         //final Logger log = Logger.getAnonymousLogger();
         final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=AHPLYGZSAR7PQKHZPQI4&location.latitude=39.9502352&location.longitude=-75.17327569999998&location.within=1mi";
+        final Event tempEvent = new Event();
 
         Thread t = new Thread() {
             public void run() {
@@ -72,7 +92,10 @@ public class Event implements EventBriteRequest{
                     msg.obj = response;
 
                     Log.d("downloaded data", response);
-                    responseHandler.sendMessage(msg);
+                    tempEvent.eventName = JSONParsing(msg, tempEvent);
+                    //responseHandler.sendMessage(msg);
+                    Log.d("json test2" , eventName);
+                    Log.d("ugh test" , tempEvent.eventName);
 
                 } catch (
                         Exception e
@@ -85,16 +108,12 @@ public class Event implements EventBriteRequest{
             }
         };
         t.start();
+        return tempEvent;
     }
 
-    //Creating handler
-    Handler responseHandler = new Handler(new Handler.Callback() {
+    public String JSONParsing(Message msg, Event myEvent){
+        try {
 
-        //Event tempEvent = new Event();
-
-        @Override
-        public boolean handleMessage(Message msg) {
-            try {
                 JSONObject blockObject = new JSONObject((String) msg.obj);
                 Log.d("SUCCESS" , "SUCCESS");
 
@@ -104,7 +123,51 @@ public class Event implements EventBriteRequest{
 
                 Log.d("json test" , eventNameInfo.getString("text"));
 
-                eventName = eventNameInfo.getString("text");
+                myEvent.eventName = eventNameInfo.getString("text");
+                Log.d("jjjson test" , myEvent.eventName);
+
+
+                Log.d("gggson test" , myEvent.eventName);
+                return myEvent.eventName;
+
+                //Event myTemp = (Event) msg.obj;
+
+                //myTemp.eventName = eventNameInfo.getString("text");
+                //eventName.append(eventNameInfo.getString("text"));
+
+
+            } catch (JSONException e) {
+                Log.d("FAILED" , "FAILED");
+                e.printStackTrace();
+            }
+            Log.d("gggson test" , myEvent.eventName);
+            return myEvent.eventName;
+    }
+
+    //Creating handler
+    Handler responseHandler = new Handler(new Handler.Callback() {
+
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            try {
+
+                JSONObject blockObject = new JSONObject((String) msg.obj);
+                Log.d("SUCCESS" , "SUCCESS");
+
+                JSONArray eventsArray = blockObject.getJSONArray("events");
+                JSONObject event = eventsArray.getJSONObject(0);
+                JSONObject eventNameInfo = event.getJSONObject("name");
+
+                Log.d("json test" , eventNameInfo.getString("text"));
+
+
+
+                //Event myTemp = (Event) msg.obj;
+
+                //myTemp.eventName = eventNameInfo.getString("text");
+                //eventName.append(eventNameInfo.getString("text"));
+
 
             } catch (JSONException e) {
                 Log.d("FAILED" , "FAILED");

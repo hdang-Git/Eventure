@@ -15,14 +15,18 @@ import com.ramotion.foldingcell.FoldingCell;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 
 public class myFoldingCellListAdapter extends ArrayAdapter<EventItem> {
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
     Logger log = Logger.getAnonymousLogger();
+
+
     public myFoldingCellListAdapter(Context context, int resource) {
         super(context, resource);
     }
@@ -40,9 +44,38 @@ public class myFoldingCellListAdapter extends ArrayAdapter<EventItem> {
         FoldingCell v = (FoldingCell) convertView;
         ViewHolder viewHolder;
 
+        /*
         Event testEvent = new Event();
 
-        testEvent.requestEvent();
+
+        EventRequestHandler testHandler = new EventRequestHandler();
+
+        testHandler.requestEvent(testEvent);
+        */
+
+        /*
+        Event testEvent = new Event();
+
+        testEvent.requestEvent(testEvent);
+        */
+        //this to set delegate/listener back to this class
+        Event2 testEvent = new Event2();
+
+        ArrayList testResultsArray = new ArrayList<String>();
+        try {
+            testResultsArray = testEvent.execute().get();
+        }
+        catch(InterruptedException ie){
+            Log.d("Race" , "Condition");
+        }
+        catch (ExecutionException ee){
+            Log.d("Condition" , "Race");
+        }
+        testEvent.eventName = testResultsArray.get(0).toString();
+        //Log.d("y tho" , testEvent.eventName);
+
+        //new Event2().execute();
+
 
 
         if(v == null) {
@@ -87,6 +120,8 @@ public class myFoldingCellListAdapter extends ArrayAdapter<EventItem> {
     public void registerUnfold(int position) {
         unfoldedIndexes.add(position);
     }
+
+
 
     private static class ViewHolder{
         TextView price;
