@@ -31,8 +31,30 @@ public class myFoldingCellListAdapter extends ArrayAdapter<EventItem> {
         super(context, resource);
     }
 
+    Event2 testEvent = new Event2();
+
     public myFoldingCellListAdapter(Context context, int resource, List<EventItem> objects) {
         super(context, resource, objects);
+
+
+        ArrayList testResultsArray = new ArrayList<String>();
+
+        //String testEventName = testResultsArray.get(0).toString();
+        String testEventName = "Hello World";
+
+        //This launches the ASYNC task that calls the API
+        try {
+            testResultsArray = testEvent.execute().get();
+            testEventName = testResultsArray.get(0).toString();
+            Log.d("Done" , testEventName);
+        }
+        catch(InterruptedException ie){
+            Log.d("Race" , "Condition");
+        }
+        catch (ExecutionException ee){
+            Log.d("Condition" , "Race");
+        }
+        testEvent.eventName = testEventName;
     }
 
 
@@ -58,20 +80,10 @@ public class myFoldingCellListAdapter extends ArrayAdapter<EventItem> {
 
         testEvent.requestEvent(testEvent);
         */
-        //this to set delegate/listener back to this class
-        Event2 testEvent = new Event2();
 
-        ArrayList testResultsArray = new ArrayList<String>();
-        try {
-            testResultsArray = testEvent.execute().get();
-        }
-        catch(InterruptedException ie){
-            Log.d("Race" , "Condition");
-        }
-        catch (ExecutionException ee){
-            Log.d("Condition" , "Race");
-        }
-        testEvent.eventName = testResultsArray.get(0).toString();
+
+
+        //testEvent.eventName = testResultsArray.get(0).toString();
         //Log.d("y tho" , testEvent.eventName);
 
         //new Event2().execute();
