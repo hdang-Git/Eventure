@@ -15,6 +15,8 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 /**
@@ -23,161 +25,48 @@ import java.util.logging.Logger;
 
 public class Event implements EventBriteRequest{
 
-    /*
-    final public String eventName = "N/A";
-    final public String date= "N/A";
-    final public String time= "N/A";
-    final public String location= "N/A";
-    */
     public String eventName;
     public String date;
     public String time;
     public String location;
 
+    public Event(){
 
-    final Logger log = Logger.getAnonymousLogger();
-
-
-   public void Event(){
-       /*
-       this.eventName = "N/A";
-       this.date= "N/A";
-       this.time= "N/A";
-       this.location = "N/A";
-       */
-   }
-
-
-   public void setEventName(String myEventName) {
-
-       this.eventName = myEventName;
-
-   }
-
-
-    //Going to make the API call here
-    public void requestEvent(Event myEvent) {
-        Log.d("hi" , "hi");
-        Event tempEvent = retrieveData();
-        myEvent.eventName = tempEvent.eventName;
-        //this.eventName = "chicken nuggets";
-        //Log.d("json test3" , "hi");
     }
 
-
-    public Event retrieveData() {
-
-        //final Logger log = Logger.getAnonymousLogger();
-        final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=AHPLYGZSAR7PQKHZPQI4&location.latitude=39.9502352&location.longitude=-75.17327569999998&location.within=1mi";
-        final Event tempEvent = new Event();
-
-        Thread t = new Thread() {
-            public void run() {
-                //result = (TextView) findViewById(R.id.resultView);
-        //        log.info("run() is called");
-                try
-                {
-                    URL url = new URL(urlString);
-                    BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(
-                                    url.openStream()));
-                    String tmpString = "";
-                    String response = "";
-                    while (tmpString != null) {
-                        response.concat(tmpString);
-                        response = response + tmpString;
-                        tmpString = reader.readLine();
-                    }
-                    Message msg = Message.obtain();
-                    msg.obj = response;
-
-                    Log.d("downloaded data", response);
-                    tempEvent.eventName = JSONParsing(msg, tempEvent);
-                    //responseHandler.sendMessage(msg);
-                    Log.d("json test2" , eventName);
-                    Log.d("ugh test" , tempEvent.eventName);
-
-                } catch (
-                        Exception e
-                        )
-
-                {
-                    Log.d("downloaded data", "hi");
-                    e.printStackTrace();
-                }
-            }
-        };
-        t.start();
-        return tempEvent;
+    public Event(int eventNum){
+       this.requestEvent(eventNum);
+        //return this;
     }
 
-    public String JSONParsing(Message msg, Event myEvent){
+    //This creates the Async task and then uses it to fill out the attributes of this Event
+    @Override
+    public void requestEvent(int eventNum) {
+
+        EventRequestAsyncTask BriteRequest= new EventRequestAsyncTask();
+        ArrayList ResultsArray= new ArrayList<String>();
+
+        //Hello world will show up in eventName if the API call fails
+        String testEventName = "Hello World";
+
+        //This launches the ASYNC task that calls the API
         try {
-
-                JSONObject blockObject = new JSONObject((String) msg.obj);
-                Log.d("SUCCESS" , "SUCCESS");
-
-                JSONArray eventsArray = blockObject.getJSONArray("events");
-                JSONObject event = eventsArray.getJSONObject(0);
-                JSONObject eventNameInfo = event.getJSONObject("name");
-
-                Log.d("json test" , eventNameInfo.getString("text"));
-
-                myEvent.eventName = eventNameInfo.getString("text");
-                Log.d("jjjson test" , myEvent.eventName);
-
-
-                Log.d("gggson test" , myEvent.eventName);
-                return myEvent.eventName;
-
-                //Event myTemp = (Event) msg.obj;
-
-                //myTemp.eventName = eventNameInfo.getString("text");
-                //eventName.append(eventNameInfo.getString("text"));
-
-
-            } catch (JSONException e) {
-                Log.d("FAILED" , "FAILED");
-                e.printStackTrace();
-            }
-            Log.d("gggson test" , myEvent.eventName);
-            return myEvent.eventName;
+            ResultsArray= BriteRequest.execute(eventNum).get();
+            testEventName = ResultsArray.get(0).toString();
+            Log.d("Done" , testEventName);
+        }
+        catch(InterruptedException ie){
+            Log.d("Race" , "Condition");
+        }
+        catch (ExecutionException ee){
+            Log.d("Condition" , "Race");
+        }
+        this.eventName = testEventName;
     }
 
-    //Creating handler
-    Handler responseHandler = new Handler(new Handler.Callback() {
-
-
-        @Override
-        public boolean handleMessage(Message msg) {
-            try {
-
-                JSONObject blockObject = new JSONObject((String) msg.obj);
-                Log.d("SUCCESS" , "SUCCESS");
-
-                JSONArray eventsArray = blockObject.getJSONArray("events");
-                JSONObject event = eventsArray.getJSONObject(0);
-                JSONObject eventNameInfo = event.getJSONObject("name");
-
-                Log.d("json test" , eventNameInfo.getString("text"));
-
-
-
-                //Event myTemp = (Event) msg.obj;
-
-                //myTemp.eventName = eventNameInfo.getString("text");
-                //eventName.append(eventNameInfo.getString("text"));
-
-
-            } catch (JSONException e) {
-                Log.d("FAILED" , "FAILED");
-                e.printStackTrace();
-            }
-            return true;
-        }
-    });
-
-
+    public String getEventName() {
+        return eventName;
+    }
 }
 
 

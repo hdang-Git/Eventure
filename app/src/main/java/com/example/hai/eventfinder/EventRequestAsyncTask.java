@@ -20,13 +20,9 @@ import java.util.jar.JarException;
  */
 
 //AsyncTask<What you give it , progress , What you want the result of the thread execution to be>
-public class Event2 extends AsyncTask<Void , Integer , ArrayList<String>> {
+public class EventRequestAsyncTask extends AsyncTask<Integer, Integer , ArrayList<String>> {
 
 
-    public String eventName;
-    public String date;
-    public String time;
-    public String location;
 
     String response;
     String returnString;
@@ -39,7 +35,9 @@ public class Event2 extends AsyncTask<Void , Integer , ArrayList<String>> {
 
     //This is what happens in the thread
     @Override
-    protected ArrayList doInBackground (Void... params) {
+    protected ArrayList doInBackground (Integer... params) {
+
+        int JSONdrill = params[0];
 
         try{
             URL url = new URL(urlString);
@@ -61,7 +59,7 @@ public class Event2 extends AsyncTask<Void , Integer , ArrayList<String>> {
                 Log.d("SUCCESS", "SUCCESS");
 
                 JSONArray eventsArray = blockObject.getJSONArray("events");
-                JSONObject event = eventsArray.getJSONObject(0);
+                JSONObject event = eventsArray.getJSONObject(JSONdrill);
                 JSONObject eventNameInfo = event.getJSONObject("name");
 
                 returnString = eventNameInfo.getString("text");
@@ -70,7 +68,6 @@ public class Event2 extends AsyncTask<Void , Integer , ArrayList<String>> {
 
                 Log.d("json test", eventNameInfo.getString("text"));
 
-                this.eventName = eventNameInfo.getString("text");
             }
             catch(JSONException e){
                 Log.d("Failed JSON" , "went to catch");
@@ -90,9 +87,6 @@ public class Event2 extends AsyncTask<Void , Integer , ArrayList<String>> {
 
         String crayon = result.get(0).toString();
 
-        Log.d("Hello world" , this.eventName) ;
-        Log.d("Hello world again" , crayon) ;
-
-
+        Log.d("Hello world" , crayon) ;
     }
 }

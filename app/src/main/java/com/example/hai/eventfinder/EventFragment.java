@@ -21,6 +21,10 @@ import java.util.List;
 public class EventFragment extends Fragment {
     ListView listView;
 
+    //Event myEvent = new Event();
+    //Event myEvent2 = new Event();
+
+
     //This is a test to see if my branch is working propoerly
 
     public EventFragment() {
@@ -32,7 +36,22 @@ public class EventFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_event, container, false);
-        final ArrayList<EventItem> arrayList = EventItem.getTest();
+        //final ArrayList<EventItem> arrayList = EventItem.getTest();
+        final ArrayList<Event> arrayList = new ArrayList<Event>();
+
+        //This will be looped in the future
+        //Use the same myEvent but pass different int to drill JSON differently
+        /*
+        myEvent.requestEvent(0);
+        arrayList.add(myEvent);
+        myEvent2.requestEvent(1);
+        arrayList.add(myEvent2);
+        */
+
+        for(int i = 0;i<10;i++) {
+            arrayList.add(new Event(i));
+        }
+
         /*
         final FoldingCell fc = (FoldingCell) v.findViewById(R.id.folding_cell);
         fc.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +72,7 @@ public class EventFragment extends Fragment {
                 ((FoldingCell) view).toggle(false);
                 // register in adapter that state for selected cell is toggled
                 adapter.registerToggle(position);
+
             }
         });
         return v;

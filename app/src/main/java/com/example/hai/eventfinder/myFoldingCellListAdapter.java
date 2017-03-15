@@ -2,7 +2,6 @@ package com.example.hai.eventfinder;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,41 +21,24 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 
-public class myFoldingCellListAdapter extends ArrayAdapter<EventItem> {
+public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
+
     Logger log = Logger.getAnonymousLogger();
 
+    //Event myEvent = new Event();
 
     public myFoldingCellListAdapter(Context context, int resource) {
         super(context, resource);
     }
 
-    Event2 testEvent = new Event2();
 
-    public myFoldingCellListAdapter(Context context, int resource, List<EventItem> objects) {
+    public myFoldingCellListAdapter(Context context, int resource, List<Event> objects) {
         super(context, resource, objects);
 
+        //myEvent.requestEvent();
 
-        ArrayList testResultsArray = new ArrayList<String>();
-
-        //String testEventName = testResultsArray.get(0).toString();
-        String testEventName = "Hello World";
-
-        //This launches the ASYNC task that calls the API
-        try {
-            testResultsArray = testEvent.execute().get();
-            testEventName = testResultsArray.get(0).toString();
-            Log.d("Done" , testEventName);
-        }
-        catch(InterruptedException ie){
-            Log.d("Race" , "Condition");
-        }
-        catch (ExecutionException ee){
-            Log.d("Condition" , "Race");
-        }
-        testEvent.eventName = testEventName;
     }
-
 
 
     @NonNull
@@ -66,39 +48,13 @@ public class myFoldingCellListAdapter extends ArrayAdapter<EventItem> {
         FoldingCell v = (FoldingCell) convertView;
         ViewHolder viewHolder;
 
-        /*
-        Event testEvent = new Event();
-
-
-        EventRequestHandler testHandler = new EventRequestHandler();
-
-        testHandler.requestEvent(testEvent);
-        */
-
-        /*
-        Event testEvent = new Event();
-
-        testEvent.requestEvent(testEvent);
-        */
-
-
-
-        //testEvent.eventName = testResultsArray.get(0).toString();
-        //Log.d("y tho" , testEvent.eventName);
-
-        //new Event2().execute();
-
-
+        Event eachEvent = getItem(position);
 
         if(v == null) {
             log.info("cell isn't null");
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             v = (FoldingCell) inflater.inflate(R.layout.cell, parent, false);
-
-            TextView blah = (TextView)  v.findViewById(R.id.content_title);
-            blah.setText(testEvent.eventName);
-
 
 
             viewHolder.price = (TextView) v.findViewById(R.id.title_price);
@@ -111,9 +67,22 @@ public class myFoldingCellListAdapter extends ArrayAdapter<EventItem> {
             viewHolder.timeLabel = (TextView) v.findViewById(R.id.title_timeLabel2);
             viewHolder.eventTypeLabel = (TextView) v.findViewById(R.id.eventTypeLabel);
             viewHolder.eventType = (TextView) v.findViewById(R.id.eventType);
+
+            viewHolder.eventName = (TextView) v.findViewById(R.id.content_title);
+            v.setTag(viewHolder);
         } else {
+            // for existing cell set valid valid state(without animation)
+            if (unfoldedIndexes.contains(position)) {
+                v.unfold(true);
+            } else {
+                v.fold(true);
+            }
             log.info("cell is null");
+            viewHolder = (ViewHolder) v.getTag();
         }
+
+        viewHolder.eventName.setText(eachEvent.eventName);
+
         return v;
     }
 
@@ -146,6 +115,8 @@ public class myFoldingCellListAdapter extends ArrayAdapter<EventItem> {
         TextView timeLabel;
         TextView eventTypeLabel;
         TextView eventType;
+
+        TextView eventName;
 
 
     }
