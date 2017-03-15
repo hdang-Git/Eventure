@@ -8,15 +8,30 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--Main Activity-->
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
+            <!--This is for search to communicate with application -->
+            <meta-data android:name="android.app.searchable"
+                       android:resource="@xml/searchable"
+                />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <!--Search Activity-->
+        <activity
+            android:name=".SearchResult"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                        android:resource="@xml/searchable"/>
         </activity>
         <activity android:name=".FragmentTesting.TestActivity"></activity>
     </application>
