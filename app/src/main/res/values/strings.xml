@@ -25,4 +25,9 @@
     <string name="locationContent">Location</string>
     <string name="mapContent">Map</string>
     <string name="contactContent">Contact</string>
+
+    <!--This is searchBar strings-->
+    <string name="hint">Search Event</string>
+    <string name="search_title">Search</string>
+
 </resources>
