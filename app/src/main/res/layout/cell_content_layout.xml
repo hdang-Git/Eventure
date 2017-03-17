@@ -130,7 +130,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
         <TextView
-            android:id="@+id/testing"
+            android:id="@+id/content_description"
             android:text="Chicken Nuggets"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

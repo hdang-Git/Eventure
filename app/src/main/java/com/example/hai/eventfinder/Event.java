@@ -26,9 +26,11 @@ import java.util.logging.Logger;
 public class Event implements EventBriteRequest{
 
     public String eventName;
-    public String date;
-    public String time;
-    public String location;
+    public String eventDate;
+    public String eventTime;
+    public String eventLocation;
+    public String eventDescription;
+    public String eventImageURL;
 
     public Event(){
 
@@ -44,16 +46,13 @@ public class Event implements EventBriteRequest{
     public void requestEvent(int eventNum) {
 
         EventRequestAsyncTask BriteRequest= new EventRequestAsyncTask();
-        ArrayList ResultsArray= new ArrayList<String>();
+        ArrayList<String> ResultsArray= new ArrayList<String>();
 
-        //Hello world will show up in eventName if the API call fails
-        String testEventName = "Hello World";
 
         //This launches the ASYNC task that calls the API
         try {
             ResultsArray= BriteRequest.execute(eventNum).get();
-            testEventName = ResultsArray.get(0).toString();
-            Log.d("Done" , testEventName);
+            Log.d("hmm" , ResultsArray.get(0));
         }
         catch(InterruptedException ie){
             Log.d("Race" , "Condition");
@@ -61,11 +60,13 @@ public class Event implements EventBriteRequest{
         catch (ExecutionException ee){
             Log.d("Condition" , "Race");
         }
-        this.eventName = testEventName;
+        this.setEventValues(ResultsArray);
     }
 
-    public String getEventName() {
-        return eventName;
+    public void setEventValues(ArrayList<String> infoArray){
+        this.eventName = infoArray.get(0).toString();
+        this.eventDescription= infoArray.get(1).toString();
+        this.eventImageURL = infoArray.get(2).toString();
     }
 }
 

@@ -7,10 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ramotion.foldingcell.FoldingCell;
+import com.squareup.picasso.Picasso;
+
 
 import org.w3c.dom.Text;
 
@@ -35,9 +38,6 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
     public myFoldingCellListAdapter(Context context, int resource, List<Event> objects) {
         super(context, resource, objects);
-
-        //myEvent.requestEvent();
-
     }
 
 
@@ -60,7 +60,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder.price = (TextView) v.findViewById(R.id.title_price);
             viewHolder.date = (TextView) v.findViewById(R.id.title_date);
             viewHolder.time = (TextView) v.findViewById(R.id.title_time);
-            viewHolder.name = (TextView) v.findViewById(R.id.title_name);
+            viewHolder.eventNameClosed = (TextView) v.findViewById(R.id.title_name);//G
             viewHolder.address = (TextView) v.findViewById(R.id.title_address);
             viewHolder.ratingLabel = (TextView) v.findViewById(R.id.title_ratinglabel);
             viewHolder.ratingBar = (RatingBar) v.findViewById(R.id.ratingBar);
@@ -68,7 +68,11 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder.eventTypeLabel = (TextView) v.findViewById(R.id.eventTypeLabel);
             viewHolder.eventType = (TextView) v.findViewById(R.id.eventType);
 
+            //Below this is George's stuff
             viewHolder.eventName = (TextView) v.findViewById(R.id.content_title);
+            viewHolder.eventDescription = (TextView) v.findViewById(R.id.content_description);
+            viewHolder.eventImage = (ImageView) v.findViewById(R.id.imageHeaderBackground);
+
             v.setTag(viewHolder);
         } else {
             // for existing cell set valid valid state(without animation)
@@ -81,7 +85,13 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder = (ViewHolder) v.getTag();
         }
 
+        //Closed stuff
+        viewHolder.eventNameClosed.setText(eachEvent.eventName);
+
+        //Opened stuff
         viewHolder.eventName.setText(eachEvent.eventName);
+        viewHolder.eventDescription.setText(eachEvent.eventDescription);
+        Picasso.with(this.getContext()).load(eachEvent.eventImageURL).into(viewHolder.eventImage);
 
         return v;
     }
@@ -108,7 +118,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         TextView price;
         TextView date;
         TextView time;
-        TextView name;
+        TextView eventNameClosed;//G
         TextView address;
         TextView ratingLabel;
         RatingBar ratingBar;
@@ -116,7 +126,10 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         TextView eventTypeLabel;
         TextView eventType;
 
+        //Below this is George's stuff
         TextView eventName;
+        TextView eventDescription;
+        ImageView eventImage;
 
 
     }

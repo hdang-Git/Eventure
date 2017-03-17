@@ -24,8 +24,12 @@ public class EventRequestAsyncTask extends AsyncTask<Integer, Integer , ArrayLis
 
 
 
-    String response;
-    String returnString;
+    String returnStringName;
+    String returnStringDate;
+    String returnStringTime;
+    String returnStringLocation;
+    String returnStringDescription;
+    String returnStringImageURL;
 
     ArrayList<String> returnStringArray = new ArrayList<String>();
 
@@ -60,11 +64,20 @@ public class EventRequestAsyncTask extends AsyncTask<Integer, Integer , ArrayLis
 
                 JSONArray eventsArray = blockObject.getJSONArray("events");
                 JSONObject event = eventsArray.getJSONObject(JSONdrill);
+
                 JSONObject eventNameInfo = event.getJSONObject("name");
+                returnStringName = eventNameInfo.getString("text");
 
-                returnString = eventNameInfo.getString("text");
+                JSONObject eventDescriptionInfo= event.getJSONObject("description");
+                returnStringDescription= eventDescriptionInfo.getString("text");
 
-                returnStringArray.add(returnString);
+                JSONObject eventImageInfo = event.getJSONObject("logo");
+                returnStringImageURL= eventImageInfo.getString("url");
+
+
+                returnStringArray.add(returnStringName);
+                returnStringArray.add(returnStringDescription);
+                returnStringArray.add(returnStringImageURL);
 
                 Log.d("json test", eventNameInfo.getString("text"));
 
@@ -81,12 +94,13 @@ public class EventRequestAsyncTask extends AsyncTask<Integer, Integer , ArrayLis
         return returnStringArray;
     }
 
-    //The thread then gives stuff to this method
+    //Just logging to check that the thread behaved correctly
     @Override
     protected void onPostExecute(ArrayList result){
 
-        String crayon = result.get(0).toString();
+        Log.d("PostExecute" , result.get(0).toString());
+        Log.d("PostExecute" , result.get(1).toString());
+        Log.d("PostExecute" , result.get(2).toString());
 
-        Log.d("Hello world" , crayon) ;
     }
 }

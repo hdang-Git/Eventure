@@ -27,6 +27,7 @@ public class EventFragment extends Fragment {
 
     //This is a test to see if my branch is working propoerly
 
+
     public EventFragment() {
         // Required empty public constructor
     }
@@ -48,19 +49,12 @@ public class EventFragment extends Fragment {
         arrayList.add(myEvent2);
         */
 
-        for(int i = 0;i<10;i++) {
+        //Need to somehow stop the loop using the JSON fail exception that happens when we try to retrieve something that isn't there
+        for(int i = 0;i<9;i++) {
             arrayList.add(new Event(i));
         }
 
-        /*
-        final FoldingCell fc = (FoldingCell) v.findViewById(R.id.folding_cell);
-        fc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fc.toggle(false);
-            }
-        });
-        */
+
 
         listView = (ListView) v.findViewById(R.id.listView);
         final myFoldingCellListAdapter adapter = new myFoldingCellListAdapter(v.getContext(), 0, arrayList);
