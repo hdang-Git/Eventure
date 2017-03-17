@@ -5,12 +5,62 @@
     android:layout_height="wrap_content"
     folding-cell:additionalFlipsCount="2"
     folding-cell:animationDuration="1300"
-    folding-cell:backSideColor="@android:color/holo_green_dark">
-
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    folding-cell:backSideColor="@android:color/white">
     <!-- CONTENT (UNFOLDED) LAYOUT (MUST BE AT LEAST 2x times BIGGER than content layout bellow)-->
     <include layout="@layout/cell_content_layout" />
 
+    <!--
+    <FrameLayout
+        android:id="@+id/cell_content_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_green_dark"
+        android:visibility="gone">
+        <TextView
+            android:text="You Suck"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+        <TextView
+            android:text="You Suck"
+            android:textAlignment="center"
+            android:background="@android:color/holo_red_dark"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+    </FrameLayout>
+    -->
+
+    <!--
+    <FrameLayout
+        android:id="@+id/cell_content_view2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_dark"
+        android:visibility="gone">
+        <TextView
+            android:text="PPAP"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+    </FrameLayout>
+    -->
+
     <!-- TITLE (FOLDED) LAYOUT (MUST BE AT LEAST 2x times SMALLER than content layout above) -->
     <include layout="@layout/cell_title_layout" />
+    <!--
+    <FrameLayout
+        android:id="@+id/cell_title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Lenny"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@android:color/holo_blue_dark" />
+    </FrameLayout>
+    -->
 
 </com.ramotion.foldingcell.FoldingCell>

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.logging.Logger;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Toast.makeText(this,"hi",Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_main);
 
 

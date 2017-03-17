@@ -35,7 +35,23 @@ public class EventFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_event, container, false);
-        final ArrayList<EventItem> arrayList = EventItem.getTest();
+        //final ArrayList<EventItem> arrayList = EventItem.getTest();
+        final ArrayList<Event> arrayList = new ArrayList<Event>();
+
+        //This will be looped in the future
+        //Use the same myEvent but pass different int to drill JSON differently
+        /*
+        myEvent.requestEvent(0);
+        arrayList.add(myEvent);
+        myEvent2.requestEvent(1);
+        arrayList.add(myEvent2);
+        */
+
+        //Need to somehow stop the loop using the JSON fail exception that happens when we try to retrieve something that isn't there
+        for(int i = 0;i<9;i++) {
+            arrayList.add(new Event(i));
+        }
+
 
 
         listView = (ListView) v.findViewById(R.id.listView);
@@ -48,6 +64,7 @@ public class EventFragment extends Fragment {
                 ((FoldingCell) view).toggle(false);
                 // register in adapter that state for selected cell is toggled
                 adapter.registerToggle(position);
+
             }
         });
         return v;
