@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.os.Message;
 import android.util.Log;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -106,5 +108,11 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
         p.viewHolder.eventName.setText(result.get(0).toString());
         p.viewHolder.eventDescription.setText(result.get(1).toString());
+        Picasso.with(p.context).load(result.get(2).toString()).into(p.viewHolder.eventImage);
+
+        //This sets the Event object values
+        p.event.setEventValues(result);
+
+        Log.d("Event check" , p.event.eventName );
     }
 }

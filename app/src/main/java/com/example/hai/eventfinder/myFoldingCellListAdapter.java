@@ -29,6 +29,8 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
     Logger log = Logger.getAnonymousLogger();
 
+    public List<Event> eventsArray;
+
     //Event myEvent = new Event();
 
     public myFoldingCellListAdapter(Context context, int resource) {
@@ -38,6 +40,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
     public myFoldingCellListAdapter(Context context, int resource, List<Event> objects) {
         super(context, resource, objects);
+        eventsArray = objects;
     }
 
 
@@ -86,9 +89,16 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         }
 
 
-        ASYNCparams eventArgs = new ASYNCparams(position , viewHolder);
+        ASYNCparams eventArgs = new ASYNCparams(position , viewHolder , this.getContext() , eventsArray.get(position));
         EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
         BriteRequest.execute(eventArgs);
+
+        //This takes each event and sets their properties since they aren't set using the Async anymore
+        //eventsArray.get(position).eventName = viewHolder.eventName.getText().toString();
+        //eventsArray.get(position).eventDescription= viewHolder.eventDescription.getText().toString();
+
+        //Log.d("Event check" , eventsArray.get(position).eventName );
+
 
 
         /* Set texts now handled by ASYNCtask
