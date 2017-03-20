@@ -20,9 +20,9 @@ import java.util.jar.JarException;
  */
 
 //AsyncTask<What you give it , progress , What you want the result of the thread execution to be>
-public class EventRequestAsyncTask extends AsyncTask<Integer, Integer , ArrayList<String>> {
+public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , ArrayList<String>> {
 
-
+    ASYNCparams p;
 
     String returnStringName;
     String returnStringDate;
@@ -39,9 +39,11 @@ public class EventRequestAsyncTask extends AsyncTask<Integer, Integer , ArrayLis
 
     //This is what happens in the thread
     @Override
-    protected ArrayList doInBackground (Integer... params) {
+    protected ArrayList doInBackground (ASYNCparams... params) {
 
-        int JSONdrill = params[0];
+        p = params[0];
+
+        int JSONdrill = p.JSONdrill;
 
         try{
             URL url = new URL(urlString);
@@ -102,5 +104,7 @@ public class EventRequestAsyncTask extends AsyncTask<Integer, Integer , ArrayLis
         Log.d("PostExecute" , result.get(1).toString());
         Log.d("PostExecute" , result.get(2).toString());
 
+        p.viewHolder.eventName.setText(result.get(0).toString());
+        p.viewHolder.eventDescription.setText(result.get(1).toString());
     }
 }

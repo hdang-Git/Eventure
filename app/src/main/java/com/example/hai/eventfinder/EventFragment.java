@@ -49,7 +49,7 @@ public class EventFragment extends Fragment {
 
         //Need to somehow stop the loop using the JSON fail exception that happens when we try to retrieve something that isn't there
         for(int i = 0;i<9;i++) {
-            arrayList.add(new Event(i));
+            arrayList.add(new Event());
         }
 
 

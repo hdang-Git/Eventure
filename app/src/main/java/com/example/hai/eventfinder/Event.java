@@ -51,7 +51,7 @@ public class Event implements EventBriteRequest{
 
         //This launches the ASYNC task that calls the API
         try {
-            ResultsArray= BriteRequest.execute(eventNum).get();
+            ResultsArray= BriteRequest.execute().get();
             Log.d("hmm" , ResultsArray.get(0));
         }
         catch(InterruptedException ie){

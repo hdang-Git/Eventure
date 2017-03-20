@@ -85,6 +85,13 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder = (ViewHolder) v.getTag();
         }
 
+
+        ASYNCparams eventArgs = new ASYNCparams(position , viewHolder);
+        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
+        BriteRequest.execute(eventArgs);
+
+
+        /* Set texts now handled by ASYNCtask
         //Closed stuff
         viewHolder.eventNameClosed.setText(eachEvent.eventName);
 
@@ -92,6 +99,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         viewHolder.eventName.setText(eachEvent.eventName);
         viewHolder.eventDescription.setText(eachEvent.eventDescription);
         Picasso.with(this.getContext()).load(eachEvent.eventImageURL).into(viewHolder.eventImage);
+        */
 
         return v;
     }
@@ -114,23 +122,5 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
 
 
-    private static class ViewHolder{
-        TextView price;
-        TextView date;
-        TextView time;
-        TextView eventNameClosed;//G
-        TextView address;
-        TextView ratingLabel;
-        RatingBar ratingBar;
-        TextView timeLabel;
-        TextView eventTypeLabel;
-        TextView eventType;
 
-        //Below this is George's stuff
-        TextView eventName;
-        TextView eventDescription;
-        ImageView eventImage;
-
-
-    }
 }
