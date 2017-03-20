@@ -13,6 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+//This are imports for Amazon DynamoDB
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.*;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.*;
+import com.amazonaws.services.dynamodbv2.model.*;
+
 import java.util.logging.Logger;
 
 
@@ -28,6 +35,12 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         Toast.makeText(this,"hi",Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_main);
 
+        //This is to run Dynamo thread,
+        //So far only for three instances
+        //
+        DynamoThread databaseTask = new DynamoThread(this.getApplicationContext());
+        databaseTask.runDynamo();
+
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -37,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         // Give the TabLayout the ViewPager
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+
 
     }
 
