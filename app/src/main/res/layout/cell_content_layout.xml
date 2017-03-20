@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:visibility="gone">
     <!--android:visibility="gone"-->
@@ -78,43 +79,61 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ImageView
+                android:id="@+id/ic_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:src="@drawable/ic_event_note_black_24dp"
-                android:id="@+id/ic_description"/>
+                android:src="@drawable/ic_event_note_black_24dp" />
+
             <TextView
+                android:id="@+id/content_descripLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_toEndOf="@id/ic_description"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:textSize="20sp"
                 android:text="@string/descriptionContent"
-                android:id="@+id/content_descripLabel"/>
+                android:textSize="20sp" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentStart="true"
+                android:id="@+id/content_descripLayout"
+                android:layout_below="@id/ic_description">
+                <TextView
+                    android:id="@+id/content_description"
+                    android:text="Chicken Nuggets"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+            </RelativeLayout>
 
             <ImageView
+                android:id="@+id/ic_place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@id/ic_description"
+                android:layout_below="@id/content_descripLayout"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:src="@drawable/ic_place_black_24dp"
-                android:id="@+id/ic_place"/>
+                android:src="@drawable/ic_place_black_24dp" />
 
             <TextView
+                android:id="@+id/content_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/ic_place"
-                android:layout_below="@id/content_descripLabel"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_below="@id/content_descripLayout"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:textSize="20sp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_toEndOf="@id/ic_place"
                 android:text="@string/locationContent"
-                android:id="@+id/content_location" />
+                android:textSize="20sp" />
         </RelativeLayout>
     </LinearLayout>
     <RelativeLayout
@@ -124,17 +143,16 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_map_black_24dp"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
-        <TextView
-            android:id="@+id/content_description"
-            android:text="Chicken Nuggets"
+            android:src="@drawable/ic_map_black_24dp"
+            android:id="@+id/mapIcon"/>
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/lite_map"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="150dp"
+            android:layout_below="@id/mapIcon"
+            map:liteMode="true"
+            map:mapType="none" />
     </RelativeLayout>
 </LinearLayout>
 

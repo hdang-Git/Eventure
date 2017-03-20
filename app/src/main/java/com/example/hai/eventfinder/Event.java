@@ -28,17 +28,14 @@ public class Event implements EventBriteRequest{
     public String eventName;
     public String eventDate;
     public String eventTime;
+    public String eventLatitude;
+    public String eventLongitude;
     public String eventLocation;
     public String eventDescription;
     public String eventImageURL;
 
     public Event(){
 
-    }
-
-    public Event(int eventNum){
-       this.requestEvent(eventNum);
-        //return this;
     }
 
     //This creates the Async task and then uses it to fill out the attributes of this Event
@@ -67,6 +64,8 @@ public class Event implements EventBriteRequest{
         this.eventName = infoArray.get(0).toString();
         this.eventDescription= infoArray.get(1).toString();
         this.eventImageURL = infoArray.get(2).toString();
+        this.eventLatitude = "39.9502352";
+        this.eventLongitude = "-75.17327569999998";
     }
 }
 

@@ -46,12 +46,12 @@
             android:id="@+id/title_time" />
     </RelativeLayout>
 
-    <!-- Right title side -->
+    <!-- Right title side --> <!--holo_blue_dark-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@android:color/holo_blue_dark"
+        android:background="@android:color/white"
         android:paddingBottom="20dp"
         android:paddingEnd="20dp"
         android:paddingStart="15dp"

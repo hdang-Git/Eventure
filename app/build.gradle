@@ -48,7 +48,7 @@ dependencies {
     compile 'com.ramotion.foldingcell:folding-cell:1.0.1'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    compile 'com.google.android.gms:play-services-maps:10.2.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     testCompile 'junit:junit:4.12'
-    compile 'com.google.android.gms:play-services-maps:+'
-    compile files('C:/Users/Van/AndroidStudioProjects/Eventure/libs/picasso-2.5.2.jar')
 }

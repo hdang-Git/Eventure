@@ -2,6 +2,7 @@ package com.example.hai.eventfinder;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.EventLog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,13 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
 
@@ -29,7 +37,10 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
     Logger log = Logger.getAnonymousLogger();
 
-    //Event myEvent = new Event();
+    Context context;
+    LayoutInflater inflater;
+
+    private final HashSet<MapView> mMaps = new HashSet<MapView>();
 
     public myFoldingCellListAdapter(Context context, int resource) {
         super(context, resource);
@@ -47,12 +58,15 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         //View v =  super.getView(position, convertView, parent);
         FoldingCell v = (FoldingCell) convertView;
         ViewHolder viewHolder;
-
         Event eachEvent = getItem(position);
+        if(inflater == null){
+            context = parent.getContext();
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
 
         if(v == null) {
             log.info("cell isn't null");
-            viewHolder = new ViewHolder();
+            viewHolder = new ViewHolder(context.getApplicationContext());
             LayoutInflater inflater = LayoutInflater.from(getContext());
             v = (FoldingCell) inflater.inflate(R.layout.cell, parent, false);
 
@@ -72,8 +86,11 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder.eventName = (TextView) v.findViewById(R.id.content_title);
             viewHolder.eventDescription = (TextView) v.findViewById(R.id.content_description);
             viewHolder.eventImage = (ImageView) v.findViewById(R.id.imageHeaderBackground);
+            viewHolder.mapView = (MapView) v.findViewById(R.id.lite_map);
 
             v.setTag(viewHolder);
+            viewHolder.initializeMapView();
+            mMaps.add(viewHolder.mapView);
         } else {
             // for existing cell set valid valid state(without animation)
             if (unfoldedIndexes.contains(position)) {
@@ -90,16 +107,12 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
         BriteRequest.execute(eventArgs);
 
+        Event eventItem = new Event();
+        viewHolder.mapView.setTag(eventItem);
 
-        /* Set texts now handled by ASYNCtask
-        //Closed stuff
-        viewHolder.eventNameClosed.setText(eachEvent.eventName);
-
-        //Opened stuff
-        viewHolder.eventName.setText(eachEvent.eventName);
-        viewHolder.eventDescription.setText(eachEvent.eventDescription);
-        Picasso.with(this.getContext()).load(eachEvent.eventImageURL).into(viewHolder.eventImage);
-        */
+        if(viewHolder.map != null){
+            viewHolder.setMapLocation(viewHolder.map, eventItem);
+        }
 
         return v;
     }
@@ -120,6 +133,9 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         unfoldedIndexes.add(position);
     }
 
+    public HashSet<MapView> getMaps() {
+        return mMaps;
+    }
 
 
 
