@@ -35,7 +35,6 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
     ArrayList<String> returnStringArray = new ArrayList<String>();
 
-    final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=AHPLYGZSAR7PQKHZPQI4&location.latitude=39.9502352&location.longitude=-75.17327569999998&location.within=1mi";
 
     //new Event2().execute(urlString);
 
@@ -44,6 +43,10 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
     protected ArrayList doInBackground (ASYNCparams... params) {
 
         p = params[0];
+
+        final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=" + p.context.getResources().getText(R.string.event_brite_key) + "&location.latitude=39.9502352&location.longitude=-75.17327569999998&location.within=1mi";
+
+        Log.d("url check " , urlString);
 
         int JSONdrill = p.JSONdrill;
 
