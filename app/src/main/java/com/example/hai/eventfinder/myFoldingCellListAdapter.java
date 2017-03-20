@@ -37,6 +37,9 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
     Logger log = Logger.getAnonymousLogger();
 
+    public List<Event> eventsArray;
+
+    //Event myEvent = new Event();
     Context context;
     LayoutInflater inflater;
 
@@ -49,6 +52,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
     public myFoldingCellListAdapter(Context context, int resource, List<Event> objects) {
         super(context, resource, objects);
+        eventsArray = objects;
     }
 
 
@@ -58,6 +62,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         //View v =  super.getView(position, convertView, parent);
         FoldingCell v = (FoldingCell) convertView;
         ViewHolder viewHolder;
+
         Event eachEvent = getItem(position);
         if(inflater == null){
             context = parent.getContext();
@@ -103,7 +108,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         }
 
 
-        ASYNCparams eventArgs = new ASYNCparams(position , viewHolder);
+        ASYNCparams eventArgs = new ASYNCparams(position , viewHolder , this.getContext() , eventsArray.get(position));
         EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
         BriteRequest.execute(eventArgs);
 

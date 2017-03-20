@@ -3,6 +3,7 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
+/app/src/main/res/values/passwords.xml
 .DS_Store
 /build
 /captures
