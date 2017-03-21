@@ -38,6 +38,49 @@ public class Event implements EventBriteRequest{
 
     }
 
+    public Event(EventBuilder builder){
+        this.eventName = builder.eventName;
+        this.eventDate = builder.eventDate;
+        this.eventTime = builder.eventTime;
+        this.eventLocation = builder.eventLocation;
+        this.eventLongitude = builder.eventLongitude;
+        this.eventLatitude = builder.eventLatitude;
+        this.eventDescription = builder.eventDescription;
+
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public String getEventDate() {
+        return eventDate;
+    }
+
+    public String getEventTime() {
+        return eventTime;
+    }
+
+    public String getEventLatitude() {
+        return eventLatitude;
+    }
+
+    public String getEventLongitude() {
+        return eventLongitude;
+    }
+
+    public String getEventLocation() {
+        return eventLocation;
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
+    }
+
+    public String getEventImageURL() {
+        return eventImageURL;
+    }
+
     //This creates the Async task and then uses it to fill out the attributes of this Event
     @Override
     public void requestEvent(int eventNum) {
@@ -66,6 +109,47 @@ public class Event implements EventBriteRequest{
         this.eventImageURL = infoArray.get(2).toString();
         this.eventLatitude = "39.9502352";
         this.eventLongitude = "-75.17327569999998";
+    }
+
+    public static class EventBuilder{
+        private String eventName;
+        private String eventDate;
+        private String eventTime;
+        private String eventLatitude;
+        private String eventLongitude;
+        private String eventLocation;
+        private String eventDescription;
+        private String eventImageURL;
+
+        public EventBuilder(String eventName){
+            this.eventName = eventName;
+        }
+
+        public EventBuilder date(String eventDate){
+            this.eventDate = eventDate;
+            return this;
+        }
+
+        public EventBuilder time(String eventTime){
+            this.eventTime = eventTime;
+            return this;
+        }
+
+        public EventBuilder eventCoordinates(String eventLatitude, String eventLongitude){
+            this.eventLatitude = eventLatitude;
+            this.eventLongitude = eventLongitude;
+            return this;
+        }
+
+        public EventBuilder eventDescription(String eventDescription){
+            this.eventDescription = eventDescription;
+            return this;
+        }
+
+        public EventBuilder imageUrl(String eventImageURL){
+            this.eventImageURL = eventImageURL;
+            return this;
+        }
     }
 }
 
