@@ -30,6 +30,8 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
     String returnStringDate;
     String returnStringTime;
     String returnStringLocation;
+    String returnStringLatitude;
+    String returnStringLongitude;
     String returnStringDescription;
     String returnStringImageURL;
 
@@ -44,7 +46,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
         p = params[0];
 
-        final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=" + p.context.getResources().getText(R.string.event_brite_key) + "&location.latitude=39.9502352&location.longitude=-75.17327569999998&location.within=1mi";
+        final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=" + p.context.getResources().getText(R.string.event_brite_key) + "&location.latitude=39.9502352&location.longitude=-75.17327569999998&location.within=1mi&expand=organizer,venue";
 
         Log.d("url check " , urlString);
 
@@ -81,10 +83,18 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                 JSONObject eventImageInfo = event.getJSONObject("logo");
                 returnStringImageURL= eventImageInfo.getString("url");
 
+                JSONObject venueInfo = event.getJSONObject("venue");
+
+                JSONObject addressInfo = venueInfo.getJSONObject("address");
+                returnStringLatitude = addressInfo.getString("latitude");
+                returnStringLongitude= addressInfo.getString("longitude");
+
 
                 returnStringArray.add(returnStringName);
                 returnStringArray.add(returnStringDescription);
                 returnStringArray.add(returnStringImageURL);
+                returnStringArray.add(returnStringLatitude);
+                returnStringArray.add(returnStringLongitude);
 
                 Log.d("json test", eventNameInfo.getString("text"));
 
@@ -115,6 +125,8 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
         //This sets the Event object values
         p.event.setEventValues(result);
+
+        p.viewHolder.setMapLocation(p.viewHolder.map , p.event);
 
         Log.d("Event check" , p.event.eventName );
     }

@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.util.Log;
+import android.util.EventLog;
 
 import com.ramotion.foldingcell.FoldingCell;
 
@@ -60,6 +62,7 @@ public class EventFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("I've been toggled" , "true");
                 // toggle clicked cell state
                 ((FoldingCell) view).toggle(false);
                 // register in adapter that state for selected cell is toggled
@@ -67,6 +70,7 @@ public class EventFragment extends Fragment {
 
             }
         });
+        listView.setRecyclerListener(ViewHolder.mRecycleListener);
         return v;
     }
 
