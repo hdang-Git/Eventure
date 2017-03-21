@@ -25,15 +25,18 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 
 public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
-    private HashSet<Integer> unfoldedIndexes = new HashSet<>();
+    public HashSet<Integer> unfoldedIndexes = new HashSet<>();
 
     Logger log = Logger.getAnonymousLogger();
 
@@ -95,12 +98,14 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
             v.setTag(viewHolder);
             viewHolder.initializeMapView();
-            mMaps.add(viewHolder.mapView);
+           mMaps.add(viewHolder.mapView);
         } else {
             // for existing cell set valid valid state(without animation)
             if (unfoldedIndexes.contains(position)) {
+                Log.d("unfoldd" , "hi");
                 v.unfold(true);
             } else {
+                Log.d("foldd" , "hi");
                 v.fold(true);
             }
             log.info("cell is null");
@@ -112,22 +117,39 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
         BriteRequest.execute(eventArgs);
 
+
         Event eventItem = new Event();
         viewHolder.mapView.setTag(eventItem);
 
+        /*
         if(viewHolder.map != null){
             viewHolder.setMapLocation(viewHolder.map, eventItem);
         }
+        */
 
+        Log.d("George" , "We're about to return v");
         return v;
     }
 
     // simple methods for register cell state changes
     public void registerToggle(int position) {
-        if (unfoldedIndexes.contains(position))
+
+        Log.d("toggle position " , Integer.toString(position));
+        //Logs everything in the hashset
+        for(int i : unfoldedIndexes){
+            Iterator<Integer> itr = unfoldedIndexes.iterator();
+            while(itr.hasNext()) {
+                Log.d("hash check", Integer.toString(itr.next()));
+            }
+        }
+        if (unfoldedIndexes.contains(position)) {
+            Log.d("closee", "tho");
             registerFold(position);
-        else
+        }
+        else {
+            Log.d("opeen", "tho");
             registerUnfold(position);
+        }
     }
 
     public void registerFold(int position) {
@@ -135,7 +157,9 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
     }
 
     public void registerUnfold(int position) {
+        Log.d("opeen position" , Integer.toString(position));
         unfoldedIndexes.add(position);
+
     }
 
     public HashSet<MapView> getMaps() {

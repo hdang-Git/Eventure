@@ -107,8 +107,8 @@ public class Event implements EventBriteRequest{
         this.eventName = infoArray.get(0).toString();
         this.eventDescription= infoArray.get(1).toString();
         this.eventImageURL = infoArray.get(2).toString();
-        this.eventLatitude = "39.9502352";
-        this.eventLongitude = "-75.17327569999998";
+        this.eventLatitude =infoArray.get(3).toString();
+        this.eventLongitude = infoArray.get(4).toString();
     }
 
     public static class EventBuilder{
