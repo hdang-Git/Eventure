@@ -100,11 +100,11 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
             }
             catch(JSONException e){
-                Log.d("Failed JSON" , "went to catch");
+                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite");
             }
         }
         catch (Exception e){
-            Log.d("Failed" , "This thing failed");
+            Log.d("Failed JSON" , "doInBackground() failed with Exception e");
             e.printStackTrace();
         }
 

@@ -32,19 +32,22 @@ public class Event implements EventBriteRequest{
     public String eventLongitude;
     public String eventLocation;
     public String eventDescription;
+    public String eventPrice;
     public String eventImageURL;
 
     public Event(){
 
     }
 
-    public Event(EventBuilder builder){
+    public Event(Builder builder){
         this.eventName = builder.eventName;
         this.eventDate = builder.eventDate;
         this.eventTime = builder.eventTime;
+        this.eventPrice = builder.eventPrice;
         this.eventLocation = builder.eventLocation;
         this.eventLongitude = builder.eventLongitude;
         this.eventLatitude = builder.eventLatitude;
+        this.eventImageURL = builder.eventImageURL;
         this.eventDescription = builder.eventDescription;
 
     }
@@ -77,8 +80,21 @@ public class Event implements EventBriteRequest{
         return eventDescription;
     }
 
+    public String getEventPrice(){
+        return eventPrice;
+    }
+
     public String getEventImageURL() {
         return eventImageURL;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return eventName + " " + eventDate + " " + eventTime + " "
+                + eventLocation + " " + eventLatitude + " " + eventLongitude + " "
+                + eventDescription + " " + eventPrice + " " + eventImageURL;
     }
 
     //This creates the Async task and then uses it to fill out the attributes of this Event
@@ -111,44 +127,59 @@ public class Event implements EventBriteRequest{
         this.eventLongitude = infoArray.get(4).toString();
     }
 
-    public static class EventBuilder{
+    public static class Builder{
         private String eventName;
         private String eventDate;
         private String eventTime;
         private String eventLatitude;
         private String eventLongitude;
+        private String eventPrice;
         private String eventLocation;
         private String eventDescription;
         private String eventImageURL;
 
-        public EventBuilder(String eventName){
+        public Builder(String eventName){
             this.eventName = eventName;
         }
 
-        public EventBuilder date(String eventDate){
+        public Builder setDate(String eventDate){
             this.eventDate = eventDate;
             return this;
         }
 
-        public EventBuilder time(String eventTime){
+        public Builder setTime(String eventTime){
             this.eventTime = eventTime;
             return this;
         }
 
-        public EventBuilder eventCoordinates(String eventLatitude, String eventLongitude){
+        public Builder setEventLocation(String eventLocation){
+            this.eventLocation = eventLocation;
+            return this;
+        }
+
+        public Builder setEventCoordinates(String eventLatitude, String eventLongitude){
             this.eventLatitude = eventLatitude;
             this.eventLongitude = eventLongitude;
             return this;
         }
 
-        public EventBuilder eventDescription(String eventDescription){
+        public Builder setEventDescription(String eventDescription){
             this.eventDescription = eventDescription;
             return this;
         }
 
-        public EventBuilder imageUrl(String eventImageURL){
+        public Builder setImageUrl(String eventImageURL){
             this.eventImageURL = eventImageURL;
             return this;
+        }
+
+        public Builder setEventPrice(String eventPrice){
+            this.eventPrice = eventPrice;
+            return this;
+        }
+
+        public Event build(){
+            return new Event(this);
         }
     }
 }

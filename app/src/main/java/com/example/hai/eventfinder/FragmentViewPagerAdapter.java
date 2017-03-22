@@ -40,6 +40,8 @@ public class FragmentViewPagerAdapter extends FragmentStatePagerAdapter {
                     break;
             case 1: fragment = Tab2.newInstance();
                     break;
+            case 2: fragment = SearchFragment.newInstance();
+                    break;
             default: fragment = Tab1.newInstance(position + 1);
                     break;
         }
