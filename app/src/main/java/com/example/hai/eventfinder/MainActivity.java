@@ -1,5 +1,6 @@
 package com.example.hai.eventfinder;
 
+import android.app.DialogFragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,22 +9,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 //This are imports for Amazon DynamoDB
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.dynamodbv2.*;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.*;
-import com.amazonaws.services.dynamodbv2.model.*;
 
 import java.util.logging.Logger;
 
 
-public class MainActivity extends AppCompatActivity implements Tab1.SenderInterface  {
+public class MainActivity extends AppCompatActivity implements Tab1.SenderInterface {
 
     TabLayout tabLayout;
     FragmentViewPagerAdapter adapter;
@@ -65,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         }
     }
 
-
         @Override
         public boolean onCreateOptionsMenu (Menu menu){
             // Inflate the menu; this adds items to the action bar if it is present.
@@ -82,4 +76,6 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
 
             return true;
         }
+
+
     }

@@ -8,4 +8,5 @@
 /build
 /captures
 .externalNativeBuild
-app/res/values/passwords.xml
+/app/main/res/values/passwords.xml
+

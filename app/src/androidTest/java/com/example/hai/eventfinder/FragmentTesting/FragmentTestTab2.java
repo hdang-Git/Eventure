@@ -1,7 +1,7 @@
 package com.example.hai.eventfinder.FragmentTesting;
 
-import com.example.hai.eventfinder.R;
 import com.example.hai.eventfinder.Tab2;
+import com.example.hai.eventfinder.R;
 
 import org.junit.Rule;
 import org.junit.Test;
