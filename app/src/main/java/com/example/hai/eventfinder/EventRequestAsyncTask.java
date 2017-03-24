@@ -107,7 +107,6 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
             Log.d("Failed" , "This thing failed");
             e.printStackTrace();
         }
-
         return returnStringArray;
     }
 

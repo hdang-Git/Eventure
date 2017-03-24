@@ -90,6 +90,7 @@ public class ViewHolder implements OnMapReadyCallback {
                 else {
                         latitude = Double.parseDouble(data.eventLatitude);
                         longitude = Double.parseDouble(data.eventLongitude);
+                        map.clear();
                 }
                 LatLng location = new LatLng(latitude, longitude);
                 // Add a marker for this item and set the camera
@@ -110,7 +111,6 @@ public class ViewHolder implements OnMapReadyCallback {
                                 holder.map.clear();
                                 holder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
                         }
-
                 }
         };
 
