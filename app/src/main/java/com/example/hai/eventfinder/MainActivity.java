@@ -1,5 +1,6 @@
 package com.example.hai.eventfinder;
 
+import android.app.DialogFragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -25,7 +26,14 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Toast.makeText(this,"hi",Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_main);
+
+        //This is to run Dynamo thread,
+        //So far only for three instances
+        //
+        DynamoThread databaseTask = new DynamoThread(this.getApplicationContext());
+        databaseTask.runDynamo();
 
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
@@ -36,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         // Give the TabLayout the ViewPager
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+
 
     }
 
@@ -50,10 +59,10 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         }
     }
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu (Menu menu){
-        // Inflate the menu; this adds items to the action bar if it is present.
+
+        @Override
+        public boolean onCreateOptionsMenu (Menu menu){
+            // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.main, menu);
 
@@ -65,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
-        return true;
+            return true;
+        }
     }
-    */
-}
