@@ -30,5 +30,9 @@
     <string name="hint">Search Event</string>
     <string name="search_title">Search</string>
 
+    <!--This is filter strings-->
+    <string name="filter_title">Filter</string>
+    <string name="eventname">EventName</string>
+    <string name="empty_search">Empty Search</string>
 
 </resources>

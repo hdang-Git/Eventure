@@ -111,6 +111,7 @@ public class ViewHolder implements OnMapReadyCallback {
                                 holder.map.clear();
                                 holder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
                         }
+
                 }
         };
 

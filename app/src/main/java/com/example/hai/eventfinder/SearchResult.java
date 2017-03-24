@@ -33,7 +33,7 @@ public class SearchResult extends ListActivity {
         }
     }
 
-    private void doSeach(String queryString){
+    private void doSearch(String queryString){
         //get a Cursor, prepare ListAdpater
         //and set it up
     }

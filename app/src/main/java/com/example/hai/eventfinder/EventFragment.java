@@ -40,7 +40,7 @@ public class EventFragment extends Fragment {
         //final ArrayList<EventItem> arrayList = EventItem.getTest();
         final ArrayList<Event> arrayList = new ArrayList<Event>();
 
-        //This will be looped in the future
+        //TODO: This will be looped in the future
         //Use the same myEvent but pass different int to drill JSON differently
         /*
         myEvent.requestEvent(0);
@@ -49,7 +49,7 @@ public class EventFragment extends Fragment {
         arrayList.add(myEvent2);
         */
 
-        //Need to somehow stop the loop using the JSON fail exception that happens when we try to retrieve something that isn't there
+        //TODO: Need to somehow stop the loop using the JSON fail exception that happens when we try to retrieve something that isn't there
         for(int i = 0;i<3;i++) {
             arrayList.add(new Event());
         }
