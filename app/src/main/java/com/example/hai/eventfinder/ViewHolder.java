@@ -88,8 +88,8 @@ public class ViewHolder implements OnMapReadyCallback {
                         longitude = -75.17327569999998;
                 }
                 else {
-                        latitude = Double.parseDouble(data.eventLatitude);
-                        longitude = Double.parseDouble(data.eventLongitude);
+                        latitude = Double.parseDouble(data.getEventLatitude());
+                        longitude = Double.parseDouble(data.getEventLongitude());
                 }
                 LatLng location = new LatLng(latitude, longitude);
                 // Add a marker for this item and set the camera

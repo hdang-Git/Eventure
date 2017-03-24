@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
+    android:id="@+id/eventFragment"
     tools:context="com.example.hai.eventfinder.EventFragment">
 
 

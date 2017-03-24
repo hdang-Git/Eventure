@@ -120,6 +120,7 @@ public class Event implements EventBriteRequest{
     }
 
     public void setEventValues(ArrayList<String> infoArray){
+
         this.eventName = infoArray.get(0).toString();
         this.eventDescription= infoArray.get(1).toString();
         this.eventImageURL = infoArray.get(2).toString();
