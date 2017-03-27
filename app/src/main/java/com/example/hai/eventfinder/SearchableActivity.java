@@ -28,9 +28,9 @@ public class SearchableActivity extends Activity {
         handleIntent(intent);
     }
 
-    private void handleIntent(Intent intent) {
+    private void handleIntent(Intent intent){
 
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+        if(Intent.ACTION_SEARCH.equals(intent.getAction())){
             String query = intent.getStringExtra(SearchManager.QUERY);
 
             Log.d("QUESRY", query);
@@ -47,10 +47,10 @@ public class SearchableActivity extends Activity {
             //use the query to search our data somehow
         }
     }
-        private void doQuery(String query){
+    private void doQuery(String query){
         //Do some search to DynamoDB
 
-        }
-
     }
+
+}
 

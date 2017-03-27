@@ -30,6 +30,11 @@
     <string name="hint">Search Event</string>
     <string name="search_title">Search</string>
 
+    <!--This is filter strings-->
+    <string name="filter_title">Filter</string>
+    <string name="eventname">EventName</string>
+    <string name="empty_search">Empty Search</string>
+
     <!--This is the radio Button options in Tab2-->
     <string name="option1">Only Friends</string>
     <string name="option2">Everyone</string>

@@ -30,11 +30,14 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
     String returnStringDate;
     String returnStringTime;
     String returnStringLocation;
+    String returnStringLatitude;
+    String returnStringLongitude;
     String returnStringDescription;
     String returnStringImageURL;
 
     ArrayList<String> returnStringArray = new ArrayList<String>();
 
+    Event eventBuilder = new Event();
 
     //new Event2().execute(urlString);
 
@@ -44,7 +47,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
         p = params[0];
 
-        final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=" + p.context.getResources().getText(R.string.event_brite_key) + "&location.latitude=39.9502352&location.longitude=-75.17327569999998&location.within=1mi";
+        final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=" + p.context.getResources().getText(R.string.event_brite_key) + "&location.latitude=39.9502352&location.longitude=-75.17327569999998&location.within=1mi&expand=organizer,venue";
 
         Log.d("url check " , urlString);
 
@@ -81,23 +84,36 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                 JSONObject eventImageInfo = event.getJSONObject("logo");
                 returnStringImageURL= eventImageInfo.getString("url");
 
+                JSONObject venueInfo = event.getJSONObject("venue");
 
+                JSONObject addressInfo = venueInfo.getJSONObject("address");
+                returnStringLatitude = addressInfo.getString("latitude");
+                returnStringLongitude= addressInfo.getString("longitude");
+
+                /*
                 returnStringArray.add(returnStringName);
                 returnStringArray.add(returnStringDescription);
                 returnStringArray.add(returnStringImageURL);
+                returnStringArray.add(returnStringLatitude);
+                returnStringArray.add(returnStringLongitude);
+                */
+                eventBuilder = new Event.Builder(returnStringName)
+                        .setEventDescription(returnStringDescription)
+                        .setImageUrl(returnStringImageURL)
+                        .setEventCoordinates(returnStringLatitude, returnStringLongitude)
+                        .build();
 
                 Log.d("json test", eventNameInfo.getString("text"));
 
             }
             catch(JSONException e){
-                Log.d("Failed JSON" , "went to catch");
+                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite");
             }
         }
         catch (Exception e){
-            Log.d("Failed" , "This thing failed");
+            Log.d("Failed JSON" , "doInBackground() failed with Exception e");
             e.printStackTrace();
         }
-
         return returnStringArray;
     }
 
@@ -105,17 +121,18 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
     @Override
     protected void onPostExecute(ArrayList result){
 
-        Log.d("PostExecute" , result.get(0).toString());
-        Log.d("PostExecute" , result.get(1).toString());
-        Log.d("PostExecute" , result.get(2).toString());
+        Log.d("PostExecute" , eventBuilder.toString());
 
-        p.viewHolder.eventName.setText(result.get(0).toString());
-        p.viewHolder.eventDescription.setText(result.get(1).toString());
-        Picasso.with(p.context).load(result.get(2).toString()).into(p.viewHolder.eventImage);
+        p.viewHolder.eventName.setText(eventBuilder.getEventName());
+        p.viewHolder.eventDescription.setText(eventBuilder.getEventDescription());
+        Picasso.with(p.context).load(eventBuilder.getEventImageURL()).into(p.viewHolder.eventImage);
 
         //This sets the Event object values
-        p.event.setEventValues(result);
+        //p.event.setEventValues(result);
 
-        Log.d("Event check" , p.event.eventName );
+        ViewHolder.setMapLocation(p.viewHolder.map, eventBuilder);
+        //p.viewHolder.setMapLocation(p.viewHolder.map , p.event);
+
+        //Log.d("Event check" , p.event.eventName );
     }
 }

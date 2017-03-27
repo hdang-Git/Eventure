@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.util.Log;
+import android.util.EventLog;
 
 import com.ramotion.foldingcell.FoldingCell;
 
@@ -38,7 +40,7 @@ public class EventFragment extends Fragment {
         //final ArrayList<EventItem> arrayList = EventItem.getTest();
         final ArrayList<Event> arrayList = new ArrayList<Event>();
 
-        //This will be looped in the future
+        //TODO: This will be looped in the future
         //Use the same myEvent but pass different int to drill JSON differently
         /*
         myEvent.requestEvent(0);
@@ -47,7 +49,7 @@ public class EventFragment extends Fragment {
         arrayList.add(myEvent2);
         */
 
-        //Need to somehow stop the loop using the JSON fail exception that happens when we try to retrieve something that isn't there
+        //TODO: Need to somehow stop the loop using the JSON fail exception that happens when we try to retrieve something that isn't there
         for(int i = 0;i<3;i++) {
             arrayList.add(new Event());
         }
@@ -60,6 +62,7 @@ public class EventFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("I've been toggled" , "true");
                 // toggle clicked cell state
                 ((FoldingCell) view).toggle(false);
                 // register in adapter that state for selected cell is toggled
@@ -67,6 +70,7 @@ public class EventFragment extends Fragment {
 
             }
         });
+        listView.setRecyclerListener(ViewHolder.mRecycleListener);
         return v;
     }
 

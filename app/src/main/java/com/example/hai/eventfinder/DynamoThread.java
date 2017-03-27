@@ -3,12 +3,12 @@ package com.example.hai.eventfinder;
 import android.content.Context;
 import android.util.Log;
 
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedScanList;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+//import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+//import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+//import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
+//import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedScanList;
+//import com.amazonaws.regions.Regions;
+//import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 
 /**
  * Created by Lenny Ramos on 3/17/2017.
@@ -22,6 +22,7 @@ public class DynamoThread extends MainActivity{
         this.c = myContext;
     }
 
+    /*
     public void runDynamo()
     {
 
@@ -86,4 +87,5 @@ public class DynamoThread extends MainActivity{
         Thread mythread = new Thread(runnable);
         mythread.start();
     }
+    */
 }
