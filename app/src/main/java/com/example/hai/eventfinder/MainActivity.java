@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         //So far only for three instances
         //
         DynamoThread databaseTask = new DynamoThread(this.getApplicationContext());
-        databaseTask.runDynamo();
+        //databaseTask.runDynamo();
 
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
