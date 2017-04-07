@@ -1,16 +1,19 @@
 package com.example.hai.eventfinder;
 
-import android.app.DialogFragment;
 import android.app.SearchManager;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.View;
 import android.widget.Toast;
 
 //This are imports for Amazon DynamoDB
@@ -36,6 +39,20 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         DynamoThread databaseTask = new DynamoThread(this.getApplicationContext());
         //databaseTask.runDynamo();
 
+        //Alert user to turn on network connectivity
+        if(!isNetworkAvailable()){
+            log.info("No network connectivity");
+            String message = "Please turn on network wifi/data to use";
+            //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_NoActionBar))
+                    .setTitle("No Network Connectivity").setMessage(message);
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+        //Handle no network connectivity problem to prevent crashing of app
+        StrictMode.ThreadPolicy policy = new StrictMode.
+        ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -60,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         }
     }
 
-        @Override
-        public boolean onCreateOptionsMenu (Menu menu){
-            // Inflate the menu; this adds items to the action bar if it is present.
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.main, menu);
 
@@ -75,7 +92,19 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
                 searchManager.getSearchableInfo(getComponentName()));
 
             return true;
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        // if no network is available networkInfo will be null
+        // otherwise check if we are connected
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
         }
+        return false;
+    }
 
 
     }
