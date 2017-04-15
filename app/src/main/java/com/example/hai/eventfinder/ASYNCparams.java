@@ -10,10 +10,10 @@ import android.view.View;
 
 //This class is here because I can only pass one paramter to the async task but I need multiple things
 public class ASYNCparams {
-   public int JSONdrill;
-   public ViewHolder viewHolder;
-   public Context context;
-    public Event event;
+    public int JSONdrill;           //position of event in folding cell
+    public ViewHolder viewHolder;   //viewholder that has reference to ui elements
+    public Context context;         //context of current fragment
+    public Event event;             //event data
 
     public ASYNCparams(int i , ViewHolder vh , Context c , Event e){
         this.JSONdrill = i;

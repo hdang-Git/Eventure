@@ -22,7 +22,7 @@ import java.util.jar.JarException;
  */
 
 //AsyncTask<What you give it , progress , What you want the result of the thread execution to be>
-public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , ArrayList<String>> {
+public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Void , ArrayList<String>> {
 
     ASYNCparams p;
 
@@ -46,6 +46,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
     protected ArrayList doInBackground (ASYNCparams... params) {
 
         p = params[0];
+        Log.d("params[0]", "p - params[0]: " + p);
 
         final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=" + p.context.getResources().getText(R.string.event_brite_key) + "&location.latitude=39.9502352&location.longitude=-75.17327569999998&location.within=1mi&expand=organizer,venue";
 
@@ -68,9 +69,16 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
             Message msg = Message.obtain();
             msg.obj = response;
+
             try {
                 JSONObject blockObject = new JSONObject(response);
                 Log.d("SUCCESS", "SUCCESS");
+
+                //Get the number of events specified by eventbrite
+                JSONObject pagination =  blockObject.getJSONObject("pagination");
+                int count = pagination.getInt("object_count");
+                int page_count = pagination.getInt("page_count");
+                Log.d("Counter", "Count: " + count);
 
                 JSONArray eventsArray = blockObject.getJSONArray("events");
                 JSONObject event = eventsArray.getJSONObject(JSONdrill);
@@ -78,39 +86,29 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                 JSONObject eventNameInfo = event.getJSONObject("name");
                 returnStringName = eventNameInfo.getString("text");
 
-                JSONObject eventDescriptionInfo= event.getJSONObject("description");
-                returnStringDescription= eventDescriptionInfo.getString("text");
+                JSONObject eventDescriptionInfo = event.getJSONObject("description");
+                returnStringDescription = eventDescriptionInfo.getString("text");
 
                 JSONObject eventImageInfo = event.getJSONObject("logo");
-                returnStringImageURL= eventImageInfo.getString("url");
+                returnStringImageURL = eventImageInfo.getString("url");
 
                 JSONObject venueInfo = event.getJSONObject("venue");
 
                 JSONObject addressInfo = venueInfo.getJSONObject("address");
                 returnStringLatitude = addressInfo.getString("latitude");
-                returnStringLongitude= addressInfo.getString("longitude");
+                returnStringLongitude = addressInfo.getString("longitude");
 
-                /*
-                returnStringArray.add(returnStringName);
-                returnStringArray.add(returnStringDescription);
-                returnStringArray.add(returnStringImageURL);
-                returnStringArray.add(returnStringLatitude);
-                returnStringArray.add(returnStringLongitude);
-                */
                 eventBuilder = new Event.Builder(returnStringName)
                         .setEventDescription(returnStringDescription)
                         .setImageUrl(returnStringImageURL)
                         .setEventCoordinates(returnStringLatitude, returnStringLongitude)
                         .build();
-
                 Log.d("json test", eventNameInfo.getString("text"));
 
-            }
-            catch(JSONException e){
+            } catch(JSONException e){
                 Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite");
             }
-        }
-        catch (Exception e){
+        } catch (Exception e){
             Log.d("Failed JSON" , "doInBackground() failed with Exception e");
             e.printStackTrace();
         }

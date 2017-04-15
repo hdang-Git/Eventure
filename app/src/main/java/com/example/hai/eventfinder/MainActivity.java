@@ -92,9 +92,9 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
                     .build();
             // Create the LocationRequest object
             mLocationRequest = LocationRequest.create()
-                    .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                     .setInterval(15 * 1000)        // 15 seconds, in milliseconds
-                    .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+                    .setFastestInterval(1000); // 1 second, in milliseconds
         }
 
     }
@@ -161,12 +161,12 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
             case 0: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                    log.info("Permission granted");
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
 
                 } else {
-
+                    log.info("Permission denied");
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
@@ -188,8 +188,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             log.info("No permissions, sorry, returned");

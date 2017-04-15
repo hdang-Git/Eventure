@@ -102,10 +102,10 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         } else {
             // for existing cell set valid valid state(without animation)
             if (unfoldedIndexes.contains(position)) {
-                Log.d("unfoldd" , "hi");
+                Log.d("unfold" , "unfolded");
                 v.unfold(true);
             } else {
-                Log.d("foldd" , "hi");
+                Log.d("fold" , "folded");
                 v.fold(true);
             }
             log.info("cell is null");
@@ -113,7 +113,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         }
 
 
-        ASYNCparams eventArgs = new ASYNCparams(position , viewHolder , this.getContext() , eventsArray.get(position));
+        ASYNCparams eventArgs = new ASYNCparams(position, viewHolder, this.getContext(), eventsArray.get(position));
         EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
         BriteRequest.execute(eventArgs);
 
@@ -143,11 +143,11 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             }
         }
         if (unfoldedIndexes.contains(position)) {
-            Log.d("closee", "tho");
+            Log.d("close", "closed");
             registerFold(position);
         }
         else {
-            Log.d("opeen", "tho");
+            Log.d("open", "opened");
             registerUnfold(position);
         }
     }
@@ -157,7 +157,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
     }
 
     public void registerUnfold(int position) {
-        Log.d("opeen position" , Integer.toString(position));
+        Log.d("open position" , Integer.toString(position));
         unfoldedIndexes.add(position);
 
     }
