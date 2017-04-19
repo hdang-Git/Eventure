@@ -50,6 +50,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
     public myFoldingCellListAdapter(Context context, int resource) {
         super(context, resource);
+        //this.constructEventArray(this);
     }
 
 
@@ -58,6 +59,12 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         eventsArray = objects;
     }
 
+//    public void constructEventArray() {
+//        //TODO the int is not needed anymore
+//        ASYNCparams eventArgs = new ASYNCparams(0, viewHolder, this.getContext(), eventsArray.get(position));
+//        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
+//        BriteRequest.execute(eventArgs);
+//    }
 
     @NonNull
     @Override
@@ -96,6 +103,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder.eventImage = (ImageView) v.findViewById(R.id.imageHeaderBackground);
             viewHolder.mapView = (MapView) v.findViewById(R.id.lite_map);
 
+
             v.setTag(viewHolder);
             viewHolder.initializeMapView();
            mMaps.add(viewHolder.mapView);
@@ -113,9 +121,9 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         }
 
 
-        ASYNCparams eventArgs = new ASYNCparams(position, viewHolder, this.getContext(), eventsArray.get(position));
-        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
-        BriteRequest.execute(eventArgs);
+//        ASYNCparams eventArgs = new ASYNCparams(position, viewHolder, this.getContext(), eventsArray.get(position));
+//        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
+//        BriteRequest.execute(eventArgs);
 
 
         Event eventItem = new Event();
@@ -126,6 +134,8 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder.setMapLocation(viewHolder.map, eventItem);
         }
         */
+
+        viewHolder.eventName.setText(eventsArray.get(position).eventName);
 
         Log.d("George" , "We're about to return v");
         return v;

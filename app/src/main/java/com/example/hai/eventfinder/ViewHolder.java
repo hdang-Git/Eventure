@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -25,7 +26,7 @@ import android.util.Log;
 //Copy Pasted from Adapter, put it here for passing in ASYNC
 public class ViewHolder implements OnMapReadyCallback {
 
-        Context context;
+        static Context context;
 
         public ViewHolder(Context c){
                 this.context = c;
@@ -59,7 +60,12 @@ public class ViewHolder implements OnMapReadyCallback {
                 map = googleMap;
                 Event data = (Event) mapView.getTag();
                 if (data != null) {
-                        setMapLocation(map, data);
+                    try {
+                            setMapLocation(map, data);
+                    }
+                    catch(GooglePlayServicesNotAvailableException e){
+                                Log.d("uhh" , e.toString());
+                        }
                 }
         }
 
@@ -78,10 +84,21 @@ public class ViewHolder implements OnMapReadyCallback {
         }
 
 
-        public static void setMapLocation(GoogleMap map, Event data) {
+        public static void setMapLocation(GoogleMap map, Event data) throws GooglePlayServicesNotAvailableException {
 
                 double latitude;
                 double longitude;
+
+                if (map == null)
+                        return; // Google Maps not available
+                try {
+                        MapsInitializer.initialize(context);
+                }
+                catch (Exception e) {
+                        //catch (GooglePlayServicesNotAvailableException e) {
+                        Log.d("Map" , "Loser");
+                        return;
+                }
 
                 if(data.eventLatitude == null) {
                         latitude = 39.9502352;
@@ -92,6 +109,7 @@ public class ViewHolder implements OnMapReadyCallback {
                         longitude = Double.parseDouble(data.eventLongitude);
                         map.clear();
                 }
+
                 LatLng location = new LatLng(latitude, longitude);
                 // Add a marker for this item and set the camera
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f));

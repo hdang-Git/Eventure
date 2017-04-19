@@ -8,6 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,11 +24,13 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
+import static com.example.hai.eventfinder.ViewHolder.context;
+
 /**
  * Created by chrx on 3/9/17.
  */
 
-public class Event implements EventBriteRequest{
+public class Event {
 
     public String eventName;
     public String eventDate;
@@ -97,27 +104,7 @@ public class Event implements EventBriteRequest{
                 + eventDescription + " " + eventPrice + " " + eventImageURL;
     }
 
-    //This creates the Async task and then uses it to fill out the attributes of this Event
-    @Override
-    public void requestEvent(int eventNum) {
 
-        EventRequestAsyncTask BriteRequest= new EventRequestAsyncTask();
-        ArrayList<String> ResultsArray= new ArrayList<String>();
-
-
-        //This launches the ASYNC task that calls the API
-        try {
-            ResultsArray= BriteRequest.execute().get();
-            Log.d("hmm" , ResultsArray.get(0));
-        }
-        catch(InterruptedException ie){
-            Log.d("Race" , "Condition");
-        }
-        catch (ExecutionException ee){
-            Log.d("Condition" , "Race");
-        }
-        this.setEventValues(ResultsArray);
-    }
 
     public void setEventValues(ArrayList<String> infoArray){
 
@@ -127,6 +114,8 @@ public class Event implements EventBriteRequest{
         this.eventLatitude =infoArray.get(3).toString();
         this.eventLongitude = infoArray.get(4).toString();
     }
+
+
 
     public static class Builder{
         private String eventName;

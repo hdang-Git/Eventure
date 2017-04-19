@@ -40,21 +40,6 @@ public class EventFragment extends Fragment {
         //final ArrayList<EventItem> arrayList = EventItem.getTest();
         final ArrayList<Event> arrayList = new ArrayList<Event>();
 
-        //TODO: This will be looped in the future
-        //Use the same myEvent but pass different int to drill JSON differently
-        /*
-        myEvent.requestEvent(0);
-        arrayList.add(myEvent);
-        myEvent2.requestEvent(1);
-        arrayList.add(myEvent2);
-        */
-
-        //TODO: Need to somehow stop the loop using the JSON fail exception that happens when we try to retrieve something that isn't there
-        for(int i = 0;i<3;i++) {
-            arrayList.add(new Event());
-        }
-
-
 
         listView = (ListView) v.findViewById(R.id.listView);
         final myFoldingCellListAdapter adapter = new myFoldingCellListAdapter(v.getContext(), 0, arrayList);
@@ -71,6 +56,11 @@ public class EventFragment extends Fragment {
             }
         });
         listView.setRecyclerListener(ViewHolder.mRecycleListener);
+
+        ASYNCparams eventArgs = new ASYNCparams(0 , arrayList , this.getContext() , adapter);
+        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
+        BriteRequest.execute(eventArgs);
+
         return v;
     }
 
