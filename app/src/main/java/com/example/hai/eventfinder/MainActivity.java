@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         tabLayout.setupWithViewPager(viewPager);
 
 
+
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
     @Override
     protected void onResume() {
         super.onResume();
-        mGoogleApiClient.connect();
+        //mGoogleApiClient.connect();   //TODO: uncomment this to re-enable location services
     }
 
     @Override

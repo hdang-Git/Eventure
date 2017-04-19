@@ -33,6 +33,7 @@ public class ASYNCparams {
         this.longitude= "-74.044500";
     }
 
+    //Will be implemented shortly when passed in location object data
     public ASYNCparams(int i , ArrayList<Event> es, Context c , myFoldingCellListAdapter a, String lat , String lon){
         this.events = es;
         this.adapter = a;

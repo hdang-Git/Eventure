@@ -74,6 +74,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                 Log.d("Counter", "Count: " + count);
                 Log.d("Counter", "Page Count: " + page_count);
 
+                //TODO: change max number to count
                 for (int i = 0; i< 3; i++) {
 
                     p.events.add(new Event());
@@ -96,23 +97,13 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                     returnStringLatitude = addressInfo.getString("latitude");
                     returnStringLongitude = addressInfo.getString("longitude");
 
+                    Event eventBuilder = new Event.Builder(returnStringName)
+                            .setEventDescription(returnStringDescription)
+                            .setImageUrl(returnStringImageURL)
+                            .setEventCoordinates(returnStringLatitude, returnStringLongitude)
+                            .build();
 
-                /*
-                returnStringArray.add(returnStringName);
-                returnStringArray.add(returnStringDescription);
-                returnStringArray.add(returnStringImageURL);
-                returnStringArray.add(returnStringLatitude);
-                returnStringArray.add(returnStringLongitude);
-                */
-
-                Event eventBuilder = new Event.Builder(returnStringName)
-                        .setEventDescription(returnStringDescription)
-                        .setImageUrl(returnStringImageURL)
-                        .setEventCoordinates(returnStringLatitude, returnStringLongitude)
-                        .build();
-
-
-                returnEventArray.add(eventBuilder);
+                    returnEventArray.add(eventBuilder);
 
                 }
 

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -59,17 +60,10 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         eventsArray = objects;
     }
 
-//    public void constructEventArray() {
-//        //TODO the int is not needed anymore
-//        ASYNCparams eventArgs = new ASYNCparams(0, viewHolder, this.getContext(), eventsArray.get(position));
-//        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
-//        BriteRequest.execute(eventArgs);
-//    }
-
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //View v =  super.getView(position, convertView, parent);
+        //View view =  super.getView(position, convertView, parent);
         FoldingCell v = (FoldingCell) convertView;
         ViewHolder viewHolder;
 
@@ -85,28 +79,31 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             v = (FoldingCell) inflater.inflate(R.layout.cell, parent, false);
 
-
-            viewHolder.price = (TextView) v.findViewById(R.id.title_price);
-            viewHolder.date = (TextView) v.findViewById(R.id.title_date);
-            viewHolder.time = (TextView) v.findViewById(R.id.title_time);
+            //Title card (outer stuff / closed card)
+            viewHolder.priceClosed = (TextView) v.findViewById(R.id.title_price);
+            viewHolder.dateClosed = (TextView) v.findViewById(R.id.title_date);
+            viewHolder.timeClosed = (TextView) v.findViewById(R.id.title_time);
             viewHolder.eventNameClosed = (TextView) v.findViewById(R.id.title_name);//G
-            viewHolder.address = (TextView) v.findViewById(R.id.title_address);
+            viewHolder.addressClosed = (TextView) v.findViewById(R.id.title_address);
             viewHolder.ratingLabel = (TextView) v.findViewById(R.id.title_ratinglabel);
             viewHolder.ratingBar = (RatingBar) v.findViewById(R.id.ratingBar);
             viewHolder.timeLabel = (TextView) v.findViewById(R.id.title_timeLabel2);
             viewHolder.eventTypeLabel = (TextView) v.findViewById(R.id.eventTypeLabel);
-            viewHolder.eventType = (TextView) v.findViewById(R.id.eventType);
+            viewHolder.eventTypeClosed = (TextView) v.findViewById(R.id.eventType);
 
-            //Below this is George's stuff
-            viewHolder.eventName = (TextView) v.findViewById(R.id.content_title);
+            //Content card (inner stuff / open card)
+            viewHolder.eventNameOpen = (TextView) v.findViewById(R.id.content_title);
             viewHolder.eventDescription = (TextView) v.findViewById(R.id.content_description);
             viewHolder.eventImage = (ImageView) v.findViewById(R.id.imageHeaderBackground);
+            viewHolder.eventDateOpen = (TextView) v.findViewById(R.id.content_date);
+            viewHolder.eventTimeOpen = (TextView) v.findViewById(R.id.content_time);
+            viewHolder.eventPlaceOpen = (TextView) v.findViewById(R.id.content_location);
             viewHolder.mapView = (MapView) v.findViewById(R.id.lite_map);
 
 
             v.setTag(viewHolder);
             viewHolder.initializeMapView();
-           mMaps.add(viewHolder.mapView);
+            mMaps.add(viewHolder.mapView);
         } else {
             // for existing cell set valid valid state(without animation)
             if (unfoldedIndexes.contains(position)) {
@@ -120,24 +117,39 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder = (ViewHolder) v.getTag();
         }
 
-
-//        ASYNCparams eventArgs = new ASYNCparams(position, viewHolder, this.getContext(), eventsArray.get(position));
-//        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
-//        BriteRequest.execute(eventArgs);
-
-
         Event eventItem = new Event();
         viewHolder.mapView.setTag(eventItem);
 
-        /*
+        //Todo: fix from crash
         if(viewHolder.map != null){
-            viewHolder.setMapLocation(viewHolder.map, eventItem);
+            try {
+                viewHolder.setMapLocation(viewHolder.map, eventItem);
+            } catch (GooglePlayServicesNotAvailableException e) {
+                e.printStackTrace();
+            }
         }
-        */
 
-        viewHolder.eventName.setText(eventsArray.get(position).eventName);
+        //open
+        viewHolder.eventNameOpen.setText(eventsArray.get(position).eventName);
+        viewHolder.eventDescription.setText(eventsArray.get(position).getEventDescription());
+        Picasso.with(v.getContext()).load(eventsArray.get(position).getEventImageURL()).into(viewHolder.eventImage);
+        viewHolder.eventDateOpen.setText(eventsArray.get(position).getEventDate());
+        viewHolder.eventTimeOpen.setText(eventsArray.get(position).getEventTime());
+        viewHolder.eventPlaceOpen.setText(eventsArray.get(position).getEventLocation());
+        //TODO: reattach the map
+        //viewHolder.mapView = ;
+        //closed
+
+        viewHolder.eventNameClosed.setText(eventsArray.get(position).eventName);
+        //viewHolder.priceClosed = (TextView) v.findViewById(R.id.title_price);
+        viewHolder.dateClosed.setText(eventsArray.get(position).getEventDate());
+        viewHolder.timeClosed.setText(eventsArray.get(position).getEventTime());
+        viewHolder.addressClosed.setText(eventsArray.get(position).getEventLocation());
+        viewHolder.ratingBar.setNumStars(3);
+        //viewHolder.eventTypeClosed;
 
         Log.d("George" , "We're about to return v");
+        Log.d("Hai", "No we're not! jk");
         return v;
     }
 

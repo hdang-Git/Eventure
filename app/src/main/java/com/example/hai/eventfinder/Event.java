@@ -1,30 +1,7 @@
 package com.example.hai.eventfinder;
 
-import android.content.Intent;
-import android.os.Message;
-import android.os.Handler;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
-
-import static com.example.hai.eventfinder.ViewHolder.context;
 
 /**
  * Created by chrx on 3/9/17.
