@@ -35,6 +35,8 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
     String returnStringLongitude;
     String returnStringDescription;
     String returnStringImageURL;
+    int returnEventPrice;
+    String returnEventPriceString;
 
     ArrayList<Event> returnEventArray = new ArrayList<Event>();
 
@@ -46,7 +48,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
         p = params[0];
 
-        final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=" + p.context.getResources().getText(R.string.event_brite_key) + "&location.latitude=" + p.latitude  + "&location.longitude=" + p.longitude + "&location.within=1mi&expand=organizer,venue";
+        final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=" + p.context.getResources().getText(R.string.event_brite_key) + "&location.latitude=" + p.latitude  + "&location.longitude=" + p.longitude + "&location.within=1mi&expand=organizer,venue,ticket_classes";
 
         try{
             URL url = new URL(urlString);
@@ -78,7 +80,6 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
                 for (int i=0; i<(page_size); i++) {
 
-                    p.events.add(new Event());
 
                     JSONArray eventsArray = blockObject.getJSONArray("events");
                     JSONObject event = eventsArray.getJSONObject(i);
@@ -91,24 +92,29 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
                     //Check to see if a logo is even there
                     String logo = event.getString("logo");
-                    if(!logo.startsWith("null")){
+                    if (!logo.startsWith("null")) {
                         JSONObject eventImageInfo = event.getJSONObject("logo");
                         returnStringImageURL = eventImageInfo.getString("url");
-                    }
-                    else{
+                    } else {
                         returnStringImageURL = "https://e2a10ce0-a-62cb3a1a-s-sites.googlegroups.com/site/shahrammohrehkesh/home/Shahram-ODU.jpg?attachauth=ANoY7crqr3OItmFh2DZDTBcd6uQLLBqUcOQaLKLuVb7vDnb6HbxBGZa91A8eA2mDAkpA-sS46up__Uhf102aCXwUW2bfax_adibGduFyOKNguPxXEVIhtFfWCj0FVkGnZME9uDKCJYTg8VzrYeO5kC60H7D9fg5eclci3_u3_aTiogy-aANF4IzRZnDAsbIb2-Tsd0pk9s8YfofVY6seseBc6GanBh3AsV1oReF7bjrQl-fqF_btWF8%3D&attredirects=1";
                     }
 
-                    String free = event.getString("is_free");
-                    if(free.startsWith("false")){
-                       JSONObject eventCost = event.getJSONObject("cost");
-                        int eventPrice = event.getInt("value");
-                        String eventPriceString = event.getString("display");
+                    Boolean free = event.getBoolean("is_free");
+                    if (free == false) {
+                        JSONArray eventTicketsArray = event.getJSONArray("ticket_classes");
+                        int drill = 0;
+                        while (!eventTicketsArray.getJSONObject(drill).has("cost") && (drill < eventTicketsArray.length())) {
+                            drill++;
                         }
-                    else{
-                        int eventPrice = 0;
-                        String eventPriceString = "$0";
+                        JSONObject eventTicket = eventTicketsArray.getJSONObject(drill);//TODO take into account the other types of tickets(don't just grab cheapest price
+                        JSONObject eventCost = eventTicket.getJSONObject("cost");
+                        returnEventPrice = eventCost.getInt("value");
+                        returnEventPriceString = eventCost.getString("display");
+                    } else {
+                        returnEventPrice = 0;
+                        returnEventPriceString = "$0";
                     }
+
 
 //                    if(event.has("logo")) {
 //                        JSONObject eventImageInfo = event.getJSONObject("logo");
@@ -141,8 +147,12 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                         .setEventDescription(returnStringDescription)
                         .setImageUrl(returnStringImageURL)
                         .setEventCoordinates(returnStringLatitude, returnStringLongitude)
+                        .setEventPrice(returnEventPrice)
+                        .setEventPriceString(returnEventPriceString)
                         .build();
 
+                    //PlaceHolder for Adapter
+                    p.events.add(new Event());
 
                 returnEventArray.add(eventBuilder);
 
@@ -151,7 +161,8 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
             }
             catch(JSONException e){
-                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite");
+                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite: " + e);
+                e.printStackTrace();
             }
         }
         catch (Exception e){
@@ -171,6 +182,8 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
             p.events.get(i).eventName = result.get(i).getEventName();
             p.events.get(i).eventDescription = result.get(i).getEventDescription();
             p.events.get(i).eventImageURL = result.get(i).getEventImageURL();
+            p.events.get(i).eventPrice= result.get(i).getEventPrice();
+            p.events.get(i).eventPriceString= result.get(i).getEventPriceString();
 //            try {
 //                ViewHolder.setMapLocation(p.viewHolder.map, result.get(i));
 //            } catch (GooglePlayServicesNotAvailableException e) {

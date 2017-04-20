@@ -152,7 +152,7 @@ public class Event {
             return this;
         }
 
-        public Builder setEventPriceString(String eventPrice){
+        public Builder setEventPriceString(String eventPriceString){
             this.eventPriceString = eventPriceString;
             return this;
         }

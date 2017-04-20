@@ -158,7 +158,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         //closed
 
         viewHolder.eventNameClosed.setText(eventsArray.get(position).eventName);
-        //viewHolder.priceClosed = (TextView) v.findViewById(R.id.title_price);
+        viewHolder.priceClosed.setText(eventsArray.get(position).eventPriceString);
         viewHolder.dateClosed.setText(eventsArray.get(position).getEventDate());
         viewHolder.timeClosed.setText(eventsArray.get(position).getEventTime());
         viewHolder.addressClosed.setText(eventsArray.get(position).getEventLocation());
