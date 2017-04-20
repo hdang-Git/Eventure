@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.hai.eventfinder.Formatting.FormatUtils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.squareup.picasso.Picasso;
 
@@ -29,7 +30,8 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
     String returnStringName;
     String returnStringDate;
-    String returnStringTime;
+    String returnStringStartTime;
+    String returnStringEndTime;
     String returnStringLocation;
     String returnStringLatitude;
     String returnStringLongitude;
@@ -90,7 +92,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                     JSONObject eventDescriptionInfo = event.getJSONObject("description");
                     returnStringDescription = eventDescriptionInfo.getString("text");
 
-                    //Helps prevent null
+                    //Null check to prevent error of retrieving a null object
                     String logo = event.getString("logo");
                     if(!logo.startsWith("null")){
                         JSONObject eventImageInfo = event.getJSONObject("logo");
@@ -98,6 +100,16 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                     } else {
                         returnStringImageURL = "https://e2a10ce0-a-62cb3a1a-s-sites.googlegroups.com/site/shahrammohrehkesh/home/Shahram-ODU.jpg?attachauth=ANoY7co6IBUSOZxM83j_f0yNEl7G4bhCDaS3Ci-apKgHc5_TRHQ8E9SL7BAsc6dFw6nzwkDzi9rqMnIHuxBMB2sIagkS7tzQdyXi7K_r8NKMCmPFB6U9nWMAKTKRTdQXDK-lYXvQDxw7coKsaI2VbXhnEi4J7BfP2TUKGVjQNIlQJGQ9L2Px3HXD9OpqrUc0H-1gvItnSgNaYbe-y8v03briC7bRtMgIsKw1ab-bcC4X3BsL9Q0yp9s%3D&attredirects=0";
                     }
+
+                    //Get Event Date
+                    JSONObject eventDate = event.getJSONObject("start");
+                    returnStringDate = FormatUtils.retrieveEventBriteDate(eventDate.getString("local"));
+                    //Get Event Start Time
+                    JSONObject eventStartTime = event.getJSONObject("start");
+                    returnStringStartTime = FormatUtils.retrieveEventBriteTime(eventStartTime.getString("local"));
+                    //Get Event End Time
+                    JSONObject endDateTime = event.getJSONObject("end");
+                    returnStringEndTime = FormatUtils.retrieveEventBriteTime(endDateTime.getString("local"));
 
 
                     JSONObject venueInfo = event.getJSONObject("venue");
@@ -109,6 +121,9 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                     Event eventBuilder = new Event.Builder(returnStringName)
                             .setEventDescription(returnStringDescription)
                             .setImageUrl(returnStringImageURL)
+                            .setDate(returnStringDate)
+                            .setEventStartTime(returnStringStartTime)
+                            .setEventEndTime(returnStringEndTime)
                             //.setEventCoordinates(returnStringLatitude, returnStringLongitude)
                             .build();
 
@@ -129,11 +144,15 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
     protected void onPostExecute(ArrayList<Event> result){
 
         Log.d("size me up " , " " + result.size());
-
+        //Update data in passed array from EventFragment with json data
         for(int i=0; i<result.size(); i++ ) {
             p.events.get(i).eventName = result.get(i).getEventName();
             p.events.get(i).eventDescription = result.get(i).getEventDescription();
             p.events.get(i).eventImageURL = result.get(i).getEventImageURL();
+            p.events.get(i).eventDate = result.get(i).getEventDate();
+            p.events.get(i).eventStartTime = result.get(i).getEventStartTime();
+            p.events.get(i).eventEndTime = result.get(i).getEventEndTime();
+
 //            try {
 //                ViewHolder.setMapLocation(p.viewHolder.map, result.get(i));
 //            } catch (GooglePlayServicesNotAvailableException e) {

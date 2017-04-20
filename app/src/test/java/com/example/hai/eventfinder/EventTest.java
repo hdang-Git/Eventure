@@ -20,7 +20,8 @@ public class EventTest {
                  .setImageUrl("http://image.com/1234")
                  .setEventPrice("10")
                  .setEventDescription("This is a cool event")
-                 .setTime("5:00")
+                 .setEventStartTime("5:00")
+                 .setEventEndTime("8:00")
                  .build();
     }
 
@@ -35,8 +36,13 @@ public class EventTest {
     }
 
     @Test
-    public void testGetEventTime() throws Exception {
-        assertEquals("5:00", this.builder.getEventTime());
+    public void testGetEventStartTime() throws Exception {
+        assertEquals("5:00", this.builder.getEventStartTime());
+    }
+
+    @Test
+    public void testGetEventEndTime() throws Exception {
+        assertEquals("8:00", this.builder.getEventEndTime());
     }
 
     @Test
@@ -71,19 +77,8 @@ public class EventTest {
 
     @Test
     public void testToString() {
-        String test = "Party 12/12/12 5:00 Philadelphia 39 78 " +
+        String test = "Party 12/12/12 5:00 8:00 Philadelphia 39 78 " +
                 "This is a cool event 10 http://image.com/1234";
         assertEquals(test, this.builder.toString());
     }
-
-    @Test
-    public void testRequestEvent() throws Exception {
-
-    }
-
-    @Test
-    public void testSetEventValues() throws Exception {
-
-    }
-
 }
