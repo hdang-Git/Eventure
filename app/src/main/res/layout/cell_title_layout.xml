@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:baselineAligned="false"
+    android:background="@drawable/outline"
+    android:layout_margin="@dimen/activity_vertical_margin"
     android:orientation="horizontal">
 
     <!-- left title side -->
@@ -12,11 +14,13 @@
         android:layout_weight="3"
         android:background="@android:color/holo_purple"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
+        android:orientation="vertical">
+        <!-- internal padding
         android:paddingBottom="20dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="20dp">
+        android:paddingTop="20dp"
+        -->
         <!--Price-->
         <TextView
             android:layout_width="wrap_content"
@@ -31,8 +35,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/title_price"
             android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
             android:textColor="@android:color/white"
             android:textSize="14sp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:id="@+id/title_date" />
         <!--Time-->
         <TextView
@@ -41,8 +47,10 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/title_date"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:textColor="@android:color/white"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:id="@+id/title_time" />
     </RelativeLayout>
 
@@ -51,11 +59,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@android:color/white"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:background="@android:color/white">
+
+        <!-- internal padding
         android:paddingBottom="20dp"
         android:paddingEnd="20dp"
         android:paddingStart="15dp"
-        android:paddingTop="20dp">
+        android:paddingTop="20dp"
+        -->
 
         <!--Title-->
         <TextView
@@ -93,24 +105,6 @@
             android:background="@android:color/darker_gray"
             android:id="@+id/divider"/>
 
-        <!--RatingLabel-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rating"
-            android:layout_alignStart="@+id/ratingBar"
-            android:layout_above="@id/ratingBar"
-            android:textSize="14sp"
-            android:color="@color/ghost"
-            android:id="@+id/title_ratinglabel"/>
-        <!--Ratingbar-->
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            style="?android:ratingBarStyleSmall"
-            android:id="@+id/ratingBar" />
 
         <!--Time Label-->
         <TextView
@@ -127,6 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerHorizontal="true"
             android:id="@+id/title_time2"/>
 

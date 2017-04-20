@@ -39,9 +39,7 @@ public class ViewHolder implements OnMapReadyCallback {
         TextView timeClosed;
         TextView eventNameClosed;
         TextView addressClosed;
-        TextView ratingLabel;
-        RatingBar ratingBar;
-        TextView timeLabel;
+        TextView startTimeClosed;
         TextView eventTypeLabel;
         TextView eventTypeClosed;
         ImageView eventImage;
