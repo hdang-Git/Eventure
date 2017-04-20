@@ -39,11 +39,12 @@ public class Event {
     public String eventLongitude;
     public String eventLocation;
     public String eventDescription;
-    public String eventPrice;
+    public int eventPrice;
+    public String eventPriceString;
     public String eventImageURL;
 
     public Event(){
-
+        this.eventImageURL = "http://i.imgur.com/DvpvklR.png";
     }
 
     public Event(Builder builder){
@@ -51,6 +52,7 @@ public class Event {
         this.eventDate = builder.eventDate;
         this.eventTime = builder.eventTime;
         this.eventPrice = builder.eventPrice;
+        this.eventPriceString = builder.eventPriceString;
         this.eventLocation = builder.eventLocation;
         this.eventLongitude = builder.eventLongitude;
         this.eventLatitude = builder.eventLatitude;
@@ -87,8 +89,12 @@ public class Event {
         return eventDescription;
     }
 
-    public String getEventPrice(){
+    public int getEventPrice(){
         return eventPrice;
+    }
+
+    public String getEventPriceString(){
+        return eventPriceString;
     }
 
     public String getEventImageURL() {
@@ -123,7 +129,8 @@ public class Event {
         private String eventTime;
         private String eventLatitude;
         private String eventLongitude;
-        private String eventPrice;
+        private int eventPrice;
+        private String eventPriceString;
         private String eventLocation;
         private String eventDescription;
         private String eventImageURL;
@@ -163,8 +170,13 @@ public class Event {
             return this;
         }
 
-        public Builder setEventPrice(String eventPrice){
+        public Builder setEventPrice(int eventPrice){
             this.eventPrice = eventPrice;
+            return this;
+        }
+
+        public Builder setEventPriceString(String eventPrice){
+            this.eventPriceString = eventPriceString;
             return this;
         }
 

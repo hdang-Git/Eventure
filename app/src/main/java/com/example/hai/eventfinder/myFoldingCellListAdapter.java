@@ -103,6 +103,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder.eventImage = (ImageView) v.findViewById(R.id.imageHeaderBackground);
             viewHolder.mapView = (MapView) v.findViewById(R.id.lite_map);
 
+            //Picasso.with(this.getContext()).load("https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F26771195%2F197388870271%2F1%2Foriginal.jpg?h=200&w=450&rect=13%2C0%2C304%2C152&s=36db9cd80e95381f4b10f2abda4ca9c2").into(viewHolder.eventImage);
 
             v.setTag(viewHolder);
             viewHolder.initializeMapView();
@@ -120,6 +121,9 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder = (ViewHolder) v.getTag();
         }
 
+        viewHolder.eventName.setText(eventsArray.get(position).eventName);
+        Picasso.with(context).load(eventsArray.get(position).eventImageURL).into(viewHolder.eventImage);
+
 
 //        ASYNCparams eventArgs = new ASYNCparams(position, viewHolder, this.getContext(), eventsArray.get(position));
 //        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
@@ -135,7 +139,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         }
         */
 
-        viewHolder.eventName.setText(eventsArray.get(position).eventName);
+
 
         Log.d("George" , "We're about to return v");
         return v;

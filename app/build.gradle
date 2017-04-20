@@ -53,6 +53,10 @@ dependencies {
     compile 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.0.4'
     testCompile 'junit:junit:4.12'
 
+    //RetroFit
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+
     //This is for amazon communication for DynamoDb
 
     //AWS Mobile SDK core

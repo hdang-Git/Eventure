@@ -107,13 +107,13 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Se
         List<Event> e = new ArrayList<>();
 
         Event event1 = new Event.Builder("Blah")
-                .setEventPrice("$5")
+                .setEventPriceString("$5")
                 .setTime("7:00")
                 .setEventLocation("Philadelphia")
                 .build();
 
         Event event2 = new Event.Builder("what")
-                .setEventPrice("$10")
+                .setEventPriceString("$10")
                 .setTime("8:00")
                 .build();
 

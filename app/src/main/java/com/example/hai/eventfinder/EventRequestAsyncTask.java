@@ -71,12 +71,12 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                 JSONObject pagination =  blockObject.getJSONObject("pagination");
                 int count = pagination.getInt("object_count");
                 int page_count = pagination.getInt("page_count");
+                int page_size= pagination.getInt("page_size");
                 Log.d("Counter", "Count: " + count);
                 Log.d("Counter", "Page Count: " + page_count);
 
-                for (int i = 0; i< 3; i++) {
+                for (int i=0; i<(page_size); i++) {
 
-                    p.events.add(new Event());
 
                     JSONArray eventsArray = blockObject.getJSONArray("events");
                     JSONObject event = eventsArray.getJSONObject(i);
@@ -87,8 +87,38 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                     JSONObject eventDescriptionInfo = event.getJSONObject("description");
                     returnStringDescription = eventDescriptionInfo.getString("text");
 
-                    JSONObject eventImageInfo = event.getJSONObject("logo");
-                    returnStringImageURL = eventImageInfo.getString("url");
+                    //Check to see if a logo is even there
+                    String logo = event.getString("logo");
+                    if(!logo.startsWith("null")){
+                        JSONObject eventImageInfo = event.getJSONObject("logo");
+                        returnStringImageURL = eventImageInfo.getString("url");
+                    }
+                    else{
+                        returnStringImageURL = "https://e2a10ce0-a-62cb3a1a-s-sites.googlegroups.com/site/shahrammohrehkesh/home/Shahram-ODU.jpg?attachauth=ANoY7crqr3OItmFh2DZDTBcd6uQLLBqUcOQaLKLuVb7vDnb6HbxBGZa91A8eA2mDAkpA-sS46up__Uhf102aCXwUW2bfax_adibGduFyOKNguPxXEVIhtFfWCj0FVkGnZME9uDKCJYTg8VzrYeO5kC60H7D9fg5eclci3_u3_aTiogy-aANF4IzRZnDAsbIb2-Tsd0pk9s8YfofVY6seseBc6GanBh3AsV1oReF7bjrQl-fqF_btWF8%3D&attredirects=1";
+                    }
+
+                    String free = event.getString("is_free");
+                    if(free.startsWith("false")){
+                       JSONObject eventCost = event.getJSONObject("cost");
+                        int eventPrice = event.getInt("value");
+                        String eventPriceString = event.getString("display");
+                        }
+                    else{
+                        int eventPrice = 0;
+                        String eventPriceString = "$0";
+                    }
+
+//                    if(event.has("logo")) {
+//                        JSONObject eventImageInfo = event.getJSONObject("logo");
+//                        returnStringImageURL = eventImageInfo.getString("url");
+//                    }
+
+
+//                    if(eventImageInfo.toString() != "null") {
+//                    }
+//                    else{
+//                        returnStringImageURL ="http://i.imgur.com/DvpvklR.png";
+//                    }
 
                     JSONObject venueInfo = event.getJSONObject("venue");
 
@@ -111,15 +141,15 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                         .setEventCoordinates(returnStringLatitude, returnStringLongitude)
                         .build();
 
-
                 returnEventArray.add(eventBuilder);
 
+                p.events.add(new Event());
+
                 }
-
-
             }
             catch(JSONException e){
-                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite");
+                //Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite");
+                Log.d("Failed JSON" , "" + e);
             }
         }
         catch (Exception e){
@@ -138,6 +168,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
         for(int i=0; i<result.size(); i++ ) {
             p.events.get(i).eventName = result.get(i).getEventName();
             p.events.get(i).eventDescription = result.get(i).getEventDescription();
+            p.events.get(i).eventImageURL= result.get(i).getEventImageURL();
 //            try {
 //                ViewHolder.setMapLocation(p.viewHolder.map, result.get(i));
 //            } catch (GooglePlayServicesNotAvailableException e) {
