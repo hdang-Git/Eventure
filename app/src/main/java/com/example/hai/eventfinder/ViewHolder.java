@@ -73,9 +73,9 @@ public class ViewHolder implements OnMapReadyCallback {
                 }
         }
 
-/**
- * Initialises the MapView by calling its lifecycle methods.
- */
+        /**
+         * Initialises the MapView by calling its lifecycle methods.
+         */
 
         public void initializeMapView() {
             if (mapView != null) {

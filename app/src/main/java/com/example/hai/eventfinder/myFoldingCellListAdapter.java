@@ -132,7 +132,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         //open
         viewHolder.eventNameOpen.setText(eventsArray.get(position).eventName);
         viewHolder.eventDescription.setText(eventsArray.get(position).getEventDescription());
-        Picasso.with(v.getContext()).load(eventsArray.get(position).getEventImageURL()).into(viewHolder.eventImage);
+        Picasso.with(context).load(eventsArray.get(position).getEventImageURL()).into(viewHolder.eventImage);
         viewHolder.eventDateOpen.setText(eventsArray.get(position).getEventDate());
         viewHolder.eventTimeOpen.setText(eventsArray.get(position).getEventTime());
         viewHolder.eventPlaceOpen.setText(eventsArray.get(position).getEventLocation());

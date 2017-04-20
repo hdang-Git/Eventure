@@ -63,19 +63,21 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
             Message msg = Message.obtain();
             msg.obj = response;
+
             try {
                 JSONObject blockObject = new JSONObject(response);
                 Log.d("SUCCESS", "SUCCESS");
-
+                Log.d("downloaded data", response);
                 //Get the number of events specified by eventbrite
                 JSONObject pagination =  blockObject.getJSONObject("pagination");
                 int count = pagination.getInt("object_count");
                 int page_count = pagination.getInt("page_count");
+                int page_size = pagination.getInt("page_size");
                 Log.d("Counter", "Count: " + count);
                 Log.d("Counter", "Page Count: " + page_count);
 
                 //TODO: change max number to count
-                for (int i = 0; i< 3; i++) {
+                for (int i = 0; i< page_size; i++) {
 
                     p.events.add(new Event());
 
@@ -88,33 +90,35 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                     JSONObject eventDescriptionInfo = event.getJSONObject("description");
                     returnStringDescription = eventDescriptionInfo.getString("text");
 
-                    JSONObject eventImageInfo = event.getJSONObject("logo");
-                    returnStringImageURL = eventImageInfo.getString("url");
+                    //Helps prevent null
+                    String logo = event.getString("logo");
+                    if(!logo.startsWith("null")){
+                        JSONObject eventImageInfo = event.getJSONObject("logo");
+                        returnStringImageURL = eventImageInfo.getString("url");
+                    } else {
+                        returnStringImageURL = "https://e2a10ce0-a-62cb3a1a-s-sites.googlegroups.com/site/shahrammohrehkesh/home/Shahram-ODU.jpg?attachauth=ANoY7co6IBUSOZxM83j_f0yNEl7G4bhCDaS3Ci-apKgHc5_TRHQ8E9SL7BAsc6dFw6nzwkDzi9rqMnIHuxBMB2sIagkS7tzQdyXi7K_r8NKMCmPFB6U9nWMAKTKRTdQXDK-lYXvQDxw7coKsaI2VbXhnEi4J7BfP2TUKGVjQNIlQJGQ9L2Px3HXD9OpqrUc0H-1gvItnSgNaYbe-y8v03briC7bRtMgIsKw1ab-bcC4X3BsL9Q0yp9s%3D&attredirects=0";
+                    }
+
 
                     JSONObject venueInfo = event.getJSONObject("venue");
-
+/*
                     JSONObject addressInfo = venueInfo.getJSONObject("address");
                     returnStringLatitude = addressInfo.getString("latitude");
                     returnStringLongitude = addressInfo.getString("longitude");
-
+*/
                     Event eventBuilder = new Event.Builder(returnStringName)
                             .setEventDescription(returnStringDescription)
                             .setImageUrl(returnStringImageURL)
-                            .setEventCoordinates(returnStringLatitude, returnStringLongitude)
+                            //.setEventCoordinates(returnStringLatitude, returnStringLongitude)
                             .build();
 
                     returnEventArray.add(eventBuilder);
-
                 }
-
-
+            } catch(JSONException e){
+                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite: " + e.getMessage());
             }
-            catch(JSONException e){
-                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite");
-            }
-        }
-        catch (Exception e){
-            Log.d("Failed JSON" , "doInBackground() failed with Exception e");
+        } catch (Exception e){
+            Log.d("Failed JSON" , "doInBackground() failed with Exception e: " + e.getMessage());
             e.printStackTrace();
         }
         return returnEventArray;
@@ -129,6 +133,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
         for(int i=0; i<result.size(); i++ ) {
             p.events.get(i).eventName = result.get(i).getEventName();
             p.events.get(i).eventDescription = result.get(i).getEventDescription();
+            p.events.get(i).eventImageURL = result.get(i).getEventImageURL();
 //            try {
 //                ViewHolder.setMapLocation(p.viewHolder.map, result.get(i));
 //            } catch (GooglePlayServicesNotAvailableException e) {

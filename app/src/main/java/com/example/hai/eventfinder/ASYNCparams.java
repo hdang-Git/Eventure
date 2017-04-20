@@ -29,8 +29,8 @@ public class ASYNCparams {
         this.events = es;
         this.adapter = a;
         this.context = c;
-        this.latitude = "40.689249";
-        this.longitude= "-74.044500";
+        this.latitude = "39.9502352";
+        this.longitude= "-75.17327569999998";
     }
 
     //Will be implemented shortly when passed in location object data
