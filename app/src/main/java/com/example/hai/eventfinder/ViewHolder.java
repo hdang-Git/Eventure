@@ -33,22 +33,26 @@ public class ViewHolder implements OnMapReadyCallback {
         }
 
         Logger log = Logger.getAnonymousLogger();
-
-        TextView price;
-        TextView date;
-        TextView time;
-        TextView eventNameClosed;//G
-        TextView address;
+        //Title card (outer stuff/closed card)
+        TextView priceClosed;
+        TextView dateClosed;
+        TextView timeClosed;
+        TextView eventNameClosed;
+        TextView addressClosed;
         TextView ratingLabel;
         RatingBar ratingBar;
         TextView timeLabel;
         TextView eventTypeLabel;
-        TextView eventType;
-
-        //Below this is George's stuff
-        TextView eventName;
-        TextView eventDescription;
+        TextView eventTypeClosed;
         ImageView eventImage;
+
+        //Content Card (inner stuff/open card)
+        TextView eventNameOpen;
+        TextView eventDescription;
+        TextView eventDateOpen;
+        TextView eventTimeOpen;
+        TextView eventPlaceOpen;
+
 
         MapView mapView;
         GoogleMap map;
@@ -69,12 +73,13 @@ public class ViewHolder implements OnMapReadyCallback {
                 }
         }
 
-/**
- * Initialises the MapView by calling its lifecycle methods.
- */
+        /**
+         * Initialises the MapView by calling its lifecycle methods.
+         */
 
         public void initializeMapView() {
             if (mapView != null) {
+                //TODO: FIX THIS
                 // Initialise the MapView
                 mapView.onCreate(null);
                 // Set the map ready callback to receive the GoogleMap object

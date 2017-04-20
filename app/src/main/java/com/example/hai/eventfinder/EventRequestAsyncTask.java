@@ -63,6 +63,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
             Message msg = Message.obtain();
             msg.obj = response;
+
             try {
                 JSONObject blockObject = new JSONObject(response);
                 Log.d("SUCCESS", "SUCCESS");
@@ -77,6 +78,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
                 for (int i=0; i<(page_size); i++) {
 
+                    p.events.add(new Event());
 
                     JSONArray eventsArray = blockObject.getJSONArray("events");
                     JSONObject event = eventsArray.getJSONObject(i);
@@ -141,15 +143,15 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                         .setEventCoordinates(returnStringLatitude, returnStringLongitude)
                         .build();
 
+
                 returnEventArray.add(eventBuilder);
 
-                p.events.add(new Event());
-
                 }
+
+
             }
             catch(JSONException e){
-                //Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite");
-                Log.d("Failed JSON" , "" + e);
+                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite");
             }
         }
         catch (Exception e){
@@ -168,7 +170,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
         for(int i=0; i<result.size(); i++ ) {
             p.events.get(i).eventName = result.get(i).getEventName();
             p.events.get(i).eventDescription = result.get(i).getEventDescription();
-            p.events.get(i).eventImageURL= result.get(i).getEventImageURL();
+            p.events.get(i).eventImageURL = result.get(i).getEventImageURL();
 //            try {
 //                ViewHolder.setMapLocation(p.viewHolder.map, result.get(i));
 //            } catch (GooglePlayServicesNotAvailableException e) {
