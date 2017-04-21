@@ -61,17 +61,10 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         eventsArray = objects;
     }
 
-//    public void constructEventArray() {
-//        //TODO the int is not needed anymore
-//        ASYNCparams eventArgs = new ASYNCparams(0, viewHolder, this.getContext(), eventsArray.get(position));
-//        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
-//        BriteRequest.execute(eventArgs);
-//    }
-
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //View v =  super.getView(position, convertView, parent);
+        //View view =  super.getView(position, convertView, parent);
         FoldingCell v = (FoldingCell) convertView;
         ViewHolder viewHolder;
 
@@ -90,12 +83,10 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             //Title card (outer stuff / closed card)
             viewHolder.priceClosed = (TextView) v.findViewById(R.id.title_price);
             viewHolder.dateClosed = (TextView) v.findViewById(R.id.title_date);
-            viewHolder.timeClosed = (TextView) v.findViewById(R.id.title_time);
-            viewHolder.eventNameClosed = (TextView) v.findViewById(R.id.title_name);//G
+            viewHolder.startTimeClosed = (TextView) v.findViewById(R.id.title_time);
+            viewHolder.eventNameClosed = (TextView) v.findViewById(R.id.title_name);
             viewHolder.addressClosed = (TextView) v.findViewById(R.id.title_address);
-            viewHolder.ratingLabel = (TextView) v.findViewById(R.id.title_ratinglabel);
-            viewHolder.ratingBar = (RatingBar) v.findViewById(R.id.ratingBar);
-            viewHolder.timeLabel = (TextView) v.findViewById(R.id.title_timeLabel2);
+            viewHolder.timeClosed = (TextView) v.findViewById(R.id.title_time2);
             viewHolder.eventTypeLabel = (TextView) v.findViewById(R.id.eventTypeLabel);
             viewHolder.eventTypeClosed = (TextView) v.findViewById(R.id.eventType);
 
@@ -111,10 +102,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
             v.setTag(viewHolder);
             viewHolder.initializeMapView();
-           mMaps.add(viewHolder.mapView);
-
-
-
+            mMaps.add(viewHolder.mapView);
         } else {
             // for existing cell set valid valid state(without animation)
             if (unfoldedIndexes.contains(position)) {
@@ -128,15 +116,6 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder = (ViewHolder) v.getTag();
         }
 
-//        viewHolder.eventNameClosed.setText(eventsArray.get(position).eventName);
-//        Picasso.with(context).load(eventsArray.get(position).eventImageURL).into(viewHolder.eventImage);
-
-
-//        ASYNCparams eventArgs = new ASYNCparams(position, viewHolder, this.getContext(), eventsArray.get(position));
-//        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
-//        BriteRequest.execute(eventArgs);
-
-
         Event eventItem = new Event();
         viewHolder.mapView.setTag(eventItem);
 
@@ -149,8 +128,10 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             }
         }
 
+        //Event Time
+        String eventTime = eventsArray.get(position).getEventStartTime() + "-" + eventsArray.get(position).getEventEndTime();
 
-        //open
+        //open / content card
         viewHolder.eventNameOpen.setText(eventsArray.get(position).eventName);
         viewHolder.eventDescription.setText(eventsArray.get(position).getEventDescription());
         Picasso.with(context).load(eventsArray.get(position).getEventImageURL()).into(viewHolder.eventImage);
@@ -161,10 +142,12 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         //viewHolder.mapView = ;
         //closed
 
+        //closed / title card
         viewHolder.eventNameClosed.setText(eventsArray.get(position).eventName);
         viewHolder.priceClosed.setText(eventsArray.get(position).eventPriceString);
         viewHolder.dateClosed.setText(eventsArray.get(position).getEventDate());
-        viewHolder.timeClosed.setText(eventsArray.get(position).getEventTime());
+        viewHolder.timeClosed.setText(eventTime);
+        viewHolder.startTimeClosed.setText(eventsArray.get(position).getEventStartTime());
         viewHolder.addressClosed.setText(eventsArray.get(position).getEventLocation());
         viewHolder.ratingBar.setNumStars(3);
         //viewHolder.eventTypeClosed;

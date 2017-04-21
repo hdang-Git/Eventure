@@ -11,7 +11,8 @@ public class Event {
 
     public String eventName;
     public String eventDate;
-    public String eventTime;
+    public String eventStartTime;
+    public String eventEndTime;
     public String eventLatitude;
     public String eventLongitude;
     public String eventLocation;
@@ -27,7 +28,8 @@ public class Event {
     public Event(Builder builder){
         this.eventName = builder.eventName;
         this.eventDate = builder.eventDate;
-        this.eventTime = builder.eventTime;
+        this.eventStartTime = builder.eventStartTime;
+        this.eventEndTime = builder.eventEndTime;
         this.eventPrice = builder.eventPrice;
         this.eventPriceString = builder.eventPriceString;
         this.eventLocation = builder.eventLocation;
@@ -46,8 +48,12 @@ public class Event {
         return eventDate;
     }
 
-    public String getEventTime() {
-        return eventTime;
+    public String getEventStartTime() {
+        return eventStartTime;
+    }
+
+    public String getEventEndTime() {
+        return eventEndTime;
     }
 
     public String getEventLatitude() {
@@ -82,28 +88,18 @@ public class Event {
 
     @Override
     public String toString() {
-        return eventName + " " + eventDate + " " + eventTime + " "
+        return eventName + " " + eventDate + " "
+                + eventStartTime + " " + eventEndTime + " "
                 + eventLocation + " " + eventLatitude + " " + eventLongitude + " "
                 + eventDescription + " " + eventPrice + " " + eventImageURL;
     }
 
 
-
-    public void setEventValues(ArrayList<String> infoArray){
-
-        this.eventName = infoArray.get(0).toString();
-        this.eventDescription= infoArray.get(1).toString();
-        this.eventImageURL = infoArray.get(2).toString();
-        this.eventLatitude =infoArray.get(3).toString();
-        this.eventLongitude = infoArray.get(4).toString();
-    }
-
-
-
     public static class Builder{
         private String eventName;
         private String eventDate;
-        private String eventTime;
+        private String eventStartTime;
+        private String eventEndTime;
         private String eventLatitude;
         private String eventLongitude;
         private int eventPrice;
@@ -121,8 +117,13 @@ public class Event {
             return this;
         }
 
-        public Builder setTime(String eventTime){
-            this.eventTime = eventTime;
+        public Builder setEventStartTime(String eventStartTime){
+            this.eventStartTime = eventStartTime;
+            return this;
+        }
+
+        public Builder setEventEndTime(String eventEndTime){
+            this.eventEndTime = eventEndTime;
             return this;
         }
 

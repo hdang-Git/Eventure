@@ -29,7 +29,8 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
     String returnStringName;
     String returnStringDate;
-    String returnStringTime;
+    String returnStringStartTime;
+    String returnStringEndTime;
     String returnStringLocation;
     String returnStringLatitude;
     String returnStringLongitude;
@@ -69,17 +70,19 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
             try {
                 JSONObject blockObject = new JSONObject(response);
                 Log.d("SUCCESS", "SUCCESS");
-
+                Log.d("downloaded data", response);
                 //Get the number of events specified by eventbrite
                 JSONObject pagination =  blockObject.getJSONObject("pagination");
                 int count = pagination.getInt("object_count");
                 int page_count = pagination.getInt("page_count");
-                int page_size= pagination.getInt("page_size");
+                int page_size = pagination.getInt("page_size");
                 Log.d("Counter", "Count: " + count);
                 Log.d("Counter", "Page Count: " + page_count);
 
-                for (int i=0; i<(page_size); i++) {
+                //TODO: change max number to count
+                for (int i = 0; i< page_size; i++) {
 
+                    p.events.add(new Event());
 
                     JSONArray eventsArray = blockObject.getJSONArray("events");
                     JSONObject event = eventsArray.getJSONObject(i);
@@ -116,6 +119,17 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                     }
 
 
+                    //Get Event Date
+                    JSONObject eventDate = event.getJSONObject("start");
+                    returnStringDate = FormatUtils.retrieveEventBriteDate(eventDate.getString("local"));
+                    //Get Event Start Time
+                    JSONObject eventStartTime = event.getJSONObject("start");
+                    returnStringStartTime = FormatUtils.retrieveEventBriteTime(eventStartTime.getString("local"));
+                    //Get Event End Time
+                    JSONObject endDateTime = event.getJSONObject("end");
+                    returnStringEndTime = FormatUtils.retrieveEventBriteTime(endDateTime.getString("local"));
+
+
 //                    if(event.has("logo")) {
 //                        JSONObject eventImageInfo = event.getJSONObject("logo");
 //                        returnStringImageURL = eventImageInfo.getString("url");
@@ -129,44 +143,29 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 //                    }
 
                     JSONObject venueInfo = event.getJSONObject("venue");
-
+/*
                     JSONObject addressInfo = venueInfo.getJSONObject("address");
                     returnStringLatitude = addressInfo.getString("latitude");
                     returnStringLongitude = addressInfo.getString("longitude");
+*/
+                    Event eventBuilder = new Event.Builder(returnStringName)
+                            .setEventDescription(returnStringDescription)
+                            .setImageUrl(returnStringImageURL)
+                            .setDate(returnStringDate)
+                            .setEventStartTime(returnStringStartTime)
+                            .setEventEndTime(returnStringEndTime)
+                            .setEventPrice(returnEventPrice)
+                            .setEventPriceString(returnEventPriceString)
+                            //.setEventCoordinates(returnStringLatitude, returnStringLongitude)
+                            .build();
 
-
-                /*
-                returnStringArray.add(returnStringName);
-                returnStringArray.add(returnStringDescription);
-                returnStringArray.add(returnStringImageURL);
-                returnStringArray.add(returnStringLatitude);
-                returnStringArray.add(returnStringLongitude);
-                */
-
-                Event eventBuilder = new Event.Builder(returnStringName)
-                        .setEventDescription(returnStringDescription)
-                        .setImageUrl(returnStringImageURL)
-                        .setEventCoordinates(returnStringLatitude, returnStringLongitude)
-                        .setEventPrice(returnEventPrice)
-                        .setEventPriceString(returnEventPriceString)
-                        .build();
-
-                    //PlaceHolder for Adapter
-                    p.events.add(new Event());
-
-                returnEventArray.add(eventBuilder);
-
+                    returnEventArray.add(eventBuilder);
                 }
-
-
+            } catch(JSONException e){
+                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite: " + e.getMessage());
             }
-            catch(JSONException e){
-                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite: " + e);
-                e.printStackTrace();
-            }
-        }
-        catch (Exception e){
-            Log.d("Failed JSON" , "doInBackground() failed with Exception e");
+        } catch (Exception e){
+            Log.d("Failed JSON" , "doInBackground() failed with Exception e: " + e.getMessage());
             e.printStackTrace();
         }
         return returnEventArray;
@@ -184,6 +183,9 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
             p.events.get(i).eventImageURL = result.get(i).getEventImageURL();
             p.events.get(i).eventPrice= result.get(i).getEventPrice();
             p.events.get(i).eventPriceString= result.get(i).getEventPriceString();
+            p.events.get(i).eventDate = result.get(i).getEventDate();
+            p.events.get(i).eventStartTime = result.get(i).getEventStartTime();
+            p.events.get(i).eventEndTime = result.get(i).getEventEndTime();
 //            try {
 //                ViewHolder.setMapLocation(p.viewHolder.map, result.get(i));
 //            } catch (GooglePlayServicesNotAvailableException e) {
