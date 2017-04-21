@@ -57,6 +57,9 @@ dependencies {
     //RetroFit
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.0'
+    compile 'org.glassfish:javax.annotation:10.0-b28'
 
     //This is for amazon communication for DynamoDb
 

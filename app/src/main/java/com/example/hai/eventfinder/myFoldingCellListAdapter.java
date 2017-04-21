@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -111,6 +112,9 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             v.setTag(viewHolder);
             viewHolder.initializeMapView();
            mMaps.add(viewHolder.mapView);
+
+
+
         } else {
             // for existing cell set valid valid state(without animation)
             if (unfoldedIndexes.contains(position)) {

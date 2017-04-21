@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.logging.Logger;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by Van on 3/19/2017.
@@ -57,12 +58,25 @@ public class ViewHolder implements OnMapReadyCallback {
         MapView mapView;
         GoogleMap map;
 
+
         @Override
         public void onMapReady(GoogleMap googleMap) {
                 log.info("onMapReady() is called");
                 MapsInitializer.initialize(context.getApplicationContext());
                 map = googleMap;
                 Event data = (Event) mapView.getTag();
+
+                /*
+                map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                        @Override
+                        public void onMapClick(LatLng latLng) {
+                            Log.d("Map clicked" , "aye");
+
+                        }
+                });
+                */
+
+
                 if (data != null) {
                     try {
                             setMapLocation(map, data);
