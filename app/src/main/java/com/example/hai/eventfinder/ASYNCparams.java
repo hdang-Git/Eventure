@@ -20,8 +20,8 @@ public class ASYNCparams {
    public myFoldingCellListAdapter adapter;
 
 
-    public String longitude;
-    public String latitude;
+    public double longitude;
+    public double latitude;
 
     public ArrayList<Event> events;
 
@@ -31,12 +31,12 @@ public class ASYNCparams {
         this.context = c;
 //        this.latitude = "40.689249";
 //        this.longitude= "-74.044500";
-        this.latitude = "39.9502352";
-        this.longitude= "-75.17327569999998";
+        this.latitude = 39.9502352;
+        this.longitude= -75.17327569999998;
 
     }
 
-    public ASYNCparams(int i , ArrayList<Event> es, Context c , myFoldingCellListAdapter a, String lat , String lon){
+    public ASYNCparams(int i , ArrayList<Event> es, Context c , myFoldingCellListAdapter a, double lat , double lon){
         this.events = es;
         this.adapter = a;
         this.context = c;

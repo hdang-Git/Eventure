@@ -242,7 +242,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Se
             itemHolder.eventItem.setText(event.getEventName());
             //TODO: get actual pic and handle with Picasso
             itemHolder.imgItem.setImageResource(R.drawable.ic_event_note_black_24dp);
-            itemHolder.eventPrice.setText(event.getEventPrice());
+            itemHolder.eventPrice.setText(event.getEventPriceString());
             itemHolder.eventTime.setText(event.getEventStartTime());
             itemHolder.eventLocation.setText(event.getEventLocation());
 

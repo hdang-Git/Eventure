@@ -21,8 +21,10 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class EventFragment extends Fragment {
-    ListView listView;
 
+    ListView listView;
+    ArrayList<Event> arrayList;
+    myFoldingCellListAdapter adapter;
 
     public EventFragment() {
         // Required empty public constructor
@@ -37,12 +39,13 @@ public class EventFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_event, container, false);
-        //final ArrayList<EventItem> arrayList = EventItem.getTest();
-        final ArrayList<Event> arrayList = new ArrayList<Event>();
+        //final ArrayList<Event> arrayList = new ArrayList<Event>();
+        arrayList = new ArrayList<Event>();
 
 
         listView = (ListView) v.findViewById(R.id.listView);
-        final myFoldingCellListAdapter adapter = new myFoldingCellListAdapter(v.getContext(), 0, arrayList);
+        //final myFoldingCellListAdapter adapter = new myFoldingCellListAdapter(v.getContext(), 0, arrayList);
+        adapter = new myFoldingCellListAdapter(v.getContext(), 0, arrayList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -57,11 +60,19 @@ public class EventFragment extends Fragment {
         });
         listView.setRecyclerListener(ViewHolder.mRecycleListener);
 
-        ASYNCparams eventArgs = new ASYNCparams(0 , arrayList , this.getContext() , adapter);
+        /*
+        ASYNCparams eventArgs = new ASYNCparams(0 , arrayList , this.getContext() , adapter );
         EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
         BriteRequest.execute(eventArgs);
+        */
 
         return v;
     }
 
+    public void updateAdapter(double lat , double lon) {
+
+        ASYNCparams eventArgs = new ASYNCparams(0, arrayList, this.getContext(), adapter , lat, lon);
+        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
+        BriteRequest.execute(eventArgs);
+    }
 }

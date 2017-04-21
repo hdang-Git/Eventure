@@ -36,7 +36,8 @@ public class FragmentViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch(position){
-            case 0: fragment = EventFragment.newInstance();
+            case 0: //fragment = EventFragment.newInstance();
+                    fragment = new EventFragment();
                     break;
             case 1: fragment = Tab2.newInstance();
                     break;

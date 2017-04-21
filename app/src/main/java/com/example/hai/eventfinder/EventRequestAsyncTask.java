@@ -53,6 +53,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
         final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=" + p.context.getResources().getText(R.string.event_brite_key) + "&location.latitude=" + p.latitude  + "&location.longitude=" + p.longitude + "&location.within=1mi&expand=organizer,venue,ticket_classes";
 
         try{
+            Log.d("Final URL:" , urlString);
             URL url = new URL(urlString);
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
@@ -83,7 +84,6 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                 //TODO: change max number to count
                 for (int i = 0; i< page_size; i++) {
 
-                    p.events.add(new Event());
 
                     JSONArray eventsArray = blockObject.getJSONArray("events");
                     JSONObject event = eventsArray.getJSONObject(i);
@@ -147,6 +147,9 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                             .setEventCoordinates(returnStringLatitude, returnStringLongitude)
                             .build();
 
+                    //For default text (if no JSON to replace default stuff)
+                    p.events.add(new Event());
+
                     returnEventArray.add(eventBuilder);
                 }
             } catch(JSONException e){
@@ -182,7 +185,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 //                Log.d("fail", e.getMessage());
 //            }
         }
-        Log.d("event result" , p.events.get(0).eventName);
+        //Log.d("event result" , p.events.get(0).eventName);
         p.adapter.notifyDataSetChanged();
 
 

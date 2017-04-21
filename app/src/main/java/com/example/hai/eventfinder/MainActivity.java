@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
     @Override
     protected void onResume() {
         super.onResume();
-        //mGoogleApiClient.connect();   //TODO: uncomment this to re-enable location services
+        mGoogleApiClient.connect();   //TODO: uncomment this to re-enable location services
     }
 
     @Override
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
             return;
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+           // ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
         }
 
         Log.i(TAG, "Location services connected.");
@@ -249,6 +249,9 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
         log.info("lagLng: " + latLng.latitude + " " + latLng.longitude);
+
+        EventFragment frag = (EventFragment) adapter.getFragment(0);
+        frag.updateAdapter(currentLatitude , currentLongitude);
     }
 
     @Override
