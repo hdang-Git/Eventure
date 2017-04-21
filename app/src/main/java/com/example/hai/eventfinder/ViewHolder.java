@@ -64,15 +64,16 @@ public class ViewHolder implements OnMapReadyCallback {
                 map = googleMap;
                 Event data = (Event) mapView.getTag();
 
-                /*
+
                 map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(LatLng latLng) {
                             Log.d("Map clicked" , "aye");
 
+
                         }
                 });
-                */
+
 
 
                 if (data != null) {
@@ -103,6 +104,8 @@ public class ViewHolder implements OnMapReadyCallback {
 
         public static void setMapLocation(GoogleMap map, Event data) throws GooglePlayServicesNotAvailableException {
 
+                Log.d("before mappass" , data.toString());
+
                 double latitude;
                 double longitude;
 
@@ -117,11 +120,14 @@ public class ViewHolder implements OnMapReadyCallback {
                         return;
                 }
 
+                Log.d("About to set markers" , "turkey");
                 if(data.eventLatitude == null) {
+                        Log.d("About to set markers" , "if");
                         latitude = 39.9502352;
                         longitude = -75.17327569999998;
                 }
                 else {
+                        Log.d("About to set markers" , "else");
                         latitude = Double.parseDouble(data.eventLatitude);
                         longitude = Double.parseDouble(data.eventLongitude);
                         map.clear();

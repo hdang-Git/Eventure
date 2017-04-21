@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.hai.eventfinder.Formatting.FormatUtils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.squareup.picasso.Picasso;
 
@@ -129,25 +130,12 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                     JSONObject endDateTime = event.getJSONObject("end");
                     returnStringEndTime = FormatUtils.retrieveEventBriteTime(endDateTime.getString("local"));
 
-
-//                    if(event.has("logo")) {
-//                        JSONObject eventImageInfo = event.getJSONObject("logo");
-//                        returnStringImageURL = eventImageInfo.getString("url");
-//                    }
-
-
-//                    if(eventImageInfo.toString() != "null") {
-//                    }
-//                    else{
-//                        returnStringImageURL ="http://i.imgur.com/DvpvklR.png";
-//                    }
-
                     JSONObject venueInfo = event.getJSONObject("venue");
-/*
+
                     JSONObject addressInfo = venueInfo.getJSONObject("address");
                     returnStringLatitude = addressInfo.getString("latitude");
                     returnStringLongitude = addressInfo.getString("longitude");
-*/
+
                     Event eventBuilder = new Event.Builder(returnStringName)
                             .setEventDescription(returnStringDescription)
                             .setImageUrl(returnStringImageURL)
@@ -156,7 +144,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                             .setEventEndTime(returnStringEndTime)
                             .setEventPrice(returnEventPrice)
                             .setEventPriceString(returnEventPriceString)
-                            //.setEventCoordinates(returnStringLatitude, returnStringLongitude)
+                            .setEventCoordinates(returnStringLatitude, returnStringLongitude)
                             .build();
 
                     returnEventArray.add(eventBuilder);
@@ -186,6 +174,8 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
             p.events.get(i).eventDate = result.get(i).getEventDate();
             p.events.get(i).eventStartTime = result.get(i).getEventStartTime();
             p.events.get(i).eventEndTime = result.get(i).getEventEndTime();
+            p.events.get(i).eventLatitude = result.get(i).getEventLatitude();
+            p.events.get(i).eventLongitude=  result.get(i).getEventLongitude();
 //            try {
 //                ViewHolder.setMapLocation(p.viewHolder.map, result.get(i));
 //            } catch (GooglePlayServicesNotAvailableException e) {

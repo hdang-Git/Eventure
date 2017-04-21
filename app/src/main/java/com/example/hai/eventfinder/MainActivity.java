@@ -54,10 +54,8 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         setContentView(R.layout.activity_main);
 
         //These methods make the call for Yelp using retrofit
-        /*
         YelpRequest testyelp = new YelpRequest();
         testyelp.makeCall(getApplicationContext());
-        */
 
         //This is to run Dynamo thread,
         //So far only for three instances

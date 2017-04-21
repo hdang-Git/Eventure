@@ -2,6 +2,7 @@ package com.example.hai.eventfinder.RetroFitAPI;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.hai.eventfinder.R;
 import com.example.hai.eventfinder.RetroFitAPI.Models.Yelp.YelpReturn;
@@ -19,12 +20,12 @@ import retrofit2.http.Header;
 
 public class YelpRequest {
 
-    String url = "https://api.yelp.com/v3/";
+    String url = "https://api.yelp.com/v3/businesses/";
     String headerAuth = "";
 
     YelpReturn businesses;
 
-    public YelpReturn makeCall(Context context){
+    public YelpReturn makeCall(final Context context){
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(url)
@@ -44,7 +45,9 @@ public class YelpRequest {
 
                 businesses = response.body();
 
-                Log.d("Retro Success" , "" + response);
+                Log.d("Retro Success" , "" + businesses.getBusinesses().get(0).getName());
+
+                //Toast.makeText(context , businesses.getBusinesses().get(0).getName()  , Toast.LENGTH_LONG);
 
             }
 

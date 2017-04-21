@@ -116,13 +116,18 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder = (ViewHolder) v.getTag();
         }
 
-        Event eventItem = new Event();
-        viewHolder.mapView.setTag(eventItem);
+//        Event eventItem = new Event();
+        //viewHolder.mapView.setTag(eventItem);
+       // viewHolder.mapView.setTag(eventsArray.get(position));
+
+
 
         //Todo: fix from crash
         if(viewHolder.map != null){
             try {
-                viewHolder.setMapLocation(viewHolder.map, eventItem);
+                //viewHolder.setMapLocation(viewHolder.map, eventItem);
+                //Log.d("before mappass" , eventsArray.get(position).toString());
+                viewHolder.setMapLocation(viewHolder.map, eventsArray.get(position));
             } catch (GooglePlayServicesNotAvailableException e) {
                 e.printStackTrace();
             }
@@ -136,7 +141,6 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         viewHolder.eventDescription.setText(eventsArray.get(position).getEventDescription());
         Picasso.with(context).load(eventsArray.get(position).getEventImageURL()).into(viewHolder.eventImage);
         viewHolder.eventDateOpen.setText(eventsArray.get(position).getEventDate());
-        viewHolder.eventTimeOpen.setText(eventsArray.get(position).getEventTime());
         viewHolder.eventPlaceOpen.setText(eventsArray.get(position).getEventLocation());
         //TODO: reattach the map
         //viewHolder.mapView = ;
@@ -149,7 +153,6 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         viewHolder.timeClosed.setText(eventTime);
         viewHolder.startTimeClosed.setText(eventsArray.get(position).getEventStartTime());
         viewHolder.addressClosed.setText(eventsArray.get(position).getEventLocation());
-        viewHolder.ratingBar.setNumStars(3);
         //viewHolder.eventTypeClosed;
 
         Log.d("George" , "We're about to return v");
