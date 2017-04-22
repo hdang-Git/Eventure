@@ -4,9 +4,12 @@ package com.example.hai.eventfinder;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,8 @@ public class Tab2 extends Fragment {
     Button timeButton;
     Button dateButton;
     Button submitButton;
+    FloatingActionButton cameraButton;
+    Intent intent;
 
     //Get all the edit text inputs
     EditText eventName, eventDescription, eventLocation, eventURL, eventDate, eventTime;
@@ -57,7 +62,15 @@ public class Tab2 extends Fragment {
         eventDate= (EditText) view.findViewById(R.id.timeEdit);
         eventTime = (EditText) view.findViewById(R.id.dateEdit);
 
-
+        cameraButton = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
+        intent = new Intent(view.getContext(), OcrCameraActivity.class);
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Camera Button", "Camera activity started");
+                startActivity(intent);
+            }
+        });
         return view;
     }
 

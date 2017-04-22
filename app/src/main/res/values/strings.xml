@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EventFinder</string>
+    <string name="app_name">Eventure</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -48,5 +48,8 @@
     <string name="EventName">Enter Event Name</string>
     <string name="EventDescription">Enter Event Description</string>
     <string name="EventURL">Enter Event URL</string>
+
+
+
 
 </resources>
