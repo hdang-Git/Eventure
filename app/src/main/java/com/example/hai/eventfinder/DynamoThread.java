@@ -3,26 +3,34 @@ package com.example.hai.eventfinder;
 import android.content.Context;
 import android.util.Log;
 
-//import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-//import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
-//import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
-//import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedScanList;
-//import com.amazonaws.regions.Regions;
-//import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedScanList;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+
+import java.util.ArrayList;
+
 
 /**
- * Created by Lenny Ramos on 3/17/2017.
+ * This is A class that will run the thread when user creates an Event
  */
 
 public class DynamoThread extends MainActivity{
 
-    final public Context c;
+    //final public Context c;
+    final private static String IDENTITY_POOL_ID = "us-east-1:88da1b70-0758-448c-b3e6-196a3a688e19";
+    ArrayList<String> eventDetails;
+    Context context;
 
-    public DynamoThread(Context myContext){
-        this.c = myContext;
+    //pass context and ArrayList
+    public DynamoThread(ArrayList<String> eventDetails, Context context)
+    {
+        this.eventDetails = eventDetails;
+        this.context = context;
     }
 
-    /*
     public void runDynamo()
     {
 
@@ -34,10 +42,11 @@ public class DynamoThread extends MainActivity{
                 // Initialize the Amazon Cognito credentials provider
                 // this is for a sample database of type Books
                 CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
-                        c,
-                        "us-east-1:88da1b70-0758-448c-b3e6-196a3a688e19", // Identity Pool ID
+                        context,
+                        IDENTITY_POOL_ID, // Identity Pool ID
                         Regions.US_EAST_1 // Region
                 );
+
                 //Allows us to map a class to actual database
                 //initializing the actual client
                 AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(credentialsProvider);
@@ -46,39 +55,27 @@ public class DynamoThread extends MainActivity{
                 DynamoDBMapper mapper = new DynamoDBMapper(ddbClient);
 
                 //This is adding a new book to the database
-                RowDataBooks book = new RowDataBooks();
-                book.setTitle("Great Expectations");
-                book.setAuthor("Charles Dickens");
-                book.setPrice(1299);
-                book.setIsbn("1234567890");
-                book.setHardCover(false);
+                RowDataEvents event = new RowDataEvents();
 
-                //This is adding a new book to the database
-                RowDataBooks book2 = new RowDataBooks();
-                book.setTitle("George Adventure");
-                book.setAuthor("George Keenan");
-                book.setPrice(300);
-                book.setIsbn("0987654321");
-                book.setHardCover(true);
+                event.setName(eventDetails.get(0));
+                event.setDescription(eventDetails.get(1));
+                event.setLatitude("dummy");
+                event.setLongitude("dummy");
+                event.setURL(eventDetails.get(3));
+                event.setTime(eventDetails.get(4));
+                event.setDate(eventDetails.get(5));
 
-                //This is adding a new book to the database
-                RowDataBooks book3 = new RowDataBooks();
-                book.setTitle("George Adventure");
-                book.setAuthor("Lenny");
-                book.setPrice(300);
-                book.setIsbn("098721123");
-                book.setHardCover(true);
 
                 //This saves the actual object we created to database
-                mapper.save(book);
+                mapper.save(event);
 
                 DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-                PaginatedScanList<RowDataBooks> result = mapper.scan(RowDataBooks.class, scanExpression);
+                PaginatedScanList<RowDataEvents> result = mapper.scan(RowDataEvents.class, scanExpression);
 
                 Log.d("result", result.get(0).toString());
                 Log.d("result", result.get(1).toString());
 
-                Log.d("result 2", result.get(2).getAuthor().toString());
+                Log.d("result 2", result.get(2).getName().toString());
 
             }
         };
@@ -87,5 +84,5 @@ public class DynamoThread extends MainActivity{
         Thread mythread = new Thread(runnable);
         mythread.start();
     }
-    */
+
 }

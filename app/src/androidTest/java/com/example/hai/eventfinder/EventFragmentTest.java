@@ -32,7 +32,7 @@ public class EventFragmentTest {
         // Launch the activity to make the fragment visible
         mFragmentTestRule.launchActivity(null);
         // Then use Espresso to test the Fragment
-        onView(withId(R.id.button2)).check(matches(isDisplayed()));
+        onView(withId(R.id.submit)).check(matches(isDisplayed()));
     }
 
     @Test
