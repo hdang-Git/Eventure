@@ -1,6 +1,7 @@
 package com.example.hai.eventfinder;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -45,7 +46,8 @@ public class EventFragment extends Fragment {
 
         listView = (ListView) v.findViewById(R.id.listView);
         //final myFoldingCellListAdapter adapter = new myFoldingCellListAdapter(v.getContext(), 0, arrayList);
-        adapter = new myFoldingCellListAdapter(v.getContext(), 0, arrayList);
+        Activity mainActivity = getActivity();
+        adapter = new myFoldingCellListAdapter(v.getContext(), 0, arrayList , mainActivity);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

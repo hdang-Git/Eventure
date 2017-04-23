@@ -3,6 +3,7 @@ package com.example.hai.eventfinder;
 import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -53,9 +54,13 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         //These methods make the call for Yelp using retrofit
+        /*
         YelpRequest testyelp = new YelpRequest();
         testyelp.makeCall(getApplicationContext());
+        */
 
         //This is to run Dynamo thread,
         //So far only for three instances

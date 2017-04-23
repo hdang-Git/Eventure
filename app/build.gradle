@@ -38,11 +38,20 @@ android {
     */
 }
 
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    //RetroFit
+    
+
+    //This is for amazon communication for DynamoDb
+
+    //AWS Mobile SDK core
+    
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.ramotion.foldingcell:folding-cell:1.0.1'
@@ -52,22 +61,15 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.android.gms:play-services-location:10.2.1'
     compile 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.0.4'
-    testCompile 'junit:junit:4.12'
-
-    //RetroFit
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.0'
     compile 'org.glassfish:javax.annotation:10.0-b28'
-
-    //This is for amazon communication for DynamoDb
-
-    //AWS Mobile SDK core
     compile 'com.amazonaws:aws-android-sdk-core:2.2.+'
     compile 'com.amazonaws:aws-android-sdk-s3:2.2.+'
     compile 'com.amazonaws:aws-android-sdk-ddb:2.2.+'
     compile 'com.amazonaws:aws-android-sdk-ddb-mapper:2.2.+'
     compile 'com.amazonaws:aws-android-sdk-cognito:2.2.+'
-
+    testCompile 'junit:junit:4.12'
 }

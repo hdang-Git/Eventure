@@ -6,6 +6,10 @@ import android.widget.Toast;
 
 import com.example.hai.eventfinder.R;
 import com.example.hai.eventfinder.RetroFitAPI.Models.Yelp.YelpReturn;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,11 +25,15 @@ import retrofit2.http.Header;
 public class YelpRequest {
 
     String url = "https://api.yelp.com/v3/businesses/";
-    String headerAuth = "";
 
     YelpReturn businesses;
 
-    public YelpReturn makeCall(final Context context){
+    LatLng coffeeCoords;
+
+
+    public YelpReturn makeCall(final Context context , String Latitude , String Longitude , GoogleMap map){
+
+        final GoogleMap gmap = map;
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(url)
@@ -37,7 +45,7 @@ public class YelpRequest {
         RetroInterfaceYelp client = retrofit.create(RetroInterfaceYelp.class);
 
 
-        Call<YelpReturn> call = client.requestYelp("Bearer " + context.getResources().getText(R.string.yelp_key));
+        Call<YelpReturn> call = client.requestYelp("Bearer " + context.getResources().getText(R.string.yelp_key) , Latitude , Longitude);
 
         call.enqueue(new Callback<YelpReturn>() {
             @Override
@@ -45,7 +53,21 @@ public class YelpRequest {
 
                 businesses = response.body();
 
-                Log.d("Retro Success" , "" + businesses.getBusinesses().get(0).getName());
+                for(int i=0; i < businesses.getBusinesses().size() && i<10; i++) {
+
+
+                    Log.d("Retro Success", "" + businesses.getBusinesses().get(i).getName());
+                    coffeeCoords = new LatLng(
+                            businesses.getBusinesses().get(i).getCoordinates().getLatitude(),
+                            businesses.getBusinesses().get(i).getCoordinates().getLongitude()
+                    );
+
+                    gmap.addMarker(new MarkerOptions()
+                            .position(coffeeCoords)
+                            .title(businesses.getBusinesses().get(i).getName())
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.kitchen_coffee_cup)));
+
+                }//end of for
 
                 //Toast.makeText(context , businesses.getBusinesses().get(0).getName()  , Toast.LENGTH_LONG);
 

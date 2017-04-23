@@ -1,6 +1,9 @@
 package com.example.hai.eventfinder;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
@@ -27,10 +30,17 @@ import android.widget.Toast;
 //Copy Pasted from Adapter, put it here for passing in ASYNC
 public class ViewHolder implements OnMapReadyCallback {
 
+
         static Context context;
+        static Activity activity;
 
         public ViewHolder(Context c){
                 this.context = c;
+        }
+
+        public ViewHolder(Context c , Activity a){
+                this.context = c;
+                this.activity = a;
         }
 
         Logger log = Logger.getAnonymousLogger();
@@ -69,6 +79,17 @@ public class ViewHolder implements OnMapReadyCallback {
                         @Override
                         public void onMapClick(LatLng latLng) {
                             Log.d("Map clicked" , "aye");
+
+                            Intent intent = new Intent(context.getApplicationContext() , MapsActivity.class);
+
+                                Bundle args = new Bundle();
+                                args.putParcelable("coords", latLng );
+
+                                intent.putExtra("mapCoords" , args);
+
+                              //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) ;
+
+                            activity.startActivity(intent);
 
 
                         }

@@ -1,5 +1,6 @@
 package com.example.hai.eventfinder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.EventLog;
@@ -47,6 +48,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
     //Event myEvent = new Event();
     Context context;
     LayoutInflater inflater;
+    Activity activity;
 
     private final HashSet<MapView> mMaps = new HashSet<MapView>();
 
@@ -59,6 +61,12 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
     public myFoldingCellListAdapter(Context context, int resource, List<Event> objects) {
         super(context, resource, objects);
         eventsArray = objects;
+    }
+
+    public myFoldingCellListAdapter(Context context, int resource, List<Event> objects , Activity act) {
+        super(context, resource, objects);
+        eventsArray = objects;
+        this.activity = act;
     }
 
     @NonNull
@@ -76,7 +84,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
         if(v == null) {
             log.info("cell isn't null");
-            viewHolder = new ViewHolder(context.getApplicationContext());
+            viewHolder = new ViewHolder(context.getApplicationContext() , activity);
             LayoutInflater inflater = LayoutInflater.from(getContext());
             v = (FoldingCell) inflater.inflate(R.layout.cell, parent, false);
 

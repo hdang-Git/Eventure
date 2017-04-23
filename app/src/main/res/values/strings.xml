@@ -44,5 +44,6 @@
     <string name="chooseDate">Choose Date</string>
     <string name="submit">Submit</string>
     <string name="onClickDialog">showTimePickerDialog</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
