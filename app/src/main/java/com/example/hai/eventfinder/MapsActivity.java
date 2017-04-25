@@ -3,8 +3,10 @@ package com.example.hai.eventfinder;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.hai.eventfinder.RetroFitAPI.YelpRequest;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -54,9 +56,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+
+        Log.d("Event coords atm" , coords.toString());
+
+        LatLng eventCoords = new LatLng(coords.latitude , coords.longitude);
+
         mMap.addMarker(new MarkerOptions().position(coords).title("Your Event"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(coords));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(coords));
+//        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(eventCoords , 16);
+//        mMap.animateCamera(cameraUpdate);
 
         //These methods make the call for Yelp using retrofit
         YelpRequest testyelp = new YelpRequest();

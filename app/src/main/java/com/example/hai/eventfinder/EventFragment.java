@@ -74,7 +74,7 @@ public class EventFragment extends Fragment {
     public void updateAdapter(double lat , double lon) {
 
         ASYNCparams eventArgs = new ASYNCparams(0, arrayList, this.getContext(), adapter , lat, lon);
-        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();
+        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask(this.getContext());
         BriteRequest.execute(eventArgs);
     }
 }

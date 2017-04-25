@@ -75,25 +75,6 @@ public class ViewHolder implements OnMapReadyCallback {
                 Event data = (Event) mapView.getTag();
 
 
-                map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(LatLng latLng) {
-                            Log.d("Map clicked" , "aye");
-
-                            Intent intent = new Intent(context.getApplicationContext() , MapsActivity.class);
-
-                                Bundle args = new Bundle();
-                                args.putParcelable("coords", latLng );
-
-                                intent.putExtra("mapCoords" , args);
-
-                              //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) ;
-
-                            activity.startActivity(intent);
-
-
-                        }
-                });
 
 
 
@@ -154,13 +135,32 @@ public class ViewHolder implements OnMapReadyCallback {
                         map.clear();
                 }
 
-                LatLng location = new LatLng(latitude, longitude);
+                final LatLng location = new LatLng(latitude, longitude);
                 // Add a marker for this item and set the camera
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13f));
                 map.addMarker(new MarkerOptions().position(location));
 
                 // Set the map type back to normal.
                 map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+                map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                        @Override
+                        public void onMapClick(LatLng latLng) {
+                                Log.d("Map clicked" , "aye");
+
+                                Intent intent = new Intent(context.getApplicationContext() , MapsActivity.class);
+
+                                Bundle args = new Bundle();
+                                args.putParcelable("coords", location);
+
+                                intent.putExtra("mapCoords" , args);
+
+                                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) ;
+
+                                activity.startActivity(intent);
+
+                        }
+                });
         }
 
         public static AbsListView.RecyclerListener mRecycleListener = new AbsListView.RecyclerListener() {

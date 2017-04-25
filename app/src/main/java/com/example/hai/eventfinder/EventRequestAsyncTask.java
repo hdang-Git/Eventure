@@ -1,5 +1,7 @@
 package com.example.hai.eventfinder;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Message;
 import android.util.Log;
@@ -28,6 +30,8 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
     ASYNCparams p;
 
+    Context myContext;
+
     String returnStringName;
     String returnStringDate;
     String returnStringStartTime;
@@ -40,8 +44,28 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
     int returnEventPrice;
     String returnEventPriceString;
 
+    ProgressDialog mProgressBar;
+
     ArrayList<Event> returnEventArray = new ArrayList<Event>();
 
+
+    public EventRequestAsyncTask(Context c){
+        myContext = c;
+    }
+
+
+    @Override
+    protected void onPreExecute(){
+        mProgressBar = new ProgressDialog(myContext);
+        mProgressBar.setCancelable(false);
+        mProgressBar.setTitle("Finding Events");
+        //mProgressBar.setMessage("");
+        mProgressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        //mProgressBar.setMax(100);
+        //mProgressBar.setProgress(0);
+        mProgressBar.show();
+
+    }
 
 
     //This is what happens in the thread
@@ -165,6 +189,10 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
     //Just logging to check that the thread behaved correctly
     @Override
     protected void onPostExecute(ArrayList<Event> result){
+
+        if (mProgressBar.isShowing()) {
+            mProgressBar.dismiss();
+        }
 
         Log.d("size me up " , " " + result.size());
 
