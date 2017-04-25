@@ -50,6 +50,7 @@
     <string name="EventURL">Enter Event URL</string>
 
 
-
+    <!-- ocr camera -->
+    <string name="OcrCam">Click on the Camera button to scan a picture</string>
 
 </resources>

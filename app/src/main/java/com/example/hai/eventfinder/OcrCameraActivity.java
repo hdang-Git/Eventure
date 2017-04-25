@@ -45,11 +45,10 @@ import static com.example.hai.eventfinder.ViewHolder.context;
 public class OcrCameraActivity extends AppCompatActivity {
 
     FloatingActionButton fab;
-    ListView listView;
+    TextView scannedOutput;
     ImageView imageView;
     TextRecognizer textRecognizer;
-    private TextView scanResults;
-
+    Bitmap bitmap;
     Logger log = Logger.getAnonymousLogger();
     private static final int PHOTO_MEDIA_REQUEST = 5;
     private static final int REQUEST_WRITE_PERMISSIONS = 10;
@@ -66,7 +65,7 @@ public class OcrCameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ocr_camera);
         fab = (FloatingActionButton) findViewById(R.id.camButton);
-        listView = (ListView) findViewById(R.id.textListView);
+        scannedOutput = (TextView) findViewById(R.id.scannedBlock);
         imageView = (ImageView) findViewById(R.id.imageView);
 
         context = getApplication().getApplicationContext();
@@ -80,8 +79,22 @@ public class OcrCameraActivity extends AppCompatActivity {
         builder.detectFileUriExposure();
 
         log.info("HAS PERMISSION?: " + hasPermissionInManifest(context, android.provider.MediaStore.ACTION_IMAGE_CAPTURE));
-
         log.info("HAS PERMISSION Camera ?: " + hasPermissionInManifest(context,  Manifest.permission.CAMERA));
+
+        //TODO: Fix restoring state when activity is destroyed
+        if(savedInstanceState != null){
+            log.info("Activity recreated.");
+            //set text data back
+            String scannedResult = savedInstanceState.getString("scannedText");
+            scannedOutput.setText(scannedResult);
+            //Set imageview with bitmap
+            Bitmap bm = savedInstanceState.getParcelable("bitmap");
+            imageView.setImageBitmap(bm);
+        } else {
+            log.info("savedInstanceState in activity is null");
+        }
+
+
         //Gets permission to write to storage. If storage is successful, then call the takePhoto() method
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +104,30 @@ public class OcrCameraActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //On rotation, save data for persistence
+        if(uriImg != null && scannedOutput != null && bitmap != null){
+            outState.putString("scannedText", scannedOutput.getText().toString());
+            outState.putParcelable("imgUri", uriImg);
+            outState.putParcelable("bitmap",bitmap);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        //retrieve back data
+        super.onRestoreInstanceState(savedInstanceState);
+        //set text data back
+        String scannedResult = savedInstanceState.getString("scannedText");
+        scannedOutput.setText(scannedResult);
+        //Set imageview with bitmap
+        Bitmap bm = savedInstanceState.getParcelable("bitmap");
+        imageView.setImageBitmap(bm);
+    }
+
 
     /**
      * Get permission to read/write to external storage
@@ -183,7 +220,7 @@ public class OcrCameraActivity extends AppCompatActivity {
         if (requestCode == PHOTO_MEDIA_REQUEST && resultCode == RESULT_OK) {
             sendMediaIntent();
             try {
-                Bitmap bitmap = decodeBitmapUri(this, uriImg);
+                bitmap = decodeBitmapUri(this, uriImg);
                 if (textRecognizer.isOperational() && bitmap != null) {
                     //Set the image
                     imageView.setImageBitmap(bitmap);
@@ -198,6 +235,7 @@ public class OcrCameraActivity extends AppCompatActivity {
                     for (int index = 0; index < textBlocks.size(); index++) {
                         //extract scanned text blocks here
                         TextBlock tBlock = textBlocks.valueAt(index);
+                        blocks += tBlock.getValue() + "\n\n ";
                         for (Text line : tBlock.getComponents()) {
                             Log.d("scanned line:", line.getValue());
                             for (Text element : line.getComponents()) {
@@ -214,10 +252,10 @@ public class OcrCameraActivity extends AppCompatActivity {
                         log.info("Textblock size is 0");
                     } else {
                         //Show results
-
+                        scannedOutput.setText(blocks);
                     }
                 } else {
-                    scanResults.setText("Could not set up the detector!");
+                    scannedOutput.setText("Could not set up the detector!");
                 }
             } catch (Exception e) {
                 Toast.makeText(this, "Failed to load Image", Toast.LENGTH_SHORT)
@@ -258,7 +296,7 @@ public class OcrCameraActivity extends AppCompatActivity {
             } else {
                 log.info("Directory exists! : " + fileDir);
             }
-        //TODO: delete this part
+        //TODO: delete this part or refix for file creation
         } else if(fileDir.isFile()){    //check if is file
             if(fileDir.exists()){           //check if file exists
                 log.info("File Exists: " + fileDir);
@@ -279,19 +317,30 @@ public class OcrCameraActivity extends AppCompatActivity {
         this.sendBroadcast(mediaIntent);
     }
 
+    /**
+     * This method takes the uri and turns it into a bitmap. Then it rescales the image appropiately
+     * to avoid memory overflow
+     * @param ctx
+     * @param uri
+     * @return
+     * @throws FileNotFoundException
+     */
     private Bitmap decodeBitmapUri(Context ctx, Uri uri) throws FileNotFoundException {
         int targetW = 600;
         int targetH = 600;
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(ctx.getContentResolver().openInputStream(uri), null, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
+        try {
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(ctx.getContentResolver().openInputStream(uri), null, bmOptions);
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
 
-        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-
+            int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = scaleFactor;
+        } catch(FileNotFoundException e){
+            Log.d("decodeBitMapUri", "Error: " + e.getMessage());
+        }
         return BitmapFactory.decodeStream(ctx.getContentResolver()
                 .openInputStream(uri), null, bmOptions);
     }
