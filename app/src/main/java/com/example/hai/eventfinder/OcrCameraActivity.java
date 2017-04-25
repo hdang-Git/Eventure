@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -17,17 +19,24 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.text.Text;
+import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -39,6 +48,8 @@ public class OcrCameraActivity extends AppCompatActivity {
     ListView listView;
     ImageView imageView;
     TextRecognizer textRecognizer;
+    private TextView scanResults;
+
     Logger log = Logger.getAnonymousLogger();
     private static final int PHOTO_MEDIA_REQUEST = 5;
     private static final int REQUEST_WRITE_PERMISSIONS = 10;
@@ -48,6 +59,7 @@ public class OcrCameraActivity extends AppCompatActivity {
     String fileName = "OCR_Photo.jpg";
     Uri uriImg;
     StrictMode.VmPolicy.Builder builder;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +69,7 @@ public class OcrCameraActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.textListView);
         imageView = (ImageView) findViewById(R.id.imageView);
 
+        context = getApplication().getApplicationContext();
         //Need this in order to read text from image
         textRecognizer = new TextRecognizer.Builder(context).build();
 
@@ -164,6 +177,56 @@ public class OcrCameraActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PHOTO_MEDIA_REQUEST && resultCode == RESULT_OK) {
+            sendMediaIntent();
+            try {
+                Bitmap bitmap = decodeBitmapUri(this, uriImg);
+                if (textRecognizer.isOperational() && bitmap != null) {
+                    //Set the image
+                    imageView.setImageBitmap(bitmap);
+
+
+                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+                    SparseArray<TextBlock> textBlocks = textRecognizer.detect(frame);
+                    String blocks = "";
+                    String lines = "";
+                    String words = "";
+                    ArrayList<String> wordList = new ArrayList<>();
+                    for (int index = 0; index < textBlocks.size(); index++) {
+                        //extract scanned text blocks here
+                        TextBlock tBlock = textBlocks.valueAt(index);
+                        for (Text line : tBlock.getComponents()) {
+                            Log.d("scanned line:", line.getValue());
+                            for (Text element : line.getComponents()) {
+                                //extract scanned text words here
+                                wordList.add(element.getValue());
+                                Log.d("scanned element:", element.getValue());
+                            }
+                        }
+                    }
+
+
+                    if (textBlocks.size() == 0) {
+                        Toast.makeText(context, "Sorry, no text to show", Toast.LENGTH_SHORT).show();
+                        log.info("Textblock size is 0");
+                    } else {
+                        //Show results
+
+                    }
+                } else {
+                    scanResults.setText("Could not set up the detector!");
+                }
+            } catch (Exception e) {
+                Toast.makeText(this, "Failed to load Image", Toast.LENGTH_SHORT)
+                        .show();
+                Log.e("Check string", e.toString());
+            }
+        }
+    }
+
     /**
      *  Create the folder directory and file to save photo as.
      */
@@ -205,6 +268,32 @@ public class OcrCameraActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This function creates the intent with the filled uri and broadcasts to all
+     * receivers (apps) that can take a picture
+     */
+    private void sendMediaIntent() {
+        Intent mediaIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        mediaIntent.setData(uriImg);
+        //Broadcast intent to any camera app that can handle this request
+        this.sendBroadcast(mediaIntent);
+    }
 
+    private Bitmap decodeBitmapUri(Context ctx, Uri uri) throws FileNotFoundException {
+        int targetW = 600;
+        int targetH = 600;
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeStream(ctx.getContentResolver().openInputStream(uri), null, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+
+        return BitmapFactory.decodeStream(ctx.getContentResolver()
+                .openInputStream(uri), null, bmOptions);
+    }
 
 }
