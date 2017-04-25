@@ -1,10 +1,12 @@
 package com.example.hai.eventfinder;
 
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -17,8 +19,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Logger;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -27,11 +34,15 @@ import java.util.logging.Logger;
 public class Tab2 extends Fragment {
     Logger log = Logger.getAnonymousLogger();
 
+    private static final int CAM_START_REQUEST = 50;
     Button timeButton;
     Button dateButton;
     Button submitButton;
     FloatingActionButton cameraButton;
     Intent intent;
+    SharedPreferences sharedpreferences;
+    SharedPreferences.Editor editor;
+    ArrayList<String> wordList;
 
     //Get all the edit text inputs
     EditText eventName, eventDescription, eventLocation, eventURL, eventDate, eventTime;
@@ -68,10 +79,31 @@ public class Tab2 extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("Camera Button", "Camera activity started");
-                startActivity(intent);
+                startActivityForResult(intent, CAM_START_REQUEST);
             }
         });
         return view;
+    }
+
+    //TODO: fix this and add onBackPressed to ocrCamActivity
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAM_START_REQUEST && resultCode == RESULT_OK){
+            try{
+                //Retrieve the values
+                Gson gson = new Gson();
+                String jsonText = sharedpreferences.getString("ocrWordList", null);
+                String[] text = gson.fromJson(jsonText, String[].class);
+                wordList = new ArrayList<String>(Arrays.asList(text));
+                Log.d("Success OCR", "Success: SharedPref data: " + wordList.size());
+            } catch(Exception e){
+                Log.d("onActivityResult", "Error: " + e.getMessage());
+            }
+
+        } else {
+            Log.d("Fail OCR", "Fail: Problem with getting back ocr request" + requestCode + " resultCode:" + resultCode + " RESULT_OK:"  + RESULT_OK);
+        }
     }
 
     //this method is because of the life cycle,

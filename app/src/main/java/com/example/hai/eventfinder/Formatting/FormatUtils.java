@@ -2,8 +2,17 @@ package com.example.hai.eventfinder.Formatting;
 
 //This class is used to format passed input
 
+import android.util.Log;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 /**
  * Created by Hai on 4/20/2017.

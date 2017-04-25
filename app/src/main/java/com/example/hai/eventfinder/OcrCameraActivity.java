@@ -3,6 +3,7 @@ package com.example.hai.eventfinder;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -26,10 +27,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hai.eventfinder.Formatting.FormatUtils;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -59,7 +62,9 @@ public class OcrCameraActivity extends AppCompatActivity {
     Uri uriImg;
     StrictMode.VmPolicy.Builder builder;
     Context context;
-
+    String MyPREFERENCES = "sharedPrefs"; //name of file for sharedPreferences
+    SharedPreferences sharedpreferences;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +85,8 @@ public class OcrCameraActivity extends AppCompatActivity {
 
         log.info("HAS PERMISSION?: " + hasPermissionInManifest(context, android.provider.MediaStore.ACTION_IMAGE_CAPTURE));
         log.info("HAS PERMISSION Camera ?: " + hasPermissionInManifest(context,  Manifest.permission.CAMERA));
+
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         //TODO: Fix restoring state when activity is destroyed
         if(savedInstanceState != null){
@@ -245,14 +252,18 @@ public class OcrCameraActivity extends AppCompatActivity {
                             }
                         }
                     }
-
-
                     if (textBlocks.size() == 0) {
                         Toast.makeText(context, "Sorry, no text to show", Toast.LENGTH_SHORT).show();
                         log.info("Textblock size is 0");
                     } else {
                         //Show results
                         scannedOutput.setText(blocks);
+                        //Persist data for calling activity
+                        Gson gson = new Gson();
+                        String jsonData = gson.toJson(wordList);
+                        editor = sharedpreferences.edit();
+                        editor.putString("ocrWordList", jsonData);
+                        editor.commit();
                     }
                 } else {
                     scannedOutput.setText("Could not set up the detector!");
