@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_yelp_info_window"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.hai.eventfinder.YelpInfoWindow">
+
+    <TextView
+        android:id="@+id/info_window_shop_name"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Name"/>
+
+    <ImageView
+        android:id="@+id/info_window_picture"
+        android:layout_below="@id/info_window_shop_name"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/kitchen_coffee_cup" />
+
+    <Button
+        android:id="@+id/visit_yelp_button"
+        android:layout_below="@id/info_window_picture"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Visit Yelp Page"/>
+
+    <Button
+        android:id="@+id/create_eventure_button"
+        android:layout_below="@id/visit_yelp_button"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Eventure"/>
+
+</RelativeLayout>

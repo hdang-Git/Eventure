@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.hai.eventfinder.RetroFitAPI.YelpRequest;
 import com.google.android.gms.maps.CameraUpdate;
@@ -12,7 +15,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.w3c.dom.Text;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -67,8 +73,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(eventCoords , 16);
 //        mMap.animateCamera(cameraUpdate);
 
+
+        //This is for the InfoWindow
+        InfoWindowViewHolder viewHolder = new InfoWindowViewHolder();
+        viewHolder.yelpButton = (Button) findViewById(R.id.visit_yelp_button);
+        viewHolder.createEventure= (Button) findViewById(R.id.create_eventure_button);
+        viewHolder.eventName= (TextView) findViewById(R.id.info_window_shop_name);
+
+
         //These methods make the call for Yelp using retrofit
         YelpRequest testyelp = new YelpRequest();
-        testyelp.makeCall(getApplicationContext() ,eventLat , eventLon , mMap);
+        testyelp.makeCall(getApplicationContext() ,eventLat , eventLon , mMap, viewHolder);
+
+        /*
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+
+                View v = getLayoutInflater().inflate(R.layout.activity_yelp_info_window , null);
+
+
+
+
+                return v;
+
+            }
+        });
+        */
+
     }
 }
