@@ -46,4 +46,8 @@
     <string name="onClickDialog">showTimePickerDialog</string>
     <string name="title_activity_maps">Map</string>
 
+    <string name="EventName">Enter Event Name</string>
+    <string name="EventDescription">Enter Event Description</string>
+    <string name="EventURL">Enter Event URL</string>
+
 </resources>

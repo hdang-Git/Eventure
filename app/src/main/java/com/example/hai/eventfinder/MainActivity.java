@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         //This is to run Dynamo thread,
         //So far only for three instances
         //
-        DynamoThread databaseTask = new DynamoThread(this.getApplicationContext());
+        //DynamoThread databaseTask = new DynamoThread(this.getApplicationContext());
         //databaseTask.runDynamo();
 
         //Alert user to turn on network connectivity
@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         // Give the TabLayout the ViewPager
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
-
 
 
         // Create an instance of GoogleAPIClient.
@@ -206,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
             return;
         } else {
-           // ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+            //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
         }
 
         Log.i(TAG, "Location services connected.");
