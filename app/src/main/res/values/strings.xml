@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">EventFinder</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="create_event">Create an Event</string>
+
+    <!-- Cell Title -->
+    <string name="rating">Rating</string>
+    <string name="time">Time</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="eventtype">Type</string>
+
+    <!--Cell Content-->
+    <string name="titleContent">Title</string>
+    <string name="priceContent">Price</string>
+    <string name="dateContent">Date</string>
+    <string name="timeContent">7:00"-"8:00 PM</string>
+    <string name="descriptionContent">Description</string>
+    <string name="locationContent">Location</string>
+    <string name="mapContent">Map</string>
+    <string name="contactContent">Contact</string>
+
+    <!--This is searchBar strings-->
+    <string name="hint">Search Event</string>
+    <string name="search_title">Search</string>
+
+    <!--This is filter strings-->
+    <string name="filter_title">Filter</string>
+    <string name="eventname">EventName</string>
+    <string name="empty_search">Empty Search</string>
+
+    <!--This is the radio Button options in Tab2-->
+    <string name="option1">Only Friends</string>
+    <string name="option2">Everyone</string>
+    <string name="who_can_view">Who can view Event?</string>
+    <string name="enter_location">Enter Event Location</string>
+    <string name="chooseTime">Choose Time</string>
+    <string name="chooseDate">Choose Date</string>
+    <string name="submit">Submit</string>
+    <string name="onClickDialog">showTimePickerDialog</string>
+
+    <string name="EventName">Enter Event Name</string>
+    <string name="EventDescription">Enter Event Description</string>
+    <string name="EventURL">Enter Event URL</string>
+
+</resources>

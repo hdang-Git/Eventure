@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="120dp">
+
+    <ImageView
+        android:id="@+id/searchImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/fab_margin"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal_background" />
+
+    <TextView
+        android:id="@+id/searchEventLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/searchImage"
+        android:layout_toEndOf="@id/searchImage"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:textSize="18sp"
+        android:text="@string/eventname" />
+
+    <TextView
+        android:id="@+id/searchEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_alignTop="@id/searchImage"
+        android:layout_toEndOf="@id/searchEventLabel"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:text="@string/empty_search"
+        />
+
+    <TextView
+        android:id="@+id/searchPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_below="@+id/searchEventLabel"
+        android:layout_toEndOf="@+id/searchImage"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:text="@string/empty_search"/>
+    <TextView
+        android:id="@+id/searchTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_below="@+id/searchEvent"
+        android:layout_toEndOf="@+id/searchPrice"
+        android:layout_alignStart="@+id/searchEvent"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:text="@string/empty_search"/>
+
+    <TextView
+        android:id="@+id/searchLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginTop="16dp"
+        android:text="@string/empty_search"
+        android:layout_below="@+id/searchPrice"
+        android:layout_alignStart="@+id/searchPrice" />
+
+
+
+
+</RelativeLayout>
