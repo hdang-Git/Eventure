@@ -56,12 +56,12 @@ public class RowDataEvents {
         this.url = url;
     }
 
-    @DynamoDBIndexRangeKey(attributeName = "date")
+    @DynamoDBAttribute(attributeName = "date")
     public String getDate(){ return date;}
 
     public void setDate(String date){ this.date = date;}
 
-    @DynamoDBIndexRangeKey(attributeName = "time")
+    @DynamoDBAttribute(attributeName = "time")
     public String getTime(){ return time;}
 
     public void setTime(String time){ this.time = time;}
