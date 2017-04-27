@@ -21,8 +21,8 @@
         android:id="@+id/info_window_picture"
         android:layout_below="@id/info_window_shop_name"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:src="@mipmap/kitchen_coffee_cup" />
 
     <Button

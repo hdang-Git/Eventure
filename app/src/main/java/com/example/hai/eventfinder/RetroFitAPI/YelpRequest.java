@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.hai.eventfinder.InfoWindowViewHolder;
 import com.example.hai.eventfinder.R;
+import com.example.hai.eventfinder.RetroFitAPI.Models.Yelp.Business;
 import com.example.hai.eventfinder.RetroFitAPI.Models.Yelp.YelpReturn;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -19,6 +20,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -43,7 +45,7 @@ public class YelpRequest {
     LatLng coffeeCoords;
 
 
-    public YelpReturn makeCall(final Context context , String Latitude , String Longitude , GoogleMap map , InfoWindowViewHolder viewHolder){
+    public YelpReturn makeCall(final Context context , String Latitude , String Longitude , GoogleMap map , InfoWindowViewHolder viewHolder, final HashMap<Marker , Business> markerHash){
 
         final GoogleMap gmap = map;
 
@@ -77,10 +79,14 @@ public class YelpRequest {
                             businesses.getBusinesses().get(i).getCoordinates().getLongitude()
                     );
 
-                    gmap.addMarker(new MarkerOptions()
+                     Marker marker = gmap.addMarker(new MarkerOptions()
                             .position(coffeeCoords)
                             .title(businesses.getBusinesses().get(i).getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.mipmap.kitchen_coffee_cup)));
+
+                    //This puts the data in memory so we can access it later since we will have to set a new adapter for each marker in real time when the user clicks the marker
+                     markerHash.put(marker , businesses.getBusinesses().get(i));
+
 
 
 //                    gmap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
