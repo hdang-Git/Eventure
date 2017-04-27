@@ -18,6 +18,7 @@ public class RowDataEvents {
     private String url;
     private String date;
     private String time;
+    private String free;
 
     @DynamoDBHashKey(attributeName = "name")
     public String getName() {
@@ -66,6 +67,10 @@ public class RowDataEvents {
 
     public void setTime(String time){ this.time = time;}
 
+    @DynamoDBAttribute(attributeName = "is_free")
+    public String getFree(){ return free;}
+
+    public void setFree(String free){ this.free= free;}
 }
 
 

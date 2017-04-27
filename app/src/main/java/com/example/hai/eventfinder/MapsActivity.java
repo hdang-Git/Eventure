@@ -141,11 +141,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                             Glide.with(context).load(markerData.get(marker).getImageUrl()).placeholder(R.mipmap.kitchen_coffee_cup)
-                                    .into(new SimpleTarget<GlideDrawable>() {
+                                    .into(new SimpleTarget<GlideDrawable>(150,150) {
                                         @Override
                                         public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                                            shopImage.setImageDrawable(resource);
-                                            markerReference.showInfoWindow();
+                                                shopImage.setImageDrawable(resource);
                                         }
                                     });
                             //Picasso.with(context).load(markerData.get(marker).getImageUrl()).into(shopImage);

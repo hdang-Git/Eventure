@@ -59,11 +59,12 @@ public class DynamoThread extends MainActivity{
 
                 event.setName(eventDetails.get(0));
                 event.setDescription(eventDetails.get(1));
-                event.setLatitude("dummy");
-                event.setLongitude("dummy");
+                event.setLatitude("39.9526");
+                event.setLongitude("-75.1652");
                 event.setURL(eventDetails.get(3));
                 event.setTime(eventDetails.get(4));
                 event.setDate(eventDetails.get(5));
+                event.setFree("true");
 
 
                 //This saves the actual object we created to database

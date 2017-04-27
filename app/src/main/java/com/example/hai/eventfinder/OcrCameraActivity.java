@@ -94,6 +94,7 @@ public class OcrCameraActivity extends AppCompatActivity {
             //set text data back
             String scannedResult = savedInstanceState.getString("scannedText");
             scannedOutput.setText(scannedResult);
+            Log.d("output ocr" , scannedResult);
             //Set imageview with bitmap
             Bitmap bm = savedInstanceState.getParcelable("bitmap");
             imageView.setImageBitmap(bm);
@@ -267,6 +268,7 @@ public class OcrCameraActivity extends AppCompatActivity {
                     }
                 } else {
                     scannedOutput.setText("Could not set up the detector!");
+
                 }
             } catch (Exception e) {
                 Toast.makeText(this, "Failed to load Image", Toast.LENGTH_SHORT)

@@ -1,36 +1,38 @@
 package com.example.hai.eventfinder;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Message;
-import android.util.Log;
+        import android.app.ProgressDialog;
+        import android.content.Context;
+        import android.os.AsyncTask;
+        import android.os.Message;
+        import android.util.Log;
 
-import com.example.hai.eventfinder.Formatting.FormatUtils;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.squareup.picasso.Picasso;
+        import com.example.hai.eventfinder.Formatting.FormatUtils;
+        import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+        import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+        import org.json.JSONArray;
+        import org.json.JSONException;
+        import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.jar.JarException;
+        import java.io.BufferedReader;
+        import java.io.InputStreamReader;
+        import java.lang.reflect.Array;
+        import java.net.URL;
+        import java.util.ArrayList;
+        import java.util.jar.JarException;
 
 /**
  * Created by Van on 3/13/2017.
  */
 
 //AsyncTask<What you give it , progress , What you want the result of the thread execution to be>
-public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , ArrayList<Event>> {
+public class UserEventAsyncTask extends AsyncTask<ASYNCparams, Integer , ArrayList<Event>> {
 
     ASYNCparams p;
 
     Context myContext;
+
+    EventRequestAsyncTask myEventRequestAsyncTask;
 
     String returnStringName;
     String returnStringDate;
@@ -49,22 +51,9 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
     ArrayList<Event> returnEventArray = new ArrayList<Event>();
 
 
-    public EventRequestAsyncTask(Context c){
+    public UserEventAsyncTask(Context c , EventRequestAsyncTask async){
         myContext = c;
-    }
-
-
-    @Override
-    protected void onPreExecute(){
-        mProgressBar = new ProgressDialog(myContext);
-        mProgressBar.setCancelable(false);
-        mProgressBar.setTitle("Finding Events");
-        //mProgressBar.setMessage("");
-        mProgressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        //mProgressBar.setMax(100);
-        //mProgressBar.setProgress(0);
-        mProgressBar.show();
-
+        myEventRequestAsyncTask = async;
     }
 
 
@@ -74,24 +63,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
         p = params[0];
 
-        final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=" + p.context.getResources().getText(R.string.event_brite_key) + "&location.latitude=" + p.latitude  + "&location.longitude=" + p.longitude + "&location.within=1mi&expand=organizer,venue,ticket_classes";
-
-        /*
-        ///////////////////////
-        //Pull user stuff first
-
-        ASYNCparams eventArgs = new ASYNCparams(0, arrayList, this.getContext(), adapter , lat, lon);
-        UserEventAsyncTask UserRequest= new UserEventAsyncTask(this.getContext());
-        UserRequest.execute(eventArgs).get();
-
-                for(int i = 0; i < 10; i++) {
-                    returnEventArray.add(userReturnArray.get(i));
-                    //For default text (if no JSON to replace default stuff)
-                    p.events.add(new Event());
-                }
-
-        ///////////////////
-        */
+        final String urlString = "https://ftrgldsibk.execute-api.us-east-1.amazonaws.com/sith/events/asf";
 
         try{
             Log.d("Final URL:" , urlString);
@@ -112,21 +84,12 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
 
             try {
                 JSONObject blockObject = new JSONObject(response);
-                Log.d("SUCCESS", "SUCCESS");
-                Log.d("downloaded data", response);
-                //Get the number of events specified by eventbrite
-                JSONObject pagination =  blockObject.getJSONObject("pagination");
-                int count = pagination.getInt("object_count");
-                int page_count = pagination.getInt("page_count");
-                int page_size = pagination.getInt("page_size");
-                Log.d("Counter", "Count: " + count);
-                Log.d("Counter", "Page Count: " + page_count);
 
                 //TODO: change max number to count
-                for (int i = 0; i< page_size; i++) {
+                for (int i = 0; i<2; i++) {
 
 
-                    JSONArray eventsArray = blockObject.getJSONArray("events");
+                    JSONArray eventsArray = blockObject.getJSONArray("Events");
                     JSONObject event = eventsArray.getJSONObject(i);
 
                     JSONObject eventNameInfo = event.getJSONObject("name");
@@ -144,6 +107,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                         returnStringImageURL = "https://e2a10ce0-a-62cb3a1a-s-sites.googlegroups.com/site/shahrammohrehkesh/home/Shahram-ODU.jpg?attachauth=ANoY7crqr3OItmFh2DZDTBcd6uQLLBqUcOQaLKLuVb7vDnb6HbxBGZa91A8eA2mDAkpA-sS46up__Uhf102aCXwUW2bfax_adibGduFyOKNguPxXEVIhtFfWCj0FVkGnZME9uDKCJYTg8VzrYeO5kC60H7D9fg5eclci3_u3_aTiogy-aANF4IzRZnDAsbIb2-Tsd0pk9s8YfofVY6seseBc6GanBh3AsV1oReF7bjrQl-fqF_btWF8%3D&attredirects=1";
                     }
 
+                    /*
                     Boolean free = event.getBoolean("is_free");
                     if (free == false) {
                         JSONArray eventTicketsArray = event.getJSONArray("ticket_classes");
@@ -159,17 +123,14 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                         returnEventPrice = 0;
                         returnEventPriceString = "$0";
                     }
+                    */
+                    returnEventPrice = 0;
+                    returnEventPriceString = "$0";
 
 
-                    //Get Event Date
-                    JSONObject eventDate = event.getJSONObject("start");
-                    returnStringDate = FormatUtils.retrieveEventBriteDate(eventDate.getString("local"));
-                    //Get Event Start Time
-                    JSONObject eventStartTime = event.getJSONObject("start");
-                    returnStringStartTime = FormatUtils.retrieveEventBriteTime(eventStartTime.getString("local"));
-                    //Get Event End Time
-                    JSONObject endDateTime = event.getJSONObject("end");
-                    returnStringEndTime = FormatUtils.retrieveEventBriteTime(endDateTime.getString("local"));
+                    returnStringDate = FormatUtils.retrieveEventBriteDate("2014-09-24T22:00:00");
+                    returnStringStartTime = FormatUtils.retrieveEventBriteTime("2014-09-24T22:00:00");
+                    returnStringEndTime = FormatUtils.retrieveEventBriteTime("2014-09-24T22:00:00");
 
                     JSONObject venueInfo = event.getJSONObject("venue");
 
@@ -194,11 +155,13 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                     returnEventArray.add(eventBuilder);
                 }
             } catch(JSONException e){
-                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite: " + e.getMessage());
+                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for UserRequest: " + e.getMessage());
+                return returnEventArray;
             }
         } catch (Exception e){
-            Log.d("Failed JSON" , "doInBackground() failed with Exception e: " + e.getMessage());
+            Log.d("Failed JSON" , "doInBackground() failed with Exception e(UserRequest): " + e.getMessage());
             e.printStackTrace();
+            return returnEventArray;
         }
         return returnEventArray;
     }
@@ -207,6 +170,21 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
     @Override
     protected void onPostExecute(ArrayList<Event> result){
 
+        /*
+        for(int i = 0; i < result.size(); i++) {
+            Log.d("size of result" , String.valueOf(result.size()));
+            myEventRequestAsyncTask.returnEventArray.add(result.get(i));
+        }
+        */
+//        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask(p.context);
+//        myEventRequestAsyncTask.returnEventArray = result;
+//        myEventRequestAsyncTask.execute();
+        EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask(p.context);
+        BriteRequest.returnEventArray = result;
+        BriteRequest.execute(p);
+
+
+        /*
         if (mProgressBar.isShowing()) {
             mProgressBar.dismiss();
         }
@@ -232,6 +210,7 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
         }
         //Log.d("event result" , p.events.get(0).eventName);
         p.adapter.notifyDataSetChanged();
+        */
 
 
 //        for(int i=0; i<result.size(); i++ ) {

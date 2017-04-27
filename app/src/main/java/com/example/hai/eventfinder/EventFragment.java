@@ -75,6 +75,11 @@ public class EventFragment extends Fragment {
 
         ASYNCparams eventArgs = new ASYNCparams(0, arrayList, this.getContext(), adapter , lat, lon);
         EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask(this.getContext());
-        BriteRequest.execute(eventArgs);
+
+        UserEventAsyncTask UserRequest = new UserEventAsyncTask(this.getContext() , BriteRequest);
+
+        UserRequest.execute(eventArgs);
+
+        //BriteRequest.execute(eventArgs);
     }
 }

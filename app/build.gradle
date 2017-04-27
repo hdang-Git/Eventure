@@ -62,6 +62,9 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.0'
     compile 'org.glassfish:javax.annotation:10.0-b28'
 
+    //Glide (better than picasso)
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
     //This is for amazon communication for DynamoDb
 
     //AWS Mobile SDK core
