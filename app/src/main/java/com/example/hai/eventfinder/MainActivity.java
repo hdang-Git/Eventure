@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.widget.Toast;
 
 //This are imports for Amazon DynamoDB
+import com.example.hai.eventfinder.RetroFitAPI.YelpRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -51,6 +52,10 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //These methods make the call for Yelp using retrofit
+        YelpRequest testyelp = new YelpRequest();
+        testyelp.makeCall(getApplicationContext());
 
         //This is to run Dynamo thread,
         //So far only for three instances
@@ -103,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
     @Override
     protected void onResume() {
         super.onResume();
-        mGoogleApiClient.connect();
+        mGoogleApiClient.connect();   //TODO: uncomment this to re-enable location services
     }
 
     @Override
@@ -243,6 +248,9 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
         log.info("lagLng: " + latLng.latitude + " " + latLng.longitude);
+
+        EventFragment frag = (EventFragment) adapter.getFragment(0);
+        frag.updateAdapter(currentLatitude , currentLongitude);
     }
 
     @Override

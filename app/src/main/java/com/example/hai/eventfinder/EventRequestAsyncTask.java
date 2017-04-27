@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.hai.eventfinder.Formatting.FormatUtils;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -22,39 +24,36 @@ import java.util.jar.JarException;
  */
 
 //AsyncTask<What you give it , progress , What you want the result of the thread execution to be>
-public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Void , ArrayList<String>> {
+public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , ArrayList<Event>> {
 
     ASYNCparams p;
 
     String returnStringName;
     String returnStringDate;
-    String returnStringTime;
+    String returnStringStartTime;
+    String returnStringEndTime;
     String returnStringLocation;
     String returnStringLatitude;
     String returnStringLongitude;
     String returnStringDescription;
     String returnStringImageURL;
+    int returnEventPrice;
+    String returnEventPriceString;
 
-    ArrayList<String> returnStringArray = new ArrayList<String>();
+    ArrayList<Event> returnEventArray = new ArrayList<Event>();
 
-    Event eventBuilder = new Event();
 
-    //new Event2().execute(urlString);
 
     //This is what happens in the thread
     @Override
     protected ArrayList doInBackground (ASYNCparams... params) {
 
         p = params[0];
-        Log.d("params[0]", "p - params[0]: " + p);
 
-        final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=" + p.context.getResources().getText(R.string.event_brite_key) + "&location.latitude=39.9502352&location.longitude=-75.17327569999998&location.within=1mi&expand=organizer,venue";
-
-        Log.d("url check " , urlString);
-
-        int JSONdrill = p.JSONdrill;
+        final String urlString = "https://www.eventbriteapi.com/v3/events/search/?token=" + p.context.getResources().getText(R.string.event_brite_key) + "&location.latitude=" + p.latitude  + "&location.longitude=" + p.longitude + "&location.within=1mi&expand=organizer,venue,ticket_classes";
 
         try{
+            Log.d("Final URL:" , urlString);
             URL url = new URL(urlString);
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
@@ -73,62 +72,137 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Void , ArrayLi
             try {
                 JSONObject blockObject = new JSONObject(response);
                 Log.d("SUCCESS", "SUCCESS");
-
+                Log.d("downloaded data", response);
                 //Get the number of events specified by eventbrite
                 JSONObject pagination =  blockObject.getJSONObject("pagination");
                 int count = pagination.getInt("object_count");
                 int page_count = pagination.getInt("page_count");
+                int page_size = pagination.getInt("page_size");
                 Log.d("Counter", "Count: " + count);
+                Log.d("Counter", "Page Count: " + page_count);
 
-                JSONArray eventsArray = blockObject.getJSONArray("events");
-                JSONObject event = eventsArray.getJSONObject(JSONdrill);
+                //TODO: change max number to count
+                for (int i = 0; i< page_size; i++) {
 
-                JSONObject eventNameInfo = event.getJSONObject("name");
-                returnStringName = eventNameInfo.getString("text");
 
-                JSONObject eventDescriptionInfo = event.getJSONObject("description");
-                returnStringDescription = eventDescriptionInfo.getString("text");
+                    JSONArray eventsArray = blockObject.getJSONArray("events");
+                    JSONObject event = eventsArray.getJSONObject(i);
 
-                JSONObject eventImageInfo = event.getJSONObject("logo");
-                returnStringImageURL = eventImageInfo.getString("url");
+                    JSONObject eventNameInfo = event.getJSONObject("name");
+                    returnStringName = eventNameInfo.getString("text");
 
-                JSONObject venueInfo = event.getJSONObject("venue");
+                    JSONObject eventDescriptionInfo = event.getJSONObject("description");
+                    returnStringDescription = eventDescriptionInfo.getString("text");
 
-                JSONObject addressInfo = venueInfo.getJSONObject("address");
-                returnStringLatitude = addressInfo.getString("latitude");
-                returnStringLongitude = addressInfo.getString("longitude");
+                    //Check to see if a logo is even there
+                    String logo = event.getString("logo");
+                    if (!logo.startsWith("null")) {
+                        JSONObject eventImageInfo = event.getJSONObject("logo");
+                        returnStringImageURL = eventImageInfo.getString("url");
+                    } else {
+                        returnStringImageURL = "https://e2a10ce0-a-62cb3a1a-s-sites.googlegroups.com/site/shahrammohrehkesh/home/Shahram-ODU.jpg?attachauth=ANoY7crqr3OItmFh2DZDTBcd6uQLLBqUcOQaLKLuVb7vDnb6HbxBGZa91A8eA2mDAkpA-sS46up__Uhf102aCXwUW2bfax_adibGduFyOKNguPxXEVIhtFfWCj0FVkGnZME9uDKCJYTg8VzrYeO5kC60H7D9fg5eclci3_u3_aTiogy-aANF4IzRZnDAsbIb2-Tsd0pk9s8YfofVY6seseBc6GanBh3AsV1oReF7bjrQl-fqF_btWF8%3D&attredirects=1";
+                    }
 
-                eventBuilder = new Event.Builder(returnStringName)
-                        .setEventDescription(returnStringDescription)
-                        .setImageUrl(returnStringImageURL)
-                        .setEventCoordinates(returnStringLatitude, returnStringLongitude)
-                        .build();
-                Log.d("json test", eventNameInfo.getString("text"));
+                    Boolean free = event.getBoolean("is_free");
+                    if (free == false) {
+                        JSONArray eventTicketsArray = event.getJSONArray("ticket_classes");
+                        int drill = 0;
+                        while (!eventTicketsArray.getJSONObject(drill).has("cost") && (drill < eventTicketsArray.length())) {
+                            drill++;
+                        }
+                        JSONObject eventTicket = eventTicketsArray.getJSONObject(drill);//TODO take into account the other types of tickets(don't just grab cheapest price
+                        JSONObject eventCost = eventTicket.getJSONObject("cost");
+                        returnEventPrice = eventCost.getInt("value");
+                        returnEventPriceString = eventCost.getString("display");
+                    } else {
+                        returnEventPrice = 0;
+                        returnEventPriceString = "$0";
+                    }
 
+
+                    //Get Event Date
+                    JSONObject eventDate = event.getJSONObject("start");
+                    returnStringDate = FormatUtils.retrieveEventBriteDate(eventDate.getString("local"));
+                    //Get Event Start Time
+                    JSONObject eventStartTime = event.getJSONObject("start");
+                    returnStringStartTime = FormatUtils.retrieveEventBriteTime(eventStartTime.getString("local"));
+                    //Get Event End Time
+                    JSONObject endDateTime = event.getJSONObject("end");
+                    returnStringEndTime = FormatUtils.retrieveEventBriteTime(endDateTime.getString("local"));
+
+                    JSONObject venueInfo = event.getJSONObject("venue");
+
+                    JSONObject addressInfo = venueInfo.getJSONObject("address");
+                    returnStringLatitude = addressInfo.getString("latitude");
+                    returnStringLongitude = addressInfo.getString("longitude");
+
+                    Event eventBuilder = new Event.Builder(returnStringName)
+                            .setEventDescription(returnStringDescription)
+                            .setImageUrl(returnStringImageURL)
+                            .setDate(returnStringDate)
+                            .setEventStartTime(returnStringStartTime)
+                            .setEventEndTime(returnStringEndTime)
+                            .setEventPrice(returnEventPrice)
+                            .setEventPriceString(returnEventPriceString)
+                            .setEventCoordinates(returnStringLatitude, returnStringLongitude)
+                            .build();
+
+                    //For default text (if no JSON to replace default stuff)
+                    p.events.add(new Event());
+
+                    returnEventArray.add(eventBuilder);
+                }
             } catch(JSONException e){
-                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite");
+                Log.d("Failed JSON" , "Failed JSON Pull doInBackground() for EventBrite: " + e.getMessage());
             }
         } catch (Exception e){
-            Log.d("Failed JSON" , "doInBackground() failed with Exception e");
+            Log.d("Failed JSON" , "doInBackground() failed with Exception e: " + e.getMessage());
             e.printStackTrace();
         }
-        return returnStringArray;
+        return returnEventArray;
     }
 
     //Just logging to check that the thread behaved correctly
     @Override
-    protected void onPostExecute(ArrayList result){
+    protected void onPostExecute(ArrayList<Event> result){
 
-        Log.d("PostExecute" , eventBuilder.toString());
+        Log.d("size me up " , " " + result.size());
 
-        p.viewHolder.eventName.setText(eventBuilder.getEventName());
-        p.viewHolder.eventDescription.setText(eventBuilder.getEventDescription());
-        Picasso.with(p.context).load(eventBuilder.getEventImageURL()).into(p.viewHolder.eventImage);
+        for(int i=0; i<result.size(); i++ ) {
+            p.events.get(i).eventName = result.get(i).getEventName();
+            p.events.get(i).eventDescription = result.get(i).getEventDescription();
+            p.events.get(i).eventImageURL = result.get(i).getEventImageURL();
+            p.events.get(i).eventPrice= result.get(i).getEventPrice();
+            p.events.get(i).eventPriceString= result.get(i).getEventPriceString();
+            p.events.get(i).eventDate = result.get(i).getEventDate();
+            p.events.get(i).eventStartTime = result.get(i).getEventStartTime();
+            p.events.get(i).eventEndTime = result.get(i).getEventEndTime();
+            p.events.get(i).eventLatitude = result.get(i).getEventLatitude();
+            p.events.get(i).eventLongitude=  result.get(i).getEventLongitude();
+//            try {
+//                ViewHolder.setMapLocation(p.viewHolder.map, result.get(i));
+//            } catch (GooglePlayServicesNotAvailableException e) {
+//                Log.d("fail", e.getMessage());
+//            }
+        }
+        //Log.d("event result" , p.events.get(0).eventName);
+        p.adapter.notifyDataSetChanged();
 
-        //This sets the Event object values
-        //p.event.setEventValues(result);
 
-        ViewHolder.setMapLocation(p.viewHolder.map, eventBuilder);
+//        for(int i=0; i<result.size(); i++ ) {
+//            p.viewHolder.eventName.setText(result.get(i).getEventName());
+//            p.viewHolder.eventDescription.setText(result.get(i).getEventDescription());
+//            Picasso.with(p.context).load(result.get(i).getEventImageURL()).into(p.viewHolder.eventImage);
+//            //This sets the Event object values
+//            //p.event.setEventValues(result);
+//            try {
+//                ViewHolder.setMapLocation(p.viewHolder.map, result.get(i));
+//            } catch (GooglePlayServicesNotAvailableException e) {
+//                Log.d("fail", e.getMessage());
+//            }
+//
+//        }//End of for()
+
         //p.viewHolder.setMapLocation(p.viewHolder.map , p.event);
 
         //Log.d("Event check" , p.event.eventName );

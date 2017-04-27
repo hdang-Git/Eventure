@@ -107,14 +107,14 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Se
         List<Event> e = new ArrayList<>();
 
         Event event1 = new Event.Builder("Blah")
-                .setEventPrice("$5")
-                .setTime("7:00")
+                .setEventPriceString("$5")
+                .setEventStartTime("7:00")
                 .setEventLocation("Philadelphia")
                 .build();
 
         Event event2 = new Event.Builder("what")
-                .setEventPrice("$10")
-                .setTime("8:00")
+                .setEventPriceString("$10")
+                .setEventStartTime("8:00")
                 .build();
 
         log.info("builder " + event2);
@@ -242,8 +242,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Se
             itemHolder.eventItem.setText(event.getEventName());
             //TODO: get actual pic and handle with Picasso
             itemHolder.imgItem.setImageResource(R.drawable.ic_event_note_black_24dp);
-            itemHolder.eventPrice.setText(event.getEventPrice());
-            itemHolder.eventTime.setText(event.getEventTime());
+            itemHolder.eventPrice.setText(event.getEventPriceString());
+            itemHolder.eventTime.setText(event.getEventStartTime());
             itemHolder.eventLocation.setText(event.getEventLocation());
 
             //rootView gets list item and prints out toast when clicked on

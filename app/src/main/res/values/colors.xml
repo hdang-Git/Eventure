@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="ghost">#adafb1</color>
+    <color name="dark_purple">#6a1b9a</color>
 </resources>
