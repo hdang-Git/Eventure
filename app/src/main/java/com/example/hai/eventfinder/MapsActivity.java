@@ -2,6 +2,7 @@ package com.example.hai.eventfinder;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -102,6 +103,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         YelpRequest testyelp = new YelpRequest();
         testyelp.makeCall(getApplicationContext(), eventLat, eventLon, mMap, viewHolder, markerData);
 
+
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -115,7 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
-                        //cache a reference to yourself for glide
+                       //cache a reference to yourself for glide
                         GoogleMap.InfoWindowAdapter myself = this;
 
                         @Override
@@ -136,12 +139,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             final ImageView shopImage= (ImageView) v.findViewById(R.id.info_window_picture);
 
                             shopName.setText(markerData.get(marker).getName());
+                            yelpButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Uri uri = Uri.parse(markerData.get(marker).getUrl());
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                    startActivity(intent);
+                                }
+                            });
 
                             Log.d("marker's url" , markerData.get(marker).getImageUrl());
 
 
                             Glide.with(context).load(markerData.get(marker).getImageUrl()).placeholder(R.mipmap.kitchen_coffee_cup)
-                                    .into(new SimpleTarget<GlideDrawable>(150,150) {
+                                    .into(new SimpleTarget<GlideDrawable>(250,250) {
                                         @Override
                                         public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                                                 shopImage.setImageDrawable(resource);

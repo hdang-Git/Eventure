@@ -20,6 +20,8 @@ public class Event {
     public int eventPrice;
     public String eventPriceString;
     public String eventImageURL;
+    public String eventAddressShort;
+    public String eventAddressLong;
 
     public Event(){
         this.eventImageURL = "http://i.imgur.com/DvpvklR.png";
@@ -37,7 +39,8 @@ public class Event {
         this.eventLatitude = builder.eventLatitude;
         this.eventImageURL = builder.eventImageURL;
         this.eventDescription = builder.eventDescription;
-
+        this.eventAddressShort= builder.eventAddressShort;
+        this.eventAddressLong= builder.eventAddressLong;
     }
 
     public String getEventName() {
@@ -84,6 +87,14 @@ public class Event {
         return eventImageURL;
     }
 
+    public String getEventAddressShort() {
+        return eventAddressShort;
+    }
+
+    public String getEventAddressLong() {
+        return eventAddressLong;
+    }
+
 
 
     @Override
@@ -107,6 +118,8 @@ public class Event {
         private String eventLocation;
         private String eventDescription;
         private String eventImageURL;
+        private String eventAddressShort;
+        private String eventAddressLong;
 
         public Builder(String eventName){
             this.eventName = eventName;
@@ -155,6 +168,16 @@ public class Event {
 
         public Builder setEventPriceString(String eventPriceString){
             this.eventPriceString = eventPriceString;
+            return this;
+        }
+
+        public Builder setEventAddressShort(String eventAddressShort){
+            this.eventAddressShort = eventAddressShort;
+            return this;
+        }
+
+        public Builder setEventAddressLong(String eventAddressLong){
+            this.eventAddressLong= eventAddressLong;
             return this;
         }
 

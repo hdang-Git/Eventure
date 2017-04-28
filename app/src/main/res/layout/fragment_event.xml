@@ -5,6 +5,7 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:id="@+id/eventFragment"
+    android:background="@mipmap/background"
     tools:context="com.example.hai.eventfinder.EventFragment">
 
 
@@ -12,6 +13,8 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="1dp"
         android:id="@+id/listView"/>
 
 </FrameLayout>

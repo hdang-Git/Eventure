@@ -62,6 +62,13 @@ public class EventFragment extends Fragment {
         });
         listView.setRecyclerListener(ViewHolder.mRecycleListener);
 
+
+        /*
+        MainActivity myParent = (MainActivity)getActivity();
+
+        this.updateAdapter(myParent.getUserLocation().latitude , myParent.getUserLocation().longitude);
+        */
+
         /*
         ASYNCparams eventArgs = new ASYNCparams(0 , arrayList , this.getContext() , adapter );
         EventRequestAsyncTask BriteRequest = new EventRequestAsyncTask();

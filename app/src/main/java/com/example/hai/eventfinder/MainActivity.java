@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
     private LocationRequest mLocationRequest;
     Logger log = Logger.getAnonymousLogger();
 
+    LatLng userLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -254,6 +256,8 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
         log.info("lagLng: " + latLng.latitude + " " + latLng.longitude);
 
+        userLocation = latLng;
+
         EventFragment frag = (EventFragment) adapter.getFragment(0);
         frag.updateAdapter(currentLatitude , currentLongitude);
     }
@@ -262,4 +266,9 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
     }
+
+    public LatLng getUserLocation(){
+        return userLocation;
+    }
+
 }

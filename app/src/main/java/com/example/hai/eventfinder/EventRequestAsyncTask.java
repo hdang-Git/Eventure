@@ -43,6 +43,8 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
     String returnStringImageURL;
     int returnEventPrice;
     String returnEventPriceString;
+    String returnAddressShort;
+    String returnAddressLong;
 
     ProgressDialog mProgressBar;
 
@@ -174,6 +176,18 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                     JSONObject venueInfo = event.getJSONObject("venue");
 
                     JSONObject addressInfo = venueInfo.getJSONObject("address");
+
+                    String address_1 = addressInfo.getString("address_1");
+                    if (!address_1.startsWith("null")) {
+//                    if(addressInfo.getString("address_1") != null){
+//                    if(addressInfo.has("address_1")){
+                        returnAddressShort = addressInfo.getString("address_1");
+                    }
+                    else{
+                        returnAddressShort = addressInfo.getString("localized_address_display");
+                    }
+                    returnAddressLong = addressInfo.getString("localized_address_display");
+
                     returnStringLatitude = addressInfo.getString("latitude");
                     returnStringLongitude = addressInfo.getString("longitude");
 
@@ -185,6 +199,8 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                             .setEventEndTime(returnStringEndTime)
                             .setEventPrice(returnEventPrice)
                             .setEventPriceString(returnEventPriceString)
+                            .setEventAddressShort(returnAddressShort)
+                            .setEventAddressLong(returnAddressLong)
                             .setEventCoordinates(returnStringLatitude, returnStringLongitude)
                             .build();
 
@@ -224,6 +240,8 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
             p.events.get(i).eventEndTime = result.get(i).getEventEndTime();
             p.events.get(i).eventLatitude = result.get(i).getEventLatitude();
             p.events.get(i).eventLongitude=  result.get(i).getEventLongitude();
+            p.events.get(i).eventAddressShort= result.get(i).getEventAddressShort();
+            p.events.get(i).eventAddressLong= result.get(i).getEventAddressLong();
 //            try {
 //                ViewHolder.setMapLocation(p.viewHolder.map, result.get(i));
 //            } catch (GooglePlayServicesNotAvailableException e) {

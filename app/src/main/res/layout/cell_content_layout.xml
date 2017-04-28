@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#FFFFFF"
     android:visibility="gone"
     android:descendantFocusability="blocksDescendants"
     >
@@ -24,6 +25,7 @@
             android:textColor="@android:color/holo_blue_dark"
             android:text="@string/titleContent"
             android:id="@+id/content_title"/>
+        <!--
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,6 +33,7 @@
             android:layout_centerInParent="true"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:src="@drawable/ic_bookmark_border_black_24dp"/>
+            -->
     </RelativeLayout>
 
     <!--Image Header -->

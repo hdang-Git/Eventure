@@ -75,9 +75,6 @@ public class ViewHolder implements OnMapReadyCallback {
                 Event data = (Event) mapView.getTag();
 
 
-
-
-
                 if (data != null) {
                     try {
                             setMapLocation(map, data);

@@ -63,7 +63,7 @@ public class UserEventAsyncTask extends AsyncTask<ASYNCparams, Integer , ArrayLi
 
         p = params[0];
 
-        final String urlString = "https://ftrgldsibk.execute-api.us-east-1.amazonaws.com/sith/events/asf";
+        final String urlString = "https://ftrgldsibk.execute-api.us-east-1.amazonaws.com/sith/events/babyhuey";
 
         try{
             Log.d("Final URL:" , urlString);
@@ -86,7 +86,7 @@ public class UserEventAsyncTask extends AsyncTask<ASYNCparams, Integer , ArrayLi
                 JSONObject blockObject = new JSONObject(response);
 
                 //TODO: change max number to count
-                for (int i = 0; i<2; i++) {
+                for (int i = 0; i<100; i++) {
 
 
                     JSONArray eventsArray = blockObject.getJSONArray("Events");

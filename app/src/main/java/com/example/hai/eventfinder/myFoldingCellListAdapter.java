@@ -124,9 +124,9 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             viewHolder = (ViewHolder) v.getTag();
         }
 
-//        Event eventItem = new Event();
-        //viewHolder.mapView.setTag(eventItem);
-       // viewHolder.mapView.setTag(eventsArray.get(position));
+        Event eventItem = new Event();
+        viewHolder.mapView.setTag(eventItem);
+        viewHolder.mapView.setTag(eventsArray.get(position));
 
 
 
@@ -140,6 +140,9 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
                 e.printStackTrace();
             }
         }
+        else{
+            Log.d("Testing map" , "else reached");
+        }
 
         //Event Time
         String eventTime = eventsArray.get(position).getEventStartTime() + "-" + eventsArray.get(position).getEventEndTime();
@@ -149,7 +152,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         viewHolder.eventDescription.setText(eventsArray.get(position).getEventDescription());
         Picasso.with(context).load(eventsArray.get(position).getEventImageURL()).into(viewHolder.eventImage);
         viewHolder.eventDateOpen.setText(eventsArray.get(position).getEventDate());
-        viewHolder.eventPlaceOpen.setText(eventsArray.get(position).getEventLocation());
+        viewHolder.eventPlaceOpen.setText(eventsArray.get(position).getEventAddressLong());
         //TODO: reattach the map
         //viewHolder.mapView = ;
         //closed
@@ -160,7 +163,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         viewHolder.dateClosed.setText(eventsArray.get(position).getEventDate());
         viewHolder.timeClosed.setText(eventTime);
         viewHolder.startTimeClosed.setText(eventsArray.get(position).getEventStartTime());
-        viewHolder.addressClosed.setText(eventsArray.get(position).getEventLocation());
+        viewHolder.addressClosed.setText(eventsArray.get(position).getEventAddressShort());
         //viewHolder.eventTypeClosed;
 
         Log.d("George" , "We're about to return v");
