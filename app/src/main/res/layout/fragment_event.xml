@@ -5,9 +5,10 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:id="@+id/eventFragment"
-    android:background="@mipmap/background"
     tools:context="com.example.hai.eventfinder.EventFragment">
 
+    <!--
+    android:background="@mipmap/background"-->
 
     <!-- TODO: Update blank fragment layout -->
     <ListView

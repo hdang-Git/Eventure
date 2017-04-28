@@ -18,7 +18,7 @@ public class EventTest {
                  .setDate("12/12/12")
                  .setEventLocation("Philadelphia")
                  .setImageUrl("http://image.com/1234")
-                 .setEventPrice("10")
+                 .setEventPrice(10)
                  .setEventDescription("This is a cool event")
                  .setEventStartTime("5:00")
                  .setEventEndTime("8:00")

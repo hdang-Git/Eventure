@@ -23,6 +23,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 //This are imports for Amazon DynamoDB
@@ -135,6 +136,29 @@ public class MainActivity extends AppCompatActivity implements Tab1.SenderInterf
         } else {
             Log.d("Not Initialized", "Fragment 2 isn't initialized");
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.refresh: refreshEventsPage();
+                Log.d("optionitemselected", "refresh called");
+                break;
+            default:
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * This method refreshes the events page
+     */
+    public void refreshEventsPage(){
+        Log.d("Refresh", "Refresh");
+        EventFragment frag = (EventFragment) adapter.getFragment(0);
+        frag.updateAdapter(userLocation.latitude , userLocation.longitude);
     }
 
     @Override
