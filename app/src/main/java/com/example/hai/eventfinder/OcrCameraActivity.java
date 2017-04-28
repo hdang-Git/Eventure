@@ -1,6 +1,7 @@
 package com.example.hai.eventfinder;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -86,8 +88,8 @@ public class OcrCameraActivity extends AppCompatActivity {
         log.info("HAS PERMISSION?: " + hasPermissionInManifest(context, android.provider.MediaStore.ACTION_IMAGE_CAPTURE));
         log.info("HAS PERMISSION Camera ?: " + hasPermissionInManifest(context,  Manifest.permission.CAMERA));
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
+        //sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         //TODO: Fix restoring state when activity is destroyed
         if(savedInstanceState != null){
             log.info("Activity recreated.");
@@ -264,7 +266,7 @@ public class OcrCameraActivity extends AppCompatActivity {
                         String jsonData = gson.toJson(wordList);
                         editor = sharedpreferences.edit();
                         editor.putString("ocrWordList", jsonData);
-                        editor.commit();
+                        editor.apply();
                     }
                 } else {
                     scannedOutput.setText("Could not set up the detector!");
@@ -358,4 +360,9 @@ public class OcrCameraActivity extends AppCompatActivity {
                 .openInputStream(uri), null, bmOptions);
     }
 
+    @Override
+    public void onBackPressed() {
+        setResult(Activity.RESULT_OK);
+        super.onBackPressed();
+    }
 }

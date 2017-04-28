@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -90,10 +91,15 @@ public class Tab2 extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAM_START_REQUEST && resultCode == RESULT_OK){
+            Log.d("insertTabActivityResult", "RESULT_OK");
             try{
                 //Retrieve the values
                 Gson gson = new Gson();
-                String jsonText = sharedpreferences.getString("ocrWordList", null);
+                //String jsonText = sharedpreferences.getString("ocrWordList", "default value");
+                SharedPreferences sharedPreferences = PreferenceManager
+                        .getDefaultSharedPreferences(getContext());
+                String jsonText = sharedPreferences.getString("ocrWordList", "default value");
+
                 String[] text = gson.fromJson(jsonText, String[].class);
                 wordList = new ArrayList<String>(Arrays.asList(text));
                 Log.d("Success OCR", "Success: SharedPref data: " + wordList.size());
