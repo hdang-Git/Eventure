@@ -89,4 +89,7 @@ public class EventFragment extends Fragment {
 
         //BriteRequest.execute(eventArgs);
     }
+
+    
+
 }
