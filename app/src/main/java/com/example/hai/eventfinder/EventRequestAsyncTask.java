@@ -147,16 +147,25 @@ public class EventRequestAsyncTask extends AsyncTask<ASYNCparams, Integer , Arra
                     }
 
                     Boolean free = event.getBoolean("is_free");
+
                     if (free == false) {
-                        JSONArray eventTicketsArray = event.getJSONArray("ticket_classes");
-                        int drill = 0;
-                        while (!eventTicketsArray.getJSONObject(drill).has("cost") && (drill < eventTicketsArray.length())) {
-                            drill++;
+                        try {
+                            JSONArray eventTicketsArray = event.getJSONArray("ticket_classes");
+                            int drill = 0;
+                            Log.d("arraylength", String.valueOf(eventTicketsArray.length()));
+                            while (!eventTicketsArray.getJSONObject(drill).has("cost") && (drill < eventTicketsArray.length())) {
+                                drill++;
+                                Log.d("drill#", String.valueOf(drill));
+                            }
+                            JSONObject eventTicket = eventTicketsArray.getJSONObject(drill);//TODO take into account the other types of tickets(don't just grab cheapest price
+                            JSONObject eventCost = eventTicket.getJSONObject("cost");
+                            returnEventPrice = eventCost.getInt("value");
+                            returnEventPriceString = eventCost.getString("display");
+                        } catch(JSONException e){
+                            Log.d("price drill error" , e.getMessage());
+                            returnEventPrice = 0;
+                            returnEventPriceString = "Free";
                         }
-                        JSONObject eventTicket = eventTicketsArray.getJSONObject(drill);//TODO take into account the other types of tickets(don't just grab cheapest price
-                        JSONObject eventCost = eventTicket.getJSONObject("cost");
-                        returnEventPrice = eventCost.getInt("value");
-                        returnEventPriceString = eventCost.getString("display");
                     } else {
                         returnEventPrice = 0;
                         returnEventPriceString = "$0";
