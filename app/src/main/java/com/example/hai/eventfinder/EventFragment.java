@@ -120,7 +120,6 @@ public class EventFragment extends Fragment {
             //Implement Filter
             @Override
             public boolean onQueryTextChange(String newText) {
-                //adapter.getFilter().filter(newText);
                 adapter.filter(newText);
                 adapter.notifyDataSetChanged();
                 return false;

@@ -52,7 +52,6 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
     Context context;
     LayoutInflater inflater;
     Activity activity;
-    EventFilter eventFilter = new EventFilter();
 
     @Override
     public int getCount() {
@@ -226,7 +225,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
     public void filter(String query) {
         if (TextUtils.isEmpty(query)) {
-            eventsArray = new ArrayList<>(eventsArray);
+            eventsArray = new ArrayList<>(originalEventData);
         } else {
             eventsArray.clear();
             for (Event value : originalEventData) {
@@ -236,39 +235,4 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             }
         }
     }
-
-    @NonNull
-    @Override
-    public Filter getFilter() {
-        return eventFilter;
-    }
-
-    class EventFilter extends Filter {
-
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            String query = charSequence.toString().toLowerCase();
-            FilterResults results = new FilterResults();
-            if(TextUtils.isEmpty(query)){
-                eventsArray = new ArrayList<>();
-            } else {
-                eventsArray.clear();
-                for(Event event: originalEventData){
-                    if(event.toString().toLowerCase().contains(query)){
-                        eventsArray.add(event);
-                    }
-                }
-            }
-            results.values = eventsArray;
-            results.count = eventsArray.size();
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            eventsArray = (ArrayList<Event>) filterResults.values;
-            notifyDataSetChanged();
-        }
-    }
-
 }
