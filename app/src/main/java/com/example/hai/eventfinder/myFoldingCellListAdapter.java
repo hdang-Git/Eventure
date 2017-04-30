@@ -54,6 +54,17 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
     Activity activity;
     EventFilter eventFilter = new EventFilter();
 
+    @Override
+    public int getCount() {
+        int count;
+        if(eventsArray == null){
+            count = 0;
+        } else {
+            count = eventsArray.size();
+        }
+        return count;
+    }
+
     private final HashSet<MapView> mMaps = new HashSet<MapView>();
 
     public myFoldingCellListAdapter(Context context, int resource) {
@@ -65,12 +76,12 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
     public myFoldingCellListAdapter(Context context, int resource, List<Event> objects) {
         super(context, resource, objects);
         eventsArray = objects;
-        originalEventData = objects;
     }
 
     public myFoldingCellListAdapter(Context context, int resource, List<Event> objects , Activity act) {
         super(context, resource, objects);
         eventsArray = objects;
+        originalEventData = objects;
         this.activity = act;
     }
 
@@ -140,7 +151,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             try {
                 //viewHolder.setMapLocation(viewHolder.map, eventItem);
                 //Log.d("before mappass" , eventsArray.get(position).toString());
-                viewHolder.setMapLocation(viewHolder.map, eventsArray.get(position));
+                ViewHolder.setMapLocation(viewHolder.map, eventsArray.get(position));
             } catch (GooglePlayServicesNotAvailableException e) {
                 e.printStackTrace();
             }
@@ -211,49 +222,43 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
         return mMaps;
     }
 
+
+
+    public void filter(String query) {
+        if (TextUtils.isEmpty(query)) {
+            eventsArray = new ArrayList<>(eventsArray);
+        } else {
+            eventsArray.clear();
+            for (Event value : originalEventData) {
+                if (value.toString().toLowerCase().contains(query.toLowerCase())) {
+                    eventsArray.add(value);
+                }
+            }
+        }
+    }
+
     @NonNull
     @Override
     public Filter getFilter() {
         return eventFilter;
     }
 
-
-    ArrayList<Event> filteredList;
-    public void filter(String query) {
-        if (TextUtils.isEmpty(query)) {
-            filteredList = new ArrayList<>(eventsArray);
-        } else {
-            filteredList.clear();
-            for (Event value : originalEventData) {
-                if (value.toString().toLowerCase().contains(query.toLowerCase())) {
-                    filteredList.add(value);
-                }
-            }
-        }
-    }
-
-
-
     class EventFilter extends Filter {
 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            String filter = charSequence.toString().toLowerCase();
+            String query = charSequence.toString().toLowerCase();
             FilterResults results = new FilterResults();
-            if(eventsArray.isEmpty()){
+            if(TextUtils.isEmpty(query)){
+                eventsArray = new ArrayList<>();
+            } else {
                 eventsArray.clear();
-                if(filter.length() == 0){
-                    eventsArray.addAll(originalEventData);
-                } else {
-                    //Loop through event list and compare to create new list
-                    for(Event event: originalEventData){
-                        if(event.toString().toLowerCase().contains(filter)){
-                            eventsArray.add(event);
-                        }
+                for(Event event: originalEventData){
+                    if(event.toString().toLowerCase().contains(query)){
+                        eventsArray.add(event);
                     }
                 }
             }
-
             results.values = eventsArray;
             results.count = eventsArray.size();
             return results;
@@ -265,4 +270,5 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             notifyDataSetChanged();
         }
     }
+
 }

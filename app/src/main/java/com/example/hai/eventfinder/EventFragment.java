@@ -114,15 +114,15 @@ public class EventFragment extends Fragment {
             //Implement Search
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d("Searching", "I am searched");
                 return false;
             }
 
             //Implement Filter
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d("Filtering", "I am filtered");
-                adapter.getFilter().filter(newText);
+                //adapter.getFilter().filter(newText);
+                adapter.filter(newText);
+                adapter.notifyDataSetChanged();
                 return false;
             }
         };
