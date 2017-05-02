@@ -2,9 +2,16 @@ package com.example.hai.eventfinder;
 
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,6 +33,7 @@ public class EventFragment extends Fragment {
     ListView listView;
     ArrayList<Event> arrayList;
     myFoldingCellListAdapter adapter;
+    Menu eventMenu;
 
     public EventFragment() {
         // Required empty public constructor
@@ -61,8 +69,10 @@ public class EventFragment extends Fragment {
             }
         });
         listView.setRecyclerListener(ViewHolder.mRecycleListener);
+        listView.setTextFilterEnabled(true);
 
-
+        //Report that this fragment would like to participate in populating the options menu by receiving a call to onCreateOptionsMenu()
+        setHasOptionsMenu(true);
         /*
         MainActivity myParent = (MainActivity)getActivity();
 
@@ -90,6 +100,32 @@ public class EventFragment extends Fragment {
         //BriteRequest.execute(eventArgs);
     }
 
-    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        eventMenu = menu;
+        //Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
 
+        Log.d("EventFragSearch", "Event fragment menu retrieved");
+
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            //Implement Search
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            //Implement Filter
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filter(newText);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 }

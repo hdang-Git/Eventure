@@ -3,12 +3,14 @@ package com.example.hai.eventfinder;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.EventLog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -44,11 +46,23 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
     Logger log = Logger.getAnonymousLogger();
 
     public List<Event> eventsArray;
+    List<Event>  originalEventData;
 
     //Event myEvent = new Event();
     Context context;
     LayoutInflater inflater;
     Activity activity;
+
+    @Override
+    public int getCount() {
+        int count;
+        if(eventsArray == null){
+            count = 0;
+        } else {
+            count = eventsArray.size();
+        }
+        return count;
+    }
 
     private final HashSet<MapView> mMaps = new HashSet<MapView>();
 
@@ -66,6 +80,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
     public myFoldingCellListAdapter(Context context, int resource, List<Event> objects , Activity act) {
         super(context, resource, objects);
         eventsArray = objects;
+        originalEventData = objects;
         this.activity = act;
     }
 
@@ -135,7 +150,7 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
             try {
                 //viewHolder.setMapLocation(viewHolder.map, eventItem);
                 //Log.d("before mappass" , eventsArray.get(position).toString());
-                viewHolder.setMapLocation(viewHolder.map, eventsArray.get(position));
+                ViewHolder.setMapLocation(viewHolder.map, eventsArray.get(position));
             } catch (GooglePlayServicesNotAvailableException e) {
                 e.printStackTrace();
             }
@@ -208,4 +223,16 @@ public class myFoldingCellListAdapter extends ArrayAdapter<Event> {
 
 
 
+    public void filter(String query) {
+        if (TextUtils.isEmpty(query)) {
+            eventsArray = new ArrayList<>(originalEventData);
+        } else {
+            eventsArray.clear();
+            for (Event value : originalEventData) {
+                if (value.toString().toLowerCase().contains(query.toLowerCase())) {
+                    eventsArray.add(value);
+                }
+            }
+        }
+    }
 }
