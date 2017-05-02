@@ -3,6 +3,13 @@
 The event finder coming near you. 
 Programmed natively in android using android studios.
 
+
+![foldingcell](https://cloud.githubusercontent.com/assets/17353518/25604512/da48bfde-2ed1-11e7-81c4-0398c505a96d.gif) 
+![map](https://cloud.githubusercontent.com/assets/17353518/25604511/da483c76-2ed1-11e7-8077-4c3da694fa7a.gif)
+![ocr](https://cloud.githubusercontent.com/assets/17353518/25604514/da4bd96c-2ed1-11e7-8e46-81e38c49d09c.gif)
+![db](https://cloud.githubusercontent.com/assets/17353518/25604513/da49aafc-2ed1-11e7-9278-602ed65a2b7c.gif)
+![filter](https://cloud.githubusercontent.com/assets/17353518/25604515/da4c3d26-2ed1-11e7-827e-15ddf007dbca.gif)
+
 ## To Run
 1. Download the zip or clone the project. 
 2. Make sure to get your own keys from the websites below and put them in the strings.xml file.
